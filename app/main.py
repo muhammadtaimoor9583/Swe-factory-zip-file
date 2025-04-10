@@ -1,0 +1,831 @@
+"""
+The main driver.
+"""
+
+import json
+import shutil
+import os
+import re
+import docker
+from argparse import ArgumentParser
+from collections.abc import Callable, Mapping, Sequence
+from concurrent.futures import ProcessPoolExecutor
+from datetime import datetime
+from itertools import chain
+from os.path import abspath
+from os.path import join as pjoin
+
+from packaging import version
+from loguru import logger
+from concurrent.futures import TimeoutError
+from app import globals, globals_mut, inference, log
+from app import utils as apputils
+from app.api.manage import ProjectApiManager
+from app.model import common
+from app.model.register import register_all_models
+from app.post_process import (
+    extract_organize_and_form_input,
+    get_final_patch_path,
+    organize_and_form_input,
+    reextract_organize_and_form_inputs,
+)
+from app.raw_tasks import RawGithubTask, RawLocalTask, RawSweTask, RawTask
+from app.task import Task
+import multiprocessing
+import time
+
+def get_args(
+    from_command_line_str: str = None, subparser_dest_attr_name: str = "command"
+):
+    parser = ArgumentParser()
+    subparsers = parser.add_subparsers(dest=subparser_dest_attr_name)
+
+    swe_parser = subparsers.add_parser(
+        "swe-bench", help="Run one or multiple swe-bench tasks"
+    )
+    set_swe_parser_args(swe_parser)
+
+    github_parser = subparsers.add_parser(
+        "github-issue", help="Run an online github issue"
+    )
+    set_github_parser_args(github_parser)
+
+    local_parser = subparsers.add_parser("local-issue", help="Run a local issue.")
+    set_local_parser_args(local_parser)
+
+    extract_patches_parser = subparsers.add_parser(
+        "extract-patches", help="Only extract patches from the raw results dir"
+    )
+    extract_patches_parser.add_argument("experiment-dir", type=str)
+
+    re_extract_patches_parser = subparsers.add_parser(
+        "re-extract-patches",
+        help=(
+            "same as extract-patches, except that individual dirs"
+            " are moved out of their categories first"
+        ),
+    )
+    re_extract_patches_parser.add_argument("experiment-dir", type=str)
+
+    if not from_command_line_str:
+        return parser.parse_args()
+    return parser.parse_args(from_command_line_str.split())
+
+
+def main(args, subparser_dest_attr_name: str = "command"):
+
+    ## common options
+    globals.output_dir = args.output_dir
+    if globals.output_dir is not None:
+        globals.output_dir = abspath(globals.output_dir)
+    num_processes: int = int(args.num_processes)
+    # set whether brief or verbose log
+    print_stdout: bool = not args.no_print
+    log.print_stdout = print_stdout
+    # model related
+    common.set_model(args.model)
+    # FIXME: make temperature part of the Model class
+    common.MODEL_TEMP = args.model_temperature
+    # acr related
+    globals.conv_round_limit = args.conv_round_limit
+    globals.enable_layered = args.enable_layered
+    globals.enable_sbfl = args.enable_sbfl
+    globals.enable_validation = args.enable_validation
+    globals.enable_angelic = args.enable_angelic
+    globals.enable_web_search = args.enable_web_search
+    globals.enable_perfect_angelic = args.enable_perfect_angelic
+    globals.only_save_sbfl_result = args.save_sbfl_result
+    globals.disable_patch_generation = args.output_fix_locs
+    globals.context_generation_limit = args.output_fix_limit
+    globals.setup_dir = args.setup_dir 
+    globals.augmented_issues_path = args.augmented_issues_path
+    globals.get_version = args.get_version
+    globals.past_results_dir = args.past_results_dir
+    globals.organize_output_only = args.organize_output_only
+    
+    subcommand = getattr(args, subparser_dest_attr_name)
+    if subcommand == "swe-bench":
+        if globals.organize_output_only:
+            organize_and_form_input(globals.output_dir)
+            # with docker.DockerClient() as client:
+            # client = docker.from_env()
+        else:
+            client = None
+            # try:
+            tasks = make_swe_tasks(
+                args.task, args.task_list_file, args.setup_map, args.tasks_map,args.augmented_issues_path,args.enable_images, args.setup_dir,args.past_results_dir,client
+            )
+
+            groups = group_swe_tasks_by_env(tasks)
+            run_task_groups(groups, num_processes, organize_output=True)
+        # finally:
+        #     client.close()
+    elif subcommand == "github-issue":
+        setup_dir = args.setup_dir
+        if setup_dir is not None:
+            setup_dir = abspath(setup_dir)
+
+        task = RawGithubTask(
+            args.task_id,
+            args.clone_link,
+            args.commit_hash,
+            args.issue_link,
+            setup_dir,
+            args.use_comments,
+        )
+        groups = {"github": [task]}
+        run_task_groups(groups, num_processes)
+    elif subcommand == "local-issue":
+        local_repo = args.local_repo
+        if local_repo is not None:
+            local_repo = abspath(local_repo)
+        issue_file = args.issue_file
+        if issue_file is not None:
+            issue_file = abspath(issue_file)
+        task = RawLocalTask(args.task_id, local_repo, issue_file)
+        groups = {"local": [task]}
+        run_task_groups(groups, num_processes)
+    elif subcommand == "extract-patches":
+        organize_and_form_input(globals.output_dir)
+        # extract_organize_and_form_input(args.experiment_dir)
+    elif subcommand == "re-extract-patches":
+        reextract_organize_and_form_inputs(args.experiment_dir)
+
+
+def set_swe_parser_args(parser: ArgumentParser) -> None:
+    add_task_related_args(parser)
+
+    parser.add_argument(
+        "--setup-map",
+        type=str,
+        help="Path to json file that contains the setup information of the projects.",
+    )
+    parser.add_argument(
+        "--tasks-map",
+        type=str,
+        help="Path to json file that contains the tasks information.",
+    )
+    parser.add_argument(
+        "--task-list-file",
+        type=str,
+        help="Path to the file that contains all tasks ids to be run.",
+    )
+    parser.add_argument(
+        "--setup-dir",
+        type=str,
+        help="The directory where repositories should be cloned to.",
+    )
+    parser.add_argument(
+        "--past-results-dir",
+        type=str,
+        default=None,
+        help="The directory where repositories should be cloned to.",
+    )
+    parser.add_argument("--task", type=str, help="Task id to be run.")
+
+
+def set_github_parser_args(parser: ArgumentParser) -> None:
+    add_task_related_args(parser)
+    parser.add_argument(
+        "--task-id", type=str, help="Assign an id to the current fresh issue task."
+    )
+    parser.add_argument(
+        "--clone-link", type=str, help="The link to the repository to clone."
+    )
+    parser.add_argument(
+        "--commit-hash",
+        type=str,
+        help="The commit hash to checkout. If not specified, the latest commit on default branch will be used.",
+    )
+    parser.add_argument(
+        "--use-comments",
+        action="store_true",
+        default=False,
+        help="Include the comments of the issue.",
+    )
+   
+
+    parser.add_argument("--issue-link", type=str, help="The link to the issue.")
+    parser.add_argument(
+        "--setup-dir",
+        type=str,
+        # default="/home/azureuser/glh/RepoSetupAgent/testbed",
+        help="The directory where repositories should be cloned to.",
+    )
+
+
+def set_local_parser_args(parser: ArgumentParser) -> None:
+    add_task_related_args(parser)
+    parser.add_argument(
+        "--task-id", type=str, help="Assign an id to the current local issue task."
+    )
+    parser.add_argument(
+        "--local-repo", type=str, help="Path to a local copy of the target repo."
+    )
+    parser.add_argument("--issue-file", type=str, help="Path to a local issue file.")
+
+
+def add_task_related_args(parser: ArgumentParser) -> None:
+    parser.add_argument(
+        "--output-dir",
+        type=str,
+        help="Path to the directory that stores the run results.",
+    )
+    parser.add_argument(
+        "--no-print",
+        action="store_true",
+        default=False,
+        help="Do not print most messages to stdout.",
+    )
+
+    def model_parser(name: str):
+        if not isinstance(name, str):
+            raise TypeError(f"Invalid model name: {name}")
+        if name in common.MODEL_HUB.keys():
+            return name
+        if name.startswith("litellm-generic-"):
+            return name
+        raise TypeError(f"Invalid model name: {name}")
+
+    parser.add_argument(
+        "--model",
+        type=model_parser,
+        default="gpt-3.5-turbo-0125",
+        help="The model to use. Currently only OpenAI models are supported.",
+    )
+    parser.add_argument(
+        "--model-temperature",
+        type=float,
+        default=0.0,
+        help="The model temperature to use, for OpenAI models.",
+    )
+    parser.add_argument(
+        "--conv-round-limit",
+        type=int,
+        default=15,
+        help="Conversation round limit for the main agent.",
+    )
+    parser.add_argument(
+        "--enable-layered",
+        action="store_true",
+        default=True,
+        help="Enable layered code search.",
+    )
+    parser.add_argument(
+        "--enable-sbfl", action="store_true", default=False, help="Enable SBFL."
+    )
+    parser.add_argument(
+        "--enable-web-search", action="store_true", default=False, help="Enable WEB SEARCH."
+    )
+    parser.add_argument(
+        "--enable-validation",
+        action="store_true",
+        default=False,
+        help="Enable validation in our workflow.",
+    )
+    parser.add_argument(
+        "--organize-output-only",
+        action="store_true",
+        default=False,
+        help="Include the comments of the issue.",
+    )
+    parser.add_argument(
+        "--enable-angelic",
+        action="store_true",
+        default=False,
+        help="(Experimental) Enable angelic debugging",
+    )
+    parser.add_argument(
+        "--enable-perfect-angelic",
+        action="store_true",
+        default=False,
+        help="(Experimental) Enable perfect angelic debugging; overrides --enable-angelic",
+    )
+    parser.add_argument(
+        "--enable-images",
+        action="store_true",
+        default=False,
+        help="(Experimental) Enable angelic debugging",
+    )
+    parser.add_argument(
+        "--get-version",
+        action="store_true",
+        default=False,
+        help="(Experimental) Enable angelic debugging",
+    )
+    parser.add_argument(
+        "--save-sbfl-result",
+        action="store_true",
+        default=False,
+        help="Special mode to only save SBFL results for future runs.",
+    )
+    parser.add_argument(
+        "--num-processes",
+        type=str,
+        default=1,
+        help="Number of processes to run the tasks in parallel.",
+    )
+    parser.add_argument(
+        "--output-fix-locs",
+        action="store_true",
+        required=False,
+        default=False,
+        help="Output fix locations to file and do not repair.",
+    )
+    parser.add_argument(
+        "--output-fix-limit",
+        type=int,
+        required=False,
+        default=10,
+        help="Limit output of content retrieval rounds",
+    )
+    parser.add_argument(
+        "--augmented_issues_path",
+        type=str,
+        required=False,
+        default=None,
+        help="Limit output of content retrieval rounds",
+    )
+
+
+
+def normalize_version(ver_str):
+    """
+    提取版本号中的数字部分，用于排序和比较。
+    如 "v3.1" -> "3.1", "release-3.1.2" -> "3.1.2"
+    """
+    match = re.search(r'(\d+(?:\.\d+){0,2})', ver_str)
+    if match:
+        return match.group(1)
+    return ver_str  # fallback 原始字符串
+
+def get_closest_version_info(past_results_dict, repo, target_version):
+    if repo not in past_results_dict:
+        return None
+
+    versions = list(past_results_dict[repo].keys())
+    version_map = {v: normalize_version(v) for v in versions}
+
+    try:
+        parsed_versions = sorted(versions, key=lambda v: version.parse(version_map[v]))
+        target_parsed = version.parse(normalize_version(target_version))
+    except:
+        parsed_versions = sorted(versions)
+        target_parsed = target_version
+
+    # Exact match
+    if target_version in past_results_dict[repo]:
+        items = past_results_dict[repo][target_version]
+        return items[0] if items else None
+
+    # 找 <= target_version 的最近版本
+    closest = None
+    for v in parsed_versions:
+        if version.parse(version_map[v]) <= target_parsed:
+            closest = v
+        else:
+            break
+
+    if closest:
+        items = past_results_dict[repo][closest]
+        return items[0] if items else None
+    
+    return None
+
+
+def make_swe_tasks(
+    task_id: str | None,
+    task_list_file: str | None,
+    setup_map_file: str,
+    tasks_map_file: str,
+    augmented_issues_path: str,
+    enable_images: bool,
+    setup_dir: str,
+    past_results_dir: str,
+    client: docker.DockerClient,
+) -> list[RawSweTask]:
+    if task_id is not None and task_list_file is not None:
+        raise ValueError("Cannot specify both task and task-list.")
+
+    all_task_ids = []
+    if task_list_file is not None:
+        all_task_ids = parse_task_list_file(task_list_file)
+    if task_id is not None:
+        all_task_ids = [task_id]
+    if len(all_task_ids) == 0:
+        raise ValueError("No task ids to run.")
+
+    past_results = None
+    if past_results_dir:
+        past_results = []
+        if os.path.isdir(past_results_dir):
+            # Traverse the directory and its subdirectories to find all predictions.json files
+            for root, _, files in os.walk(past_results_dir):
+                for file_name in files:
+                    if file_name == "predictions.json":
+                        file_path = os.path.join(root, file_name)
+                        try:
+                            with open(file_path, 'r', encoding='utf-8') as f:
+                                data = json.load(f)
+                                if isinstance(data, list):
+                                    past_results.extend(data)
+                                else:
+                                    print(f"Warning: Content of {file_path} is not a list, skipping")
+                        except json.JSONDecodeError:
+                            print(f"Error: {file_path} is not a valid JSON format, skipping")
+                        except Exception as e:
+                            print(f"Error: Failed to read {file_path}, reason: {str(e)}, skipping")
+            if not past_results:
+                print(f"Warning: No predictions.json files found under {past_results_dir}")
+        else:
+            print(f"Warning: {past_results_dir} is not a directory, skipping loading")
+
+    past_results_dict = {}
+    past_results_list = []
+    if past_results:
+        for past_result in past_results:
+            repo = past_result['repo']
+            version = past_result['version']
+            dockerfile = past_result['dockerfile']
+            eval_script = past_result['eval_script']
+            instance_id = past_result['instance_id']
+            past_results_list.append(instance_id)
+
+            if repo not in past_results_dict:
+                past_results_dict[repo] = {}
+
+            if version not in past_results_dict[repo]:
+                past_results_dict[repo][version] = []
+
+            past_results_dict[repo][version].append({
+                'version': version,  # 冗余保留
+                'dockerfile': dockerfile,
+                'eval_script': eval_script
+            })
+
+
+    with open(setup_map_file) as f:
+        setup_map = json.load(f)
+    with open(tasks_map_file) as f:
+        tasks_map = json.load(f)
+
+    # Check if all task ids are in the setup and tasks map
+    # This allows failing safely if some tasks are not set up properly
+    missing_task_ids = [
+        x for x in all_task_ids if not (x in setup_map and x in tasks_map)
+    ]
+    if missing_task_ids:
+        # Log the tasks that are not in the setup or tasks map
+        for task_id in sorted(missing_task_ids):
+            log.print_with_time(
+                f"Skipping task {task_id} which was not found in setup or tasks map."
+            )
+        # And drop them from the list of all task ids
+        all_task_ids = filter(lambda x: x not in missing_task_ids, all_task_ids)
+    if past_results_list:
+        for task_id in sorted(past_results_list):
+            log.print_with_time(
+                f"Skipping task {task_id} which was finshed."
+            )
+        # And drop them from the list of all task ids
+        all_task_ids = filter(lambda x: x not in past_results_list, all_task_ids)
+
+    all_task_ids = sorted(all_task_ids)
+
+    # for each task in the list to run, create a Task instance
+    all_tasks = []
+    if augmented_issues_path != None:
+        with open(augmented_issues_path) as f:
+            augmented_issue_map = json.load(f)
+        for instance_id,augmented_issue in augmented_issue_map.items():
+            tasks_map[instance_id]['problem_statement'] = augmented_issue
+    if enable_images == False:
+        for k,v in tasks_map.items():
+            tasks_map[k]['image_urls'] =[]
+    # print(len(all_task_ids))
+    # input()
+    for task_id in all_task_ids:
+        setup_info = setup_map[task_id]
+        task_info = tasks_map[task_id]
+        task_start_time_s = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        task_repo_name = f'{task_id}_{task_start_time_s}'
+        github_link = f'https://github.com/{task_info['repo']}.git'
+        commit_hash = task_info['base_commit']
+        test_patch = task_info['test_patch']
+        test_patch_lines=test_patch.splitlines()
+        if len(test_patch_lines)>2000:
+            continue
+        # task_repo_dir= apputils.clone_repo_and_checkout(github_link,commit_hash,setup_dir,task_repo_name)
+        task_repo_dir =  pjoin(setup_dir,task_repo_name)
+        reference_setup = get_closest_version_info(past_results_dict, task_info['repo'], task_info['version'])
+        task_info['reference_setup'] = reference_setup
+        apputils.create_dir_if_not_exists(task_repo_dir)
+
+        setup_info['repo_path'] = task_repo_dir
+        task = RawSweTask(task_id, setup_info, task_info,client)
+        all_tasks.append(task)
+    return all_tasks
+
+
+def parse_task_list_file(task_list_file: str) -> list[str]:
+    """
+    Parse the task list file.
+    The file should contain one task/instance id per line, without other characters.
+    """
+    with open(task_list_file) as f:
+        task_ids = f.readlines()
+    return [x.strip() for x in task_ids]
+
+
+def group_swe_tasks_by_env(tasks: list[RawSweTask]) -> dict[str, list[RawSweTask]]:
+    groups = {}
+    for task_index,task in enumerate(tasks):
+        # key = task.setup_info["env_name"]
+        #we do not run tasks by env.
+        key=task_index
+        if key not in groups:
+            groups[key] = []
+        groups[key].append(task)
+    return groups
+
+
+def run_task_groups(
+    task_groups: Mapping[str, Sequence[RawTask]],
+    num_processes: int,
+    organize_output: bool = False,
+):
+    """
+    Main entry for running tasks.
+    """
+    all_tasks = list(chain.from_iterable(task_groups.values()))
+    num_tasks = len(all_tasks)
+
+    globals_mut.init_total_num_tasks(num_tasks)
+
+    # print some info about task
+    log.print_with_time(f"Total number of tasks: {num_tasks}")
+    log.print_with_time(f"Total number of processes: {num_processes}")
+    log.print_with_time(f"Task group info: (number of groups: {len(task_groups)})")
+    for key, tasks in task_groups.items():
+        log.print_with_time(f"\t{key}: {len(tasks)} tasks")
+    
+    # single process mode
+    if num_processes == 1:
+        log.print_with_time("Running in single process mode.")
+        run_tasks_serial(all_tasks)
+        log.print_with_time("Finished all tasks sequentially.")
+    else:
+        
+        run_task_groups_parallel(task_groups, num_processes)
+       
+
+    if globals.only_save_sbfl_result:
+        log.print_with_time("Only saving SBFL results. Exiting.")
+        return
+
+    if organize_output:
+        # post-process completed experiments to get input file to SWE-bench
+        log.print_with_time("Post-processing completed experiment results.")
+        swe_input_file = organize_and_form_input(globals.output_dir)
+        log.print_with_time(f"SWE-Bench input file created: {swe_input_file}")
+
+
+def run_tasks_serial(tasks: list[RawTask]) -> None:
+    for task in tasks:
+        run_task_in_subprocess(task)
+
+
+def run_task_groups_parallel(
+    task_groups: Mapping[str, Sequence[RawTask]], num_processes: int
+):
+    num_task_groups = len(task_groups)
+    globals_mut.init_total_num_task_groups(num_task_groups)
+    num_processes = min(num_processes, num_task_groups)
+
+    task_group_ids_items = sorted(
+        task_groups.items(), key=lambda x: len(x[1]), reverse=True
+    )
+    log.print_with_time(f"Sorted task groups: {[x[0] for x in task_group_ids_items]}")
+    try:
+        # Use ProcessPoolExecutor instead of multiprocessing.Pool,
+        # to support nested sub-processing
+
+        group_ids, group_tasks = zip(*task_group_ids_items)
+        print(group_ids)
+        print(group_tasks)
+        with ProcessPoolExecutor(num_processes) as executor:
+            executor.map(run_task_group, group_ids, group_tasks)
+    except Exception as e:
+        log.print_with_time(e)
+    finally:
+        log.print_with_time("Finishing all tasks in the pool.")
+
+
+def run_task_group(task_group_id: str, task_group_items: list[RawTask]) -> None:
+    """
+    Run all tasks in a task group sequentially.
+    Main entry to parallel processing.
+    """
+    log.print_with_time(
+        f"Starting process for task group {task_group_id}. Number of tasks: {len(task_group_items)}."
+    )
+    for task in task_group_items:
+        # within a group, the runs are always sequential
+        run_task_in_subprocess(task)
+        log.print_with_time(globals_mut.incre_task_return_msg())
+
+    log.print_with_time(
+        f"{globals_mut.incre_task_group_return_msg()} Finished task group {task_group_id}."
+    )
+
+
+# def run_task_in_subprocess(task: RawTask) -> None:
+    
+#     with ProcessPoolExecutor(max_workers=1) as executor:
+#         executor.submit(run_raw_task, task)
+
+
+
+# def run_task_in_subprocess(task: RawTask, timeout_seconds: int = 120) -> None:
+#     """
+#     Run a task in a subprocess, with optional timeout (default: 1 hour).
+#     """
+#     with ProcessPoolExecutor(max_workers=1) as executor:
+#         future = executor.submit(run_raw_task, task)
+#         try:
+#             future.result(timeout=timeout_seconds)
+#         except TimeoutError:
+#             log.log_and_always_print(f"[TIMEOUT] Task {task.task_id} exceeded {timeout_seconds} seconds and was terminated.")
+#         except Exception as e:
+#             log.log_and_always_print(f"[ERROR] Task {task.task_id} failed with exception: {e}")
+
+
+
+def run_task_in_subprocess(task: RawTask, timeout_seconds: int = 5400) -> None:
+    """
+    Run a task in a subprocess, with hard timeout control.
+    """
+    p = multiprocessing.Process(target=run_raw_task, args=(task,))
+    p.start()
+    p.join(timeout=timeout_seconds)
+    if p.is_alive():
+        log.log_and_always_print(f"[TIMEOUT] Task {task.task_id} exceeded {timeout_seconds}s. Killing it...")
+        p.terminate()
+        p.join()
+
+def run_raw_task(
+    task: RawTask, print_callback: Callable[[dict], None] | None = None
+) -> bool:
+    """
+    High-level entry for running one task.
+
+    Args:
+        - task: The Task instance to run.
+
+    Returns:
+        Whether the task completed successfully.
+    """
+    task_id = task.task_id
+
+    start_time_s = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    # task_output_dir = pjoin(globals.output_dir, f"{task_id}_{start_time_s}")
+    task_output_dir = pjoin(globals.output_dir, f"{task_id}")
+    
+    status_file = pjoin(task_output_dir, "status.json")
+    if os.path.exists(status_file):
+        log.log_and_always_print(f"Status file already exists for task {task_id}, skipping execution")
+        return True
+    elif os.path.exists(task_output_dir):
+        # If directory exists but no status.json, clean it up
+        try:
+            shutil.rmtree(task_output_dir)
+            log.log_and_always_print(f"Cleared existing task directory {task_output_dir} as it had no status.json")
+        except Exception as e:
+            log.log_and_always_print(f"Error clearing task directory {task_output_dir}: {e}")
+            return False
+    apputils.create_dir_if_not_exists(task_output_dir)
+    task.dump_meta_data(task_output_dir)
+
+    log.log_and_always_print(f"============= Running task {task_id} =============")
+
+    run_ok = False
+
+    try:
+        run_ok = do_inference(task.to_task(), task_output_dir, print_callback)
+
+        if run_ok:
+            run_status_message = f"Task {task_id} completed successfully."
+        else:
+            run_status_message = f"Task {task_id} failed without exception."
+    except Exception as e:
+        logger.exception(e)
+        run_status_message = f"Task {task_id} failed with exception: {e}."
+
+    log.log_and_always_print(run_status_message)
+
+    # if globals.disable_patch_generation:
+    #     log.log_and_always_print(
+    #         f"Patch generation is disabled. Please find fix locations at: {task_output_dir}/fix_locations.json"
+    #     )
+    # else:
+    #     output_patch_path = pjoin(task_output_dir, "final_patch.diff")
+    #     final_patch_path = get_final_patch_path(task_output_dir)
+    #     if final_patch_path is not None:
+    #         # cppy the final patch to the fixed path
+    #         shutil.copy2(final_patch_path, output_patch_path)
+
+    #         log.log_and_always_print(
+    #             f"Please find the generated patch at: {output_patch_path}"
+    #         )
+
+    #         if isinstance(task, RawSweTask):
+    #             log.log_and_always_print(
+    #                 "[SWE-bench mode] Note that the patch may be move to other paths in SWE-bench mode. "
+    #                 "Please check the SWE-bench input file containing generated patches for all tasks."
+    #             )
+    #     else:
+    #         log.log_and_always_print(
+    #             "No patch generated. You can try running ACR again."
+    #         )
+
+    return run_ok
+
+
+def do_inference(
+    python_task: Task,
+    task_output_dir: str,
+    print_callback: Callable[[dict], None] | None = None,
+) -> bool:
+    client = docker.from_env()
+    apputils.create_dir_if_not_exists(task_output_dir)
+    github_link = f'https://github.com/{python_task.repo_name}.git'
+    commit_hash = python_task.commit
+    apputils.clone_repo_and_checkout(github_link,commit_hash,python_task.project_path)
+    logger.add(
+        pjoin(task_output_dir, "info.log"),
+        level="DEBUG",
+        format=(
+            "<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | <level>{level: <8}</level>"
+            " | <level>{message}</level>"
+        ),
+    )
+
+    start_time = datetime.now()
+
+    api_manager = ProjectApiManager(python_task, task_output_dir,client,globals.enable_web_search)
+
+    try:
+        if globals.only_save_sbfl_result:
+            _, _, run_ok = api_manager.fault_localization()
+        else:
+            run_ok = inference.run_one_task(
+                api_manager.output_dir,
+                api_manager,
+                python_task.repo_name,
+                # python_task.get_issue_statement(),
+                python_task.project_path,
+                python_task.commit,
+
+                python_task.get_image_urls(),
+                print_callback,
+               
+            )
+
+            api_manager.dump_tool_call_sequence_to_file()
+            api_manager.dump_tool_call_layers_to_file()
+
+            end_time = datetime.now()
+
+            dump_cost(start_time, end_time, task_output_dir, python_task.project_path)
+    finally:
+        # python_task.reset_project()
+        python_task.remove_project()
+        if client:
+            client.close()
+
+    return run_ok
+
+
+def dump_cost(
+    start_time: datetime, end_time: datetime, task_output_dir: str, project_path: str
+):
+    with apputils.cd(project_path):
+        commit_hash = apputils.get_current_commit_hash()
+    model_stats = common.SELECTED_MODEL.get_overall_exec_stats()
+    stats = {
+        "commit": commit_hash,
+        "start_epoch": start_time.timestamp(),
+        "end_epoch": end_time.timestamp(),
+        "elapsed_seconds": (end_time - start_time).total_seconds(),
+    }
+    stats.update(model_stats)
+
+    with open(pjoin(task_output_dir, "cost.json"), "w") as f:
+        json.dump(stats, f, indent=4)
+
+
+if __name__ == "__main__":
+    logger.remove()
+    register_all_models()
+    args = get_args()
+    main(args)

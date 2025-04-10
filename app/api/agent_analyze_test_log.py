@@ -1,0 +1,247 @@
+"""
+A proxy agent. Process raw response into json format.
+"""
+
+import inspect
+from typing import Any
+import re
+from loguru import logger
+from collections.abc import Callable, Iterable
+from app.data_structures import MessageThread
+from app.model import common
+from app.post_process import ExtractStatus, is_valid_json
+import json
+# ANALYZE_PROMPT = """
+# Given the test log and the target tests, answer questions below:
+# 1. Do this results achieve the goal? If yes, set is_finish to false.
+# 2. If this task does not finish, could you give a plan to call other agents to finish the task.
+#    If you think there is a problem with eval script/dockerfile, you can call write_dockerfile_agent/write_dockerfile_agent to modify current eval script/dockerfile. Please give some detailed guidance for they to achieve this.
+#    If you think there should be some infomtaion to collect for write_dockerfile_agent/write_dockerfile_agent, you can call context retrieval agent to collect necessary information for them. Similary, leave your guidance for context retrieval agent.
+
+# Note:
+# 1. When is_finish is set to true, guidance for three agents can be set to empty. 
+# 2. Provide your answer in JSON structure like this:
+# {
+#     "is_finish": true/false,
+#     "guidance_for_write_dockerfile_agent": <Content of guidance>,
+#     "guidance_for_write_eval_script_agent": <Content of guidance>,
+#     "guidance_for_context_retrieval_agent": <Content of guidance>
+# }
+# """
+SYSTEM_PROMPT_WITH_WEB_SEARCH = """You are an expert in analyzing test logs and debugging test execution.  
+Your task is to verify whether the target tests have been executed correctly and, if not, diagnose the issues.
+
+You will:
+1. Analyze the test log to check if the target tests were executed and whether they passed.
+2. If the tests did not run correctly, determine whether the issue is related to:
+   - The **Dockerfile** (environment setup issues)
+   - The **evaluation script** (test execution issues)
+   - Missing information that needs to be collected
+3. Based on your analysis, provide **clear guidance** to the appropriate agent:
+   - `write_dockerfile_agent`
+   - `write_eval_script_agent`
+   - `context_retrieval_agent`
+   - `web_search_agent`
+
+Your findings and recommendations must be structured in a JSON format, ensuring efficient collaboration with other agents."""
+
+SYSTEM_PROMPT = """You are an expert in analyzing test logs and debugging test execution.  
+Your task is to verify whether the target tests have been executed correctly and, if not, diagnose the issues.
+
+You will:
+1. Analyze the test log to check if the target tests were executed and whether they passed.
+2. If the tests did not run correctly, determine whether the issue is related to:
+   - The **Dockerfile** (environment setup issues)
+   - The **evaluation script** (test execution issues)
+   - Missing information that needs to be collected
+3. Based on your analysis, provide **clear guidance** to the appropriate agent:
+   - `write_dockerfile_agent`
+   - `write_eval_script_agent`
+   - `context_retrieval_agent`
+
+Your findings and recommendations must be structured in a JSON format, ensuring efficient collaboration with other agents."""
+
+
+ANALYZE_PROMPT_WITH_WEB_SEARCH = """
+Given the test log and the target tests, analyze the results and determine the next steps.
+
+### **Step 1: Verify Test Execution**
+1. Were the expected test files executed? Specifically, which tests were modified or added by the `eval script`?
+2. Did all tests pass? If not, what errors or failures occurred?
+   - If all tests pass, then the process is considered finished.
+   - If some tests in the test log did not pass, but the tests that were newly added or modified by the developer (the tests you specifically built the environment and script for) have passed, the process can still be considered finished. This is because the focus is on the new or modified tests that are being run.
+
+
+### **Step 2: Identify Problems**
+- If the tests failed due to **environment setup issues**, analyze whether the problem comes from:
+  - The **Dockerfile** (e.g., incorrect dependencies, wrong OS, missing configurations).
+  - The **evaluation script** (e.g., incorrect test commands, wrong paths, missing environment activation).
+- Sometimes, tests may fail due to incorrect versions of specific dependencies. Be sure to check the versions of critical dependencies to ensure compatibility.
+- If there are missing dependencies or unknown errors, consider whether additional context retrieval is required.
+
+### **Step 3: Plan Corrective Actions**
+- If a fix is needed in the **Dockerfile**, provide guidance to `write_dockerfile_agent` on how to fix it.
+- If a fix is needed in the **evaluation script**, provide guidance to `write_eval_script_agent` on how to fix it.
+- If more information from the target repository is needed, provide guidance to `context_retrieval_agent` on what to collect.
+- If more information from the web is needed, provide guidance to `web_search_agent` on what to collect.
+
+### **Output Format**
+Provide your answer in JSON format:
+```json
+{
+    "is_finish": true/false,  # If tests passed and everything is correct, set this to true.
+    "guidance_for_write_dockerfile_agent": "<Provide detailed guidance if modifications are needed>",
+    "guidance_for_write_eval_script_agent": "<Provide detailed guidance if modifications are needed>",
+    "guidance_for_context_retrieval_agent": "<Specify what additional information from the target repository is needed, if any>",
+    "guidance_for_web_search_agent": "<Specify what additional information from the web is needed, if any>",
+}
+```
+
+**Important Notes:**
+- If `is_finish` is `true`, all guidance fields can be empty.
+- Be specific in your guidance, providing detailed steps for the necessary fixes. Only provide guidance to the relevant agent based on the actual issue.
+"""
+
+ANALYZE_PROMPT = """
+Given the test log and the target tests, analyze the results and determine the next steps.
+
+### **Step 1: Verify Test Execution**
+1. Were the expected test files executed? Specifically, which tests were modified or added by the `eval script`?
+2. Did all tests pass? If not, what errors or failures occurred?
+   - If all tests pass, then the process is considered finished.
+   - If some tests in the test log did not pass, but the tests that were newly added or modified by the developer (the tests you specifically built the environment and script for) have passed, the process can still be considered finished. This is because the focus is on the new or modified tests that are being run.
+
+
+### **Step 2: Identify Problems**
+- If the tests failed due to **environment setup issues**, analyze whether the problem comes from:
+  - The **Dockerfile** (e.g., incorrect dependencies, wrong OS, missing configurations).
+  - The **evaluation script** (e.g., incorrect test commands, wrong paths, missing environment activation).
+- Sometimes, tests may fail due to incorrect versions of specific dependencies. Be sure to check the versions of critical dependencies to ensure compatibility.
+- If there are missing dependencies or unknown errors, consider whether additional context retrieval is required.
+
+### **Step 3: Plan Corrective Actions**
+- If a fix is needed in the **Dockerfile**, provide guidance to `write_dockerfile_agent` on how to fix it.
+- If a fix is needed in the **evaluation script**, provide guidance to `write_eval_script_agent` on how to fix it.
+- If more information from the target repository is needed, provide guidance to `context_retrieval_agent` on what to collect.
+
+### **Output Format**
+Provide your answer in JSON format:
+```json
+{
+    "is_finish": true/false,  # If tests passed and everything is correct, set this to true.
+    "guidance_for_write_dockerfile_agent": "<Provide detailed guidance if modifications are needed>",
+    "guidance_for_write_eval_script_agent": "<Provide detailed guidance if modifications are needed>",
+    "guidance_for_context_retrieval_agent": "<Specify what additional information from the target repository is needed, if any>",
+}
+```
+
+**Important Notes:**
+- If `is_finish` is `true`, all guidance fields can be empty.
+- Be specific in your guidance, providing detailed steps for the necessary fixes. Only provide guidance to the relevant agent based on the actual issue.
+"""
+
+
+
+def run_with_retries( msg_thread: MessageThread, enable_web_search = False, retries=3,print_callback: Callable[[dict], None] | None = None) -> tuple[str | None, list[MessageThread]]:
+   
+    for idx in range(1, retries + 1):
+        logger.debug(
+            "Trying to analyze the test log. Try {} of {}.", idx, retries
+        )
+
+        res_text = run(msg_thread,enable_web_search)
+        res_text = extract_json_from_response(res_text)
+        # res_text = msg_threads.append(new_thread)
+        res_text = res_text.lstrip('```json').rstrip('```')
+        logger.debug(res_text)
+        extract_status, data = is_valid_json(res_text)
+
+        if extract_status != ExtractStatus.IS_VALID_JSON:
+            logger.debug("Invalid json. Will retry.")
+            continue
+
+        valid, diagnosis = is_valid_response(data,enable_web_search)
+        if not valid:
+            logger.debug(f"{diagnosis}. Will retry.")
+            continue
+
+        logger.debug("Extracted a valid json")
+        return res_text
+    return None
+
+
+def run(msg_thread: MessageThread,enable_web_search:bool) -> tuple[str, MessageThread]:
+    """
+    Run the agent to extract issue to json format.
+    """
+
+    # msg_thread = MessageThread()
+    # msg_thread.add_system(PROXY_PROMPT)
+    if enable_web_search:
+        msg_thread.add_user(ANALYZE_PROMPT_WITH_WEB_SEARCH)
+    else:
+        msg_thread.add_user(ANALYZE_PROMPT)
+    res_text, *_ = common.SELECTED_MODEL.call(
+        msg_thread.to_msg(), response_format="json_object"
+    )
+
+    msg_thread.add_model(res_text, [])  # no tools
+
+    return res_text
+
+
+def is_valid_response(data: Any,enable_web_search:bool) -> tuple[bool, str]:
+    if not isinstance(data, dict):
+        return False, "Json is not a dict"
+
+    if not data.get("is_finish"):
+        terminate = data.get("is_finish")
+        if terminate is None:
+            return False, "'is_finish' parameter is missing"
+
+        if not isinstance(terminate, bool):
+            return False, "'is_finish' parameter must be a boolean (true/false)"
+    key_list = ['guidance_for_write_dockerfile_agent',
+            'guidance_for_write_eval_script_agent',
+            'guidance_for_context_retrieval_agent']
+    if enable_web_search:
+        key_list.append('guidance_for_web_search_agent')
+    for key in key_list:
+        if not data.get(key):
+            terminate = data.get(key)
+            if terminate is None:
+                return False, f"'{key}' parameter is missing"
+
+            if not isinstance(terminate, str):
+                return False, "'{key}' parameter must be a string"
+
+        
+    return True, "OK"
+
+
+
+def extract_json_from_response(res_text: str):
+    """
+    从文本响应中提取 JSON 代码块
+    """
+    json_extracted = None
+
+    # Pattern 1: 识别 ```json 标记的代码块
+    json_matches = re.findall(r"```json([\s\S]*?)```", res_text, re.IGNORECASE)
+    if json_matches:
+        json_extracted = json_matches[0].strip()
+
+    # Pattern 2: 识别普通的 ``` 代码块
+    if not json_extracted:
+        json_code_blocks = re.findall(r"```([\s\S]*?)```", res_text, re.IGNORECASE)
+        for content in json_code_blocks:
+            clean_content = content.strip()
+            # 尝试解析为 JSON，确保是 JSON 格式
+            try:
+                json.loads(clean_content)  # 测试是否有效 JSON
+                json_extracted = clean_content
+                break
+            except json.JSONDecodeError:
+                continue  # 跳过非 JSON 代码块
+
+    return json_extracted if json_extracted else res_text  # 返回提取的 JSON 或原始文本
