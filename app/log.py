@@ -75,7 +75,7 @@ def print_acr(
     msg = replace_html_tags(msg)
     markdown = Markdown(msg)
 
-    name = "AutoCodeRover"
+    name = "SweEnvSetupAgent"
     if desc:
         title = f"{name} ({desc})"
     else:
@@ -88,7 +88,7 @@ def print_acr(
 
     if print_callback:
         print_callback(
-            {"title": f"{name} ({desc})", "message": msg, "category": "auto_code_rover"}
+            {"title": f"{name} ({desc})", "message": msg, "category": "SweEnvSetupAgent"}
         )
 
 

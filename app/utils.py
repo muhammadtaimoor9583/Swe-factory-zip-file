@@ -60,6 +60,7 @@ def initialize_git_repo_and_commit(logger=None):
     run_command(commit_cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 
+
 def get_current_commit_hash() -> str:
     command = ["git", "rev-parse", "HEAD"]
     cp = subprocess.run(command, text=True, capture_output=True)
@@ -114,6 +115,12 @@ def clone_repo_and_checkout(
     with cd(cloned_dir):
         run_command(checkout_cmd)
     # return cloned_dir
+
+def get_version_by_git(cloned_dir:str)-> str:
+    command = ["git"," describe","--tags"]
+    info = None
+    with cd(cloned_dir):
+        info = run_command(command)
 
 
 def repo_clean_changes() -> None:

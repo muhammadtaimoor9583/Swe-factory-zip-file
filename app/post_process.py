@@ -423,29 +423,36 @@ def extract_swe_bench_input(dir: str):
         with open(meta_file) as f:
             meta = json.load(f)
         status_file = pjoin(task_dir, "status.json")
+        status = NotImplemented
         if os.path.exists(status_file):
             with open(status_file) as f:
                 status_meta = json.load(f)
-            if not status_meta['is_finish'] :
-                continue
+            status = status_meta['is_finish'] 
+                
         else:
             continue
         task_id = meta["task_id"]
         this_result = {}
         this_result["instance_id"] = task_id
         this_result["model_name_or_path"] = common.SELECTED_MODEL.name
-        with open(docker_file) as f:
-            docker_content = f.read()
+        docker_content = ""
+        eval_script_content = ""
+        if os.path.exists(docker_file):
+            with open(docker_file) as f:
+                docker_content = f.read()
         eval_script_file = docker_file.replace('Dockerfile','eval.sh')
-        with open(eval_script_file) as f:
-            eval_script_content = f.read()
-        if not docker_content:
-            # empty diff file, dont bother sending it to swe-bench
-            continue
+        if os.path.exists(eval_script_file):
+            with open(eval_script_file) as f:
+                eval_script_content = f.read()
+        # if not docker_content:
+        #     # empty diff file, dont bother sending it to swe-bench
+        #     continue
         this_result["dockerfile"] = docker_content
         this_result["eval_script"] = eval_script_content
         this_result['version'] = meta['task_info']['version']
         this_result['repo'] = meta['task_info']['repo']
+        this_result['patch'] = meta['task_info']['patch']
+        this_result['status'] = status
         all_results.append(this_result)
 
     swe_input_file = pjoin(dir, "predictions.json")

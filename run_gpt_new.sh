@@ -4,13 +4,21 @@
 
 # Define variables
 MODEL="gpt-4o-mini-2024-07-18"
-ROUND=12
+ROUND=6
 REPEAT_INDEX=1
 
-REPO_NAME="keras-team-keras"
+# REPO_NAME="keras-team-keras"
+REPO_NAME="date-fns-date-fns"
+# "markedjs-marked"
+# "netty-netty"
+# "h2database-h2database"
+# "junit-team-junit5"
+# 
+#
+# "markerikson-redux-starter-kit"
 # REPO_NAME="pallets-click"
 # REPO_NAME="apollographql-apollo-client"
-OUTPUT_DIR="output/$MODEL/$REPO_NAME"
+OUTPUT_DIR="output_new/$MODEL/$REPO_NAME"
 BASE_TASK_DIR="/home/azureuser/glh/RepoSetupAgent/data/transformed/$REPO_NAME"
 SETUP_MAP="$BASE_TASK_DIR/setup_map.json"
 TASKS_MAP="$BASE_TASK_DIR/tasks_map.json"
@@ -32,8 +40,14 @@ check_file "$TASKS_MAP"
 mkdir -p "$OUTPUT_DIR"
 
 # Loop over idx from 1 to a specified number (e.g., 10, adjust as needed)
-for idx in {1..5}; do
+for idx in {1..4}; do
+    if [ "$(docker ps -a -q)" ]; then
+        docker rm -f $(docker ps -a -q)
+    else
+        echo "No containers to remove."
+    fi
     docker image prune -f
+    
     rm -rf testbed
     # Generate file_name like batch_mode_1, batch_mode_2, etc.
     file_name="batch_mode_$idx"

@@ -125,137 +125,143 @@ def start_conversation_round_stratified(
             logger.info(f"Invoked {web_search_intent.func_name}.")
             api_manager.is_web_search = False
             api_manager.init_web_search_agent_msg_thread()
-
+            api_manager.dump_cost()
         if api_manager.get_context_retrieval_agent_status():
-            api_manager.start_new_tool_call_layer()
-            
-            context_retrieval_output_dir = api_manager.get_latest_context_retrieval_output_dir()
-            # os.makedirs(context_retrieval_output_dir, exist_ok=True)
-            # f'{output_dir}/output_context_retrieval_{api_manager.context_retrieval_num}'
-            conversation_file = pjoin(context_retrieval_output_dir, f"conversation_round_{round_no}.json")
-            # save current state before starting a new round
-            api_manager.context_retrieval_agent_msg_thread.save_to_file(conversation_file)
-
-            print_banner(f"CONTEXT RETRIEVAL ROUND {round_no}")
-
-            print_acr(
-                # prompt,
-                'context retrieval',
-                f"context retrieval round {start_round_no}",
-                print_callback=print_callback,
-            )
-            # get_action
-            res_text, *_ = common.SELECTED_MODEL.call(api_manager.context_retrieval_agent_msg_thread.to_msg())
-            api_manager.context_retrieval_agent_msg_thread.add_model(res_text, tools=[])
-            print_retrieval(res_text, f"round {round_no}", print_callback=print_callback)
-
-            # parse acrtion from response
-            selected_apis, _, proxy_threads = api_manager.proxy_apis(res_text)
-
-            proxy_log = Path(context_retrieval_output_dir, f"agent_proxy_{round_no}.json")
-            proxy_messages = [thread.to_msg() for thread in proxy_threads]
-            proxy_log.write_text(json.dumps(proxy_messages, indent=4))
-
-            if selected_apis is None:
-                msg = "The repo browsing API calls seem invalid. Please check the arguments you give carefully and try again."
-                api_manager.context_retrieval_agent_msg_thread.add_user(msg)
-                print_acr(
-                    msg,
-                    f"context retrieval round {round_no}",
-                    print_callback=print_callback,
-                )
-                continue
-
-            selected_apis_json = json.loads(selected_apis)
-
-            json_api_calls = selected_apis_json.get("API_calls", [])
-            is_termination = selected_apis_json.get("terminate", None)
-            summary_of_collected_information = selected_apis_json.get("collected_information", None)
-            if is_termination:
-                msg_summary_of_collected_information = f'Collected information from context retireval agent:\n{summary_of_collected_information}\n\n'
-                api_manager.write_dockerfile_agent_msg_thread.add_user(msg_summary_of_collected_information)
-                api_manager.write_eval_script_agent_msg_thread.add_user(msg_summary_of_collected_information)
-
-                #  update message thread of context retrieval agent.
-                # api_manager.context_retrieval_num += 1
-                api_manager.is_context_retrieval = False
-                api_manager.init_context_retrieval_agent_msg_thread()
+            context_retrieval_round  = -1
+            while True:
+                context_retrieval_round += 1
+                api_manager.start_new_tool_call_layer()
                 
-                continue
-            formatted = []
-            if json_api_calls:
-                formatted.append("API calls:")
-                for call in json_api_calls:
-                    formatted.extend([f"\n- `{call}`"])
+                context_retrieval_output_dir = api_manager.get_latest_context_retrieval_output_dir()
+                # os.makedirs(context_retrieval_output_dir, exist_ok=True)
+                # f'{output_dir}/output_context_retrieval_{api_manager.context_retrieval_num}'
+                conversation_file = pjoin(context_retrieval_output_dir, f"conversation_{context_retrieval_round}_round_{round_no}.json")
+                # save current state before starting a new round
+                api_manager.context_retrieval_agent_msg_thread.save_to_file(conversation_file)
 
-         
-            print_acr(
-                "\n".join(formatted),
-                "Agent-selected API calls",
-                print_callback=print_callback,
-            )
+                print_banner(f"CONTEXT RETRIEVAL ROUND {round_no}")
 
-            # init observation
-            # prepare response from tools
-            collated_tool_response = ""
-            
-            for api_call in json_api_calls:
-                func_name, func_args = parse_function_invocation(api_call)
-                try:
-                    arg_spec = inspect.getfullargspec(getattr(RepoBrowseManager, func_name))
-
-                    arg_names = arg_spec.args[1:]  # first parameter is self
-
-                    assert len(func_args) == len(
-                        arg_names
-                    ), f"Number of argument is wrong in API call: {api_call}"
-
-                    kwargs = dict(zip(arg_names, func_args))
-                    intent = FunctionCallIntent(func_name, kwargs, None)
-                except Exception as call_api_e:
-                    collated_tool_response += f"Exception when calling {api_call}: {call_api_e}\n\n"
-                    continue
-                #action -> obeservation
-                tool_output, _, _ = api_manager.dispatch_intent(intent, api_manager.context_retrieval_agent_msg_thread)
-                # merge observation
-                collated_tool_response += f"Result of {api_call}:\n\n"
-                collated_tool_response += f'{tool_output}\n\n'
-            
-            # observation -> thought
-            api_manager.context_retrieval_agent_msg_thread.add_user(collated_tool_response)
-            print_acr(
-                collated_tool_response,
-                f"context retrieval round {round_no}",
-                print_callback=print_callback,
-            )
-            # thought
-            msg = "Let's analyze collected context first"
-            api_manager.context_retrieval_agent_msg_thread.add_user(msg)
-            print_acr(
-                msg, f"context retrieval round {round_no}", print_callback=print_callback
-            )
-            #thought
-            res_text, *_ = common.SELECTED_MODEL.call(api_manager.context_retrieval_agent_msg_thread.to_msg())
-            api_manager.context_retrieval_agent_msg_thread.add_model(res_text, tools=[])
-            print_retrieval(res_text, f"round {round_no}", print_callback=print_callback)
-
-
-            # thought -> action
-            if round_no < globals.conv_round_limit:
-                msg = (
-                    "Based on your analysis, answer below questions:"
-                    "\n- Do you think we collect enough information to write a  dockerfile to setup the environment and write a eval script to run given tests? If yes, please give a summary of the collected information.(leave it empty if you don't collect enough information)"
-                    "\n- If we do not collect enough information, what repo browsing API calls we use to get more information. (leave it empty if you don't need more context)"
-                )
-                # if isinstance(common.SELECTED_MODEL, ollama.OllamaModel):
-                #     # llama models tend to always output search APIs and buggy locations.
-                #     msg += "\n\nNOTE: If you have already identified the bug locations, do not make any search API calls."
-                api_manager.context_retrieval_agent_msg_thread.add_user(msg)
                 print_acr(
-                    msg,
-                    f"context retrieval round {round_no}",
+                    # prompt,
+                    'context retrieval',
+                    f"context retrieval {context_retrieval_round} round {start_round_no}",
                     print_callback=print_callback,
                 )
+                # get_action
+                res_text, *_ = common.SELECTED_MODEL.call(api_manager.context_retrieval_agent_msg_thread.to_msg())
+                api_manager.context_retrieval_agent_msg_thread.add_model(res_text, tools=[])
+                print_retrieval(res_text, f"context retrieval {context_retrieval_round} in round {round_no}", print_callback=print_callback)
+
+                # parse acrtion from response
+                selected_apis, _, proxy_threads = api_manager.proxy_apis(res_text)
+
+                proxy_log = Path(context_retrieval_output_dir, f"agent_proxy_{context_retrieval_round}_round_{round_no}.json")
+                proxy_messages = [thread.to_msg() for thread in proxy_threads]
+                proxy_log.write_text(json.dumps(proxy_messages, indent=4))
+
+                if selected_apis is None:
+                    msg = "The repo browsing API calls seem invalid. Please check the arguments you give carefully and try again."
+                    api_manager.context_retrieval_agent_msg_thread.add_user(msg)
+                    print_acr(
+                        msg,
+                        f"context retrieval {context_retrieval_round} round {round_no}",
+                        print_callback=print_callback,
+                    )
+                    continue
+
+                selected_apis_json = json.loads(selected_apis)
+
+                json_api_calls = selected_apis_json.get("API_calls", [])
+                is_termination = selected_apis_json.get("terminate", None)
+                summary_of_collected_information = selected_apis_json.get("collected_information", None)
+                if is_termination:
+                    msg_summary_of_collected_information = f'Collected information from context retireval agent:\n{summary_of_collected_information}\n\n'
+                    api_manager.write_dockerfile_agent_msg_thread.add_user(msg_summary_of_collected_information)
+                    api_manager.write_eval_script_agent_msg_thread.add_user(msg_summary_of_collected_information)
+
+                    #  update message thread of context retrieval agent.
+                    # api_manager.context_retrieval_num += 1
+                    api_manager.is_context_retrieval = False
+                    api_manager.init_context_retrieval_agent_msg_thread()
+                    
+                    break
+                formatted = []
+                if json_api_calls:
+                    formatted.append("API calls:")
+                    for call in json_api_calls:
+                        formatted.extend([f"\n- `{call}`"])
+
+            
+                print_acr(
+                    "\n".join(formatted),
+                    "Agent-selected API calls",
+                    print_callback=print_callback,
+                )
+
+                # init observation
+                # prepare response from tools
+                collated_tool_response = ""
+                
+                for api_call in json_api_calls:
+                    func_name, func_args = parse_function_invocation(api_call)
+                    try:
+                        arg_spec = inspect.getfullargspec(getattr(RepoBrowseManager, func_name))
+
+                        arg_names = arg_spec.args[1:]  # first parameter is self
+
+                        assert len(func_args) == len(
+                            arg_names
+                        ), f"Number of argument is wrong in API call: {api_call}"
+
+                        kwargs = dict(zip(arg_names, func_args))
+                        intent = FunctionCallIntent(func_name, kwargs, None)
+                    except Exception as call_api_e:
+                        collated_tool_response += f"Exception when calling {api_call}: {call_api_e}\n\n"
+                        continue
+                    #action -> obeservation
+                    tool_output, _, _ = api_manager.dispatch_intent(intent, api_manager.context_retrieval_agent_msg_thread)
+                    # merge observation
+                    collated_tool_response += f"Result of {api_call}:\n\n"
+                    collated_tool_response += f'{tool_output}\n\n'
+                
+                # observation -> thought
+                api_manager.context_retrieval_agent_msg_thread.add_user(collated_tool_response)
+                print_acr(
+                    collated_tool_response,
+                    f"context retrieval {context_retrieval_round} round {round_no}",
+                    print_callback=print_callback,
+                )
+                # thought
+                msg = "Let's analyze collected context first"
+                api_manager.context_retrieval_agent_msg_thread.add_user(msg)
+                print_acr(
+                    msg, f"context retrieval {context_retrieval_round} round {round_no}", print_callback=print_callback
+                )
+                #thought
+                res_text, *_ = common.SELECTED_MODEL.call(api_manager.context_retrieval_agent_msg_thread.to_msg())
+                api_manager.context_retrieval_agent_msg_thread.add_model(res_text, tools=[])
+                print_retrieval(res_text, f"context retrieval {context_retrieval_round} round  {round_no}", print_callback=print_callback)
+
+
+                # thought -> action
+                if context_retrieval_round < 10:
+                    msg = (
+                        "Based on your analysis, answer below questions:"
+                        "\n- Do you think we collect enough information to write a  dockerfile to setup the environment and write a eval script to run given tests? If yes, please give a summary of the collected information.(leave it empty if you don't collect enough information)"
+                        "\n- If we do not collect enough information, what repo browsing API calls we use to get more information. (leave it empty if you don't need more context)"
+                    )
+                    # if isinstance(common.SELECTED_MODEL, ollama.OllamaModel):
+                    #     # llama models tend to always output search APIs and buggy locations.
+                    #     msg += "\n\nNOTE: If you have already identified the bug locations, do not make any search API calls."
+                    api_manager.context_retrieval_agent_msg_thread.add_user(msg)
+                    print_acr(
+                        msg,
+                        f"context retrieval {context_retrieval_round} round {round_no}",
+                        print_callback=print_callback,
+                    )
+                else:
+                    break
+        api_manager.dump_cost()
         if api_manager.get_write_dockerfile_agent_status():
             
             
@@ -272,7 +278,7 @@ def start_conversation_round_stratified(
             api_manager.write_dockerfile_agent_msg_thread.save_to_file(conversation_file)
             logger.info(f"Invoked {dockerfile_intent.func_name}.")
             
-
+        api_manager.dump_cost()
         if api_manager.get_write_eval_script_agent_status():
             # mode = None
             api_manager.start_new_tool_call_layer()
@@ -287,6 +293,7 @@ def start_conversation_round_stratified(
             api_manager.write_eval_script_agent_msg_thread.save_to_file(conversation_file)
             logger.info(f"Invoked {eval_script_intent.func_name}.")
 
+        api_manager.dump_cost()
         if api_manager.get_run_test_agent_status():
             print_banner(f"Try to setup docker and run tests ROUND {round_no}")
             api_manager.init_test_log_analysis_agent_msg_thread()
@@ -381,7 +388,7 @@ def start_conversation_round_stratified(
                 api_manager.write_eval_script_agent_msg_thread.add_user(f'After setting up dockerfile and running tests, the test log analysis agent find that there is a problem with eval script. Here is his analysis:\n{guidance_for_write_eval_script_agent}\n\n')
 
 
-
+        api_manager.dump_cost()
     else:
         log_msg = "Exceed largest number of tries.."
         logger.info(f"Too many rounds. {log_msg}")

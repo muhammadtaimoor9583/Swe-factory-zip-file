@@ -511,10 +511,10 @@ def make_swe_tasks(
         task_repo_name = f'{task_id}_{task_start_time_s}'
         github_link = f'https://github.com/{task_info['repo']}.git'
         commit_hash = task_info['base_commit']
-        test_patch = task_info['test_patch']
-        test_patch_lines=test_patch.splitlines()
-        if len(test_patch_lines)>2000:
-            continue
+        # test_patch = task_info['test_patch']
+        # test_patch_lines=test_patch.splitlines()
+        # if len(test_patch_lines)>2000:
+        #     continue
         # task_repo_dir= apputils.clone_repo_and_checkout(github_link,commit_hash,setup_dir,task_repo_name)
         task_repo_dir =  pjoin(setup_dir,task_repo_name)
         reference_setup = get_closest_version_info(past_results_dict, task_info['repo'], task_info['version'])
@@ -772,7 +772,7 @@ def do_inference(
 
     start_time = datetime.now()
 
-    api_manager = ProjectApiManager(python_task, task_output_dir,client,globals.enable_web_search)
+    api_manager = ProjectApiManager(python_task, task_output_dir,client,globals.enable_web_search,start_time)
 
     try:
         if globals.only_save_sbfl_result:

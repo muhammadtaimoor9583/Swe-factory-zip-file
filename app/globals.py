@@ -8,6 +8,8 @@ output_dir: str = ""
 # upper bound of the number of conversation rounds for the agent
 conv_round_limit: int = 15
 
+context_retrieval_round_limit: int = 15
+
 # whether to perform sbfl
 enable_sbfl: bool = False
 

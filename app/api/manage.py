@@ -19,6 +19,8 @@ from app.repoBrowse.repo_browse_manage import  RepoBrowseManager
 # from app.api.python.validation import PythonValidator
 from app.task import Task
 import docker
+from datetime import datetime
+from app.model import common
 from app.api.docker_utils import (
     cleanup_container,
     remove_image,
@@ -116,7 +118,7 @@ class ProjectApiManager:
         ]
         return "\n".join(["#!/bin/bash", "set -uxo pipefail"] + eval_commands) + "\n"
 
-    def __init__(self, task: Task, output_dir: str ,client:docker.DockerClient,enable_web_search:False):
+    def __init__(self, task: Task, output_dir: str ,client:docker.DockerClient,enable_web_search:False,start_time:None):
         # for logging of this task instance
         self.task = task
 
@@ -161,7 +163,7 @@ class ProjectApiManager:
         self.test_log_analysis_agent_msg_thread = None
         self.context_retrieval_agent_msg_thread = None
         self.web_search_agent_msg_thread = None
-
+        self.start_time = start_time
         self.enable_web_search = enable_web_search
 
         # we set this to false when the code information  is modified.
@@ -1205,4 +1207,23 @@ Your objective is to ensure that the necessary environment is in place and that 
         # The return status of write_patch does not really matter, so we just use True here
         return web_search_results, summary, success
     
-   
+    def dump_cost(
+        self
+    ):
+        start_time = self.start_time
+        end_time = datetime.now()
+        task_output_dir = self.output_dir
+        project_path  = self.task.project_path
+        # with apputils.cd(project_path):
+        #     commit_hash = apputils.get_current_commit_hash()
+        model_stats = common.SELECTED_MODEL.get_overall_exec_stats()
+        stats = {
+            # "commit": commit_hash,
+            "start_epoch": start_time.timestamp(),
+            "end_epoch": end_time.timestamp(),
+            "elapsed_seconds": (end_time - start_time).total_seconds(),
+        }
+        stats.update(model_stats)
+
+        with open(pjoin(task_output_dir, "cost.json"), "w") as f:
+            json.dump(stats, f, indent=4)
