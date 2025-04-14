@@ -7,7 +7,7 @@ from constants import (
     MAP_REPO_TO_VERSION_PATHS,
     MAP_REPO_TO_VERSION_PATTERNS,
 )
-from utils import get_instances, split_instances
+from utils import get_instances, split_instances,get_version_by_git,clone_repo_and_checkout
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"

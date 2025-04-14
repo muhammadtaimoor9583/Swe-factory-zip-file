@@ -4,11 +4,12 @@
 
 # Define variables
 MODEL="gpt-4o-mini-2024-07-18"
-ROUND=6
+ROUND=8
 REPEAT_INDEX=1
 
 # REPO_NAME="keras-team-keras"
-REPO_NAME="date-fns-date-fns"
+REPO_NAME="automattic-mongoose"
+# "date-fns-date-fns"
 # "markedjs-marked"
 # "netty-netty"
 # "h2database-h2database"
@@ -40,7 +41,7 @@ check_file "$TASKS_MAP"
 mkdir -p "$OUTPUT_DIR"
 
 # Loop over idx from 1 to a specified number (e.g., 10, adjust as needed)
-for idx in {1..4}; do
+for idx in {1..8}; do
     if [ "$(docker ps -a -q)" ]; then
         docker rm -f $(docker ps -a -q)
     else

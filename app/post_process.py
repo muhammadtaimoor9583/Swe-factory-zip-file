@@ -416,6 +416,7 @@ def extract_swe_bench_input(dir: str):
     docker_files = [x for x in docker_files if os.path.isfile(x)]
 
     all_results = []
+    final_results = []
     for docker_file in docker_files:
         # task_dir = os.path.dirname(os.path.dirname(docker_file))
         task_dir = os.path.dirname(docker_file)
@@ -433,6 +434,7 @@ def extract_swe_bench_input(dir: str):
             continue
         task_id = meta["task_id"]
         this_result = {}
+        
         this_result["instance_id"] = task_id
         this_result["model_name_or_path"] = common.SELECTED_MODEL.name
         docker_content = ""
@@ -454,12 +456,18 @@ def extract_swe_bench_input(dir: str):
         this_result['patch'] = meta['task_info']['patch']
         this_result['status'] = status
         all_results.append(this_result)
+        if status == True:
+            final_results.append(this_result)
 
-    swe_input_file = pjoin(dir, "predictions.json")
-    with open(swe_input_file, "w") as f:
+    final_predictions_file = pjoin(dir, "predictions.json")
+    raw_predictions_file = pjoin(dir, "raw_predictions.json")
+    with open(final_predictions_file, "w") as f:
+        json.dump(final_results, f, indent=4)
+
+    with open(raw_predictions_file, "w") as f:
         json.dump(all_results, f, indent=4)
 
-    return swe_input_file
+    return final_predictions_file
 
 
 def is_valid_json(json_str: str) -> tuple[ExtractStatus, list | dict | None]:
