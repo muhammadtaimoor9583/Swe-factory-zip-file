@@ -43,7 +43,24 @@ def get_instances(instance_path: str) -> List[Dict]:
     with open(instance_path, encoding="utf-8") as f:
         return json.load(f)
 
-def process_repo_task(task: Dict, testbed: str) -> Dict | None:
+def prepare_repo_cache(tasks: List[Dict], cache_dir: str) -> Dict[str, str]:
+    os.makedirs(cache_dir, exist_ok=True)
+    repo_cache = {}
+    for task in tasks:
+        repo = task["repo"]
+        if repo in repo_cache:
+            continue
+        repo_url = f"https://github.com/{repo}.git"
+        local_path = os.path.join(cache_dir, repo.replace("/", "__"))
+        try:
+            run_command(["git", "clone", repo_url, local_path], capture_output=True)
+            repo_cache[repo] = local_path
+            print(f"✅ Cached repo: {repo}")
+        except Exception as e:
+            print(f"❌ Failed to clone {repo}: {e}")
+    return repo_cache
+
+def process_repo_task(task: Dict, testbed: str, repo_cache: Dict[str, str]) -> Dict | None:
     instance_id = task["instance_id"]
     repo = task["repo"]
     base_commit = task["base_commit"]
@@ -51,8 +68,10 @@ def process_repo_task(task: Dict, testbed: str) -> Dict | None:
     os.makedirs(repo_dir, exist_ok=True)
 
     try:
-        repo_url = f"https://github.com/{repo}.git"
-        run_command(["git", "clone", repo_url, repo_dir], capture_output=True)
+        cached_repo = repo_cache.get(repo)
+        if not cached_repo or not os.path.exists(cached_repo):
+            raise RuntimeError(f"Missing cached repo for {repo}")
+        shutil.copytree(cached_repo, repo_dir, dirs_exist_ok=True)
         with cd(repo_dir):
             run_command(["git", "checkout", base_commit], capture_output=True)
         version = get_version_by_git(repo_dir)
@@ -65,11 +84,13 @@ def process_repo_task(task: Dict, testbed: str) -> Dict | None:
     finally:
         shutil.rmtree(repo_dir, ignore_errors=True)
 
-def process_repos(tasks: List[Dict], testbed: str, max_workers: int = 4) -> tuple[List[Dict], List[Dict]]:
+def process_repos(tasks: List[Dict], testbed: str, repo_cache: Dict[str, str], max_workers: int = 4) -> tuple[List[Dict], List[Dict]]:
     os.makedirs(testbed, exist_ok=True)
     results, failures = [], []
     with ProcessPoolExecutor(max_workers=max_workers) as executor:
-        future_to_task = {executor.submit(process_repo_task, t, testbed): t for t in tasks}
+        future_to_task = {
+            executor.submit(process_repo_task, t, testbed, repo_cache): t for t in tasks
+        }
         for future in as_completed(future_to_task):
             task = future_to_task[future]
             try:
@@ -116,7 +137,10 @@ def main():
             print(f"Invalid task format: {t}")
             return
 
-    results, failures = process_repos(tasks, args.testbed, args.max_workers)
+    repo_cache_dir = os.path.join(args.testbed, "_cache")
+    repo_cache = prepare_repo_cache(tasks, repo_cache_dir)
+
+    results, failures = process_repos(tasks, args.testbed, repo_cache, args.max_workers)
 
     output_path = generate_output_path(args.instance_path, "_versions")
     save_results(results, output_path)

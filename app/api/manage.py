@@ -133,7 +133,7 @@ class ProjectApiManager:
         self.repo_browse_manager = RepoBrowseManager(self.task.project_path)
         # keeps track which tools is currently being used
         self.curr_tool: str | None = None
-        self.task_id = task.task_id
+        self.task_id = task.task_id.lower()
         self.patch = self.task.patch
         self.test_patch = self.task.test_patch
         self.reference_setup = self.task.reference_setup
