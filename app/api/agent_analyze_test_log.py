@@ -89,7 +89,8 @@ Given the test log and the target tests, analyze the results and determine the n
 Provide your answer in JSON format:
 ```json
 {
-    "is_finish": true/false,  # If tests passed and everything is correct, set this to true.
+    "analysis": "<Provide your analysis here>".
+    "is_finish": true/false,  # Set to true only if all tests have passed successfully. If the target tests were not executed, set to false.
     "guidance_for_write_dockerfile_agent": "<Provide detailed guidance if modifications are needed>",
     "guidance_for_write_eval_script_agent": "<Provide detailed guidance if modifications are needed>",
     "guidance_for_context_retrieval_agent": "<Specify what additional information from the target repository is needed, if any>",

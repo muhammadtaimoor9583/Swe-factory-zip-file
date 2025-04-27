@@ -30,7 +30,13 @@ def register_all_models() -> None:
     common.register_model(gpt.Gpt_o1mini())
     common.register_model(gpt.Qwen25_72B())
     common.register_model(gpt.DeepSeekV25())
+    common.register_model(gpt.DeepSeekV3())
     common.register_model(gpt.DeepSeek())
+    common.register_model(gpt.Gpt4_1())
+    common.register_model(gpt.Gpt4_1_mini())
+    common.register_model(gpt.Gemini_2_5_flash_preview())
+    
+    common.register_model(gpt.Gpt4_1_nano())
     common.register_model(gpt.Claude3_5Sonnet())
     common.register_model(gpt.Claude3_7Sonnet())
     common.register_model(claude.Claude3Opus())

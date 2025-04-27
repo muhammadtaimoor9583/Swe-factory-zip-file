@@ -270,7 +270,7 @@ class Gpt_o1mini(OpenaiModel):
         self.note = "Mini version of state of the art. Up to Oct 2023."
 
     # FIXME: the returned type contains OpenAI specific Types, which should be avoided
-    @retry(wait=wait_random_exponential(min=30, max=600), stop=stop_after_attempt(3))
+    @retry(wait=wait_random_exponential(min=30, max=300), stop=stop_after_attempt(3))
     def call(
         self,
         messages: list[dict],
@@ -385,7 +385,23 @@ class Gpt4_0613(OpenaiModel):
 class Gpt4o_mini_20240718(OpenaiModel):
     def __init__(self):
         super().__init__("gpt-4o-mini-2024-07-18", 4096, 0.00000015, 0.0000006)
+
+class Gpt4_1_nano(OpenaiModel):
+    def __init__(self):
+        super().__init__("gpt-4.1-nano", 8192, 0.0000001, 0.0000004)
+
+class Gpt4_1_mini(OpenaiModel):
+    def __init__(self):
+        super().__init__("gpt-4.1-mini", 8192, 0.0000004, 0.0000016)
+
+class Gpt4_1(OpenaiModel):
+    def __init__(self):
+        super().__init__("gpt-4.1", 8192, 0.000002, 0.000008)
         
+class Gemini_2_5_flash_preview(OpenaiModel):
+    def __init__(self):
+        super().__init__("google/gemini-2.5-flash-preview", 8192, 0.00000015, 0.0000006)
+
 class Qwen25_72B(OpenaiModel):
     def __init__(self):
         super().__init__("Qwen/Qwen2.5-72B-Instruct-128K", 4096,0.00000057,  0.00000057)
@@ -395,6 +411,11 @@ class DeepSeekV25(OpenaiModel):
     def __init__(self):
         super().__init__("deepseek-chat", 4096,0.00000014,  0.00000028)
         self.note = "Qwen2.5-72B."
+
+class DeepSeekV3(OpenaiModel):
+    def __init__(self):
+        super().__init__("deepseek/deepseek-chat-v3-0324", 8192,0.00000027,  0.0000011)
+        # self.note = "Qwen2.5-72B."
 
 class DeepSeek(OpenaiModel):
     def __init__(self):

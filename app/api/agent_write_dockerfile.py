@@ -63,38 +63,40 @@ The Dockerfile must ensure that the provided test files can be executed correctl
 2. When building the Dockerfile, you MUST prioritize using package managers such as Conda, Maven, or NPM etc to set up the environment efficiently.
 3. Ensure shell compatibility by using `/bin/bash` as the default shell environment to avoid runtime issues.  For example, **do not use `FROM alpine:latest`**, as it lacks `/bin/bash` by default, which may cause runtime errors. Instead, use a base image like `ubuntu:22.04` or `debian:bookworm` that includes Bash by default.
 4. Pay more attention when using Ubuntu-based images**, as different versions may have variations in default packages, dependency resolution, and package manager behavior, which could lead to unexpected errors.
-5. When setting up dependencies for the target repository (e.g., `torch 3.33`), **DO NOT** install the package directly from external registries (e.g., PyPI, NPM, Maven Central) using commands like `pip install <package>` (e.g., `pip install torch`).  
+5. DO NOT use `COPY` to copy local files** into the Docker container.  
+   - For example, avoid using `COPY package.json /testbed/` or `COPY requirements.txt /testbed/`.  
+   - Instead, all files should be retrieved directly by **cloning the repository** inside the container to ensure a fully reproducible environment.
+6. DO NOT run tests in the Dockerfile**.  
+   - Do not include commands like `npm test`, `pytest`, or `mvn test` in the Dockerfile.  
+   - Tests will be executed separately, and running them during the Docker build stage is an unnecessary overhead.
+7. If there is a reference Dockerfile, use it as a guideline.   
+8. Do not use ENTRYPOINT.
+9. Please install necessary essential tools and libraries required for development and runtime, such as git etc.
+10. When setting up dependencies for the target repository (e.g., `torch 3.33`), **DO NOT** install the package directly from external registries (e.g., PyPI, NPM, Maven Central) using commands like `pip install <package>` (e.g., `pip install torch`).  
    Instead, **you can install the repository itself in development mode** (`pip install -e .` for Python, `npm link` for Node.js, or `mvn install` for Java) to ensure that the local repository’s code is correctly referenced during execution.
    **Why is this important?**  
    - If you modify the repository’s source code but have already installed a pre-built package from the registry, your system may load the installed package instead of your local code, **leading to incorrect test results and making debugging difficult**.  
    - Using development mode installation (`pip install -e .`, `npm link`, `mvn install`) ensures that the system always references the latest local repository code, preventing version mismatches and ensuring that modifications are properly reflected in subsequent tests.
-6. DO NOT use `COPY` to copy local files** into the Docker container.  
-   - For example, avoid using `COPY package.json /testbed/` or `COPY requirements.txt /testbed/`.  
-   - Instead, all files should be retrieved directly by **cloning the repository** inside the container to ensure a fully reproducible environment.
-7. DO NOT run tests in the Dockerfile**.  
-   - Do not include commands like `npm test`, `pytest`, or `mvn test` in the Dockerfile.  
-   - Tests will be executed separately, and running them during the Docker build stage is an unnecessary overhead.
-8. If there is a reference Dockerfile, use it as a guideline.   
-9. Do not use ENTRYPOINT.
+
 
 
 ### **Example Format:**
 The Dockerfile must be wrapped in `<dockerfile>` tags. Example:
 
 <dockerfile>
-# Base image specification. Defines the foundation OS and architecture for the container
+# Base image specification. Defines the foundation OS and architecture for the container (Required)
 FROM --platform=linux/x86_64 ubuntu:22.04
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Etc/UTC
-# System dependencies installation. Installs essential tools and libraries required for development and runtime
-RUN apt update && apt install -y     wget     git     build-essential     libffi-dev     libtiff-dev     python3     python3-pip     python-is-python3     jq     curl     locales     locales-all     tzdata     && rm -rf /var/lib/apt/lists/*
+# System dependencies installation. Installs essential tools and libraries required for development and runtime (Required)
+RUN apt update && apt install -y     wget     git     patch     build-essential     libffi-dev     libtiff-dev     python3     python3-pip     python-is-python3     jq     curl     locales     locales-all     tzdata     && rm -rf /var/lib/apt/lists/*
 # Install package and environment manager. Downloads and sets up a lightweight environment management tool
 RUN wget 'https://repo.anaconda.com/miniconda/Miniconda3-py311_23.11.0-2-Linux-x86_64.sh' -O miniconda.sh     && bash miniconda.sh -b -p /opt/miniconda3     && rm miniconda.sh
 ENV PATH=/opt/miniconda3/bin:$PATH
 RUN conda init --all     && conda config --append channels conda-forge
 # Sets up a dedicated environment with specific dependencies for the target environemnt
 RUN /bin/bash -c "source /opt/miniconda3/etc/profile.d/conda.sh &&     conda create -n testbed python=3.7 -y &&     conda activate testbed &&     pip install pytest==6.2.5 typing_extensions==3.10"
-# set default workdir to testbed.
+# set default workdir to testbed. (Required)
 WORKDIR /testbed/
 # Target Project setup. Clones source code, configures it, and installs project-specific dependencies
 RUN /bin/bash -c "source /opt/miniconda3/etc/profile.d/conda.sh &&     conda activate testbed &&     git clone https://github.com/python/mypy /testbed &&     chmod -R 777 /testbed &&     cd /testbed &&     git reset --hard 6de254ef00f99ce5284ab947f2dd1179db6d28f6 &&     git remote remove origin &&     pip install -r test-requirements.txt &&     pip install -e ."

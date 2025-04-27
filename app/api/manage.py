@@ -459,6 +459,16 @@ class ProjectApiManager:
         mode = 'modify' if os.path.exists(prev_file_path) else 'create'  
         if mode == 'modify':
             modify_prompt = """Please modify current dockerfile according to colelcted information. 
+            
+            Important Notes:
+            1. If the Dockerfile is building a project that is itself a PyPI package (e.g., black, flake8, mypy, etc.), and the repository is cloned and installed with `pip install -e .`, then:
+            - **Do NOT pre-install the same package from PyPI** using `pip install black` or similar. This is redundant and can lead to version conflicts or incorrect test behavior.
+            - Always assume the cloned repo is the authoritative source of truth.
+
+            2. **Do NOT run tests directly inside the Dockerfile** (e.g., avoid adding `RUN pytest` or `RUN make test` inside the Dockerfile):
+            - Testing should be performed **after** the image is built (in CI pipeline or post-build validation step), not during image creation.
+            - Embedding tests in the Dockerfile breaks caching and slows down builds.
+
             Return modified dockerfile in defined format. Wrap results in <dockerfile></dockerfile>.
             """
             msg_prev_dockerfile = f'Previous dockerfile:\n{self.get_latest_dockerfile()}\n\n'
@@ -1042,6 +1052,8 @@ Your objective is to ensure that the necessary environment is in place and that 
 
         self.context_retrieval_agent_msg_thread.add_system(SYSTEM_PROMPT)
         self.context_retrieval_agent_msg_thread.add_user(self.repo_basic_info)
+        root_structure_info = f'Structure of root directory: {self.root_structure}\n\n'
+        self.context_retrieval_agent_msg_thread.add_user(root_structure_info)
         prompt = (
         "Your task is to gather sufficient context from the repository and external sources to understand how to set up the project's environment. To achieve this, you can use the following APIs to browse and extract relevant information:"
         "\n- browse_folder(path: str, depth: str): Browse and return the folder structure for a given path in the repository.  The depth is a string representing a number of folder levels to include in the output such as ``1''. "
@@ -1052,8 +1064,7 @@ Your objective is to ensure that the necessary environment is in place and that 
         "\n\nNow analyze the repository and use the necessary APIs to gather the information required to understand and set up the environment. Ensure each API call has concrete arguments as inputs."
         )
         self.context_retrieval_agent_msg_thread.add_user(prompt)
-        root_structure_info = f'Structure of root directory: {self.root_structure}\n\n'
-        self.context_retrieval_agent_msg_thread.add_user(root_structure_info)
+        
         self.context_retrieval_num += 1
         context_retrieval_output_dir = self.get_latest_context_retrieval_output_dir()
         os.makedirs(context_retrieval_output_dir, exist_ok=True)
