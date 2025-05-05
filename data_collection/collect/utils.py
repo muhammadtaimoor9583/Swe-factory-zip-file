@@ -19,6 +19,9 @@ logger = logging.getLogger(__name__)
 
 from pygments.lexers import get_lexer_for_filename
 from pygments.util import ClassNotFound
+import requests
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 
 def get_language_with_pygments(filename):
     try:
@@ -541,8 +544,53 @@ def _extract_hints(pull: dict, repo: Repo, issue_number: int) -> list[str]:
     comments = [comment.body for comment in comments]
     return comments
 
+def check_token_validity(token: str) -> bool:
+    url = "https://api.github.com/user"
+    headers = {"Authorization": f"token {token}"}
+    
+    try:
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()  # 如果返回 401 错误，说明 token 无效
+        return True
+    except requests.exceptions.RequestException:
+        logger.warning("Invalid or expired GitHub token.")
+        return False
 
-def extract_patches(pull: dict, repo: Repo) -> tuple[str, str]:
+
+def get_with_retries(
+    url: str,
+    token: str = None,
+    max_retries: int = 5,
+    backoff_factor: float = 0.5,
+    timeout: int = 5
+) -> str:
+    if token and not check_token_validity(token):
+        logger.warning("Invalid GitHub token, aborting request.")
+        return ""
+    
+    session = requests.Session()
+    headers = {"Authorization": f"token {token}"} if token else {}
+
+    retries = Retry(
+        total=max_retries,
+        backoff_factor=backoff_factor,
+        status_forcelist=[429, 500, 502, 503, 504],
+        allowed_methods=["GET"],
+        raise_on_status=False
+    )
+    adapter = HTTPAdapter(max_retries=retries)
+    session.mount("http://", adapter)
+    session.mount("https://", adapter)
+
+    try:
+        response = session.get(url, headers=headers, timeout=timeout)
+        response.raise_for_status()
+        return response.text
+    except Exception as e:
+        logger.warning(f"Failed to fetch {url}: {e}")
+        return ""
+
+def extract_patches(pull: dict, repo: Repo) -> tuple[str, str, bool]:
     """
     Get patch and test patch from PR
 
@@ -554,7 +602,10 @@ def extract_patches(pull: dict, repo: Repo) -> tuple[str, str]:
         patch_test_str (str): test patch
     """
     # Convert diff to patch format with "index" lines removed
-    patch = requests.get(pull["diff_url"]).text
+    # patch = requests.get(pull["diff_url"]).text
+    patch = get_with_retries(pull["diff_url"],repo.token)
+    if patch =='':
+        return "", "", False
     if patch.endswith("\n"):
         patch = patch[:-1]
     # Create change patch and test patch
@@ -611,7 +662,7 @@ def extract_patches(pull: dict, repo: Repo) -> tuple[str, str]:
 
     patch_change_str = "\n".join(patch_change) + "\n" if len(patch_change) > 0 else ""
     patch_test_str = "\n".join(patch_test) + "\n" if len(patch_test) > 0 else ""
-    return patch_change_str, patch_test_str
+    return patch_change_str, patch_test_str, True
 
 
 ### MARK: Repo Specific Parsing Functions ###

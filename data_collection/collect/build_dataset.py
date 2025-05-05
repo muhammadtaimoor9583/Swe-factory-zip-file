@@ -14,7 +14,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-def create_instance(repo: Repo, pull: dict, mode: str ='swebench') -> dict:
+def create_instance(repo: Repo, pull: dict, output_path: str, mode: str ='swebench') -> dict:
     """
     Create a single task instance from a pull request, where task instance is:
 
@@ -26,9 +26,18 @@ def create_instance(repo: Repo, pull: dict, mode: str ='swebench') -> dict:
         test_patch (str): test suite as .patch (apply to base commit),
     }
     """
-    patch, test_patch = extract_patches(pull, repo)
+    # try: 
+    patch, test_patch, request_success = extract_patches(pull, repo)
+    # except Exception as e:
+    #     logger.info(e)
+    #     patch = ""
+    #     test_patch = ""
+    instance_id  = (repo.repo.full_name + "-" + str(pull["number"])).replace("/", "__")
+    successful_path = os.path.join(os.path.dirname(output_path), "successful_requests.txt")
+    if request_success:
+        with open(successful_path, "a") as f:
+            f.write(instance_id + "\n")
 
-    
     if mode =='swebench':
 
         problem_statement, hints = extract_problem_statement_and_hints(pull, repo)
@@ -37,9 +46,7 @@ def create_instance(repo: Repo, pull: dict, mode: str ='swebench') -> dict:
     return {
         "repo": repo.repo.full_name,
         "pull_number": pull["number"],
-        "instance_id": (repo.repo.full_name + "-" + str(pull["number"])).replace(
-            "/", "__"
-        ),
+        "instance_id": instance_id,
         "issue_numbers": pull["resolved_issues"],
         "base_commit": pull["base"]["sha"],
         "patch": patch,
@@ -60,9 +67,12 @@ def is_valid_pull(pull: dict) -> bool:
         bool: whether PR is valid
     """
     if pull["merged_at"] is None:
+        # logger.info(f" not merged")
         return False
     if "resolved_issues" not in pull or len(pull["resolved_issues"]) < 1:
+        # logger.info(f"no resolved_issues")
         return False
+
     return True
 
 
@@ -76,8 +86,10 @@ def is_valid_instance(instance: dict) -> bool:
         bool: whether task instance is valid
     """
     if instance["patch"] is None or instance["patch"] == "":
+        logger.info(f"Instance {instance['pull_number']} no patch")
         return False
     if instance["problem_statement"] is None or instance["problem_statement"] == "":
+        logger.info(f"Instance {instance['pull_number']} no problem statement")
         return False
     return True
 
@@ -92,6 +104,7 @@ def has_test_patch(instance: dict) -> bool:
         bool: whether task instance has a test suite
     """
     if instance["test_patch"] is None or instance["test_patch"].strip() == "":
+        logger.info(f"Instance {instance['pull_number']} no test patch")
         return False
     return True
 
@@ -104,6 +117,8 @@ def main(pr_file: str, output: str, token: Optional[str] = None,mode: Optional[s
         output (str): output file name
         token (str): GitHub token
     """
+    logger.info(f'Language: {language}')
+    logger.info(f'mode: {mode}')
     cutoff_date = datetime.strptime(cutoff_date, "%Y-%m-%dT%H:%M:%SZ")
     if token is None:
         # Get GitHub token from environment variable if not provided
@@ -120,6 +135,17 @@ def main(pr_file: str, output: str, token: Optional[str] = None,mode: Optional[s
     total_instances = 0
     all_output = output + ".all"
     seen_prs = set()
+
+    successful_path = os.path.join(os.path.dirname(output), "successful_requests.txt")
+
+    if not os.path.exists(successful_path):
+        with open(successful_path, "w") as f:
+            pass  
+
+    successful_instances = set()
+    with open(successful_path, "r") as f:
+        for line in f:
+            successful_instances.add(line.strip())
 
     # Continue where we left off if output file already exists
     if os.path.exists(all_output):
@@ -140,7 +166,7 @@ def main(pr_file: str, output: str, token: Optional[str] = None,mode: Optional[s
                     if has_test_patch(pr):
                         with_tests += 1
     logger.info(f"{len(seen_prs)} instance_ids previously recorded")
-
+    original_output_path = output
     # Write to .all file for all PRs
     write_mode_all = "w" if not os.path.exists(all_output) else "a"
     with open(all_output, write_mode_all) as all_output:
@@ -159,9 +185,14 @@ def main(pr_file: str, output: str, token: Optional[str] = None,mode: Optional[s
                     pull["base"]["repo"]["full_name"] + "-" + str(pull["number"])
                 )
                 instance_id = instance_id.replace("/", "__")
+                
                 if instance_id in seen_prs:
                     seen_prs -= {instance_id}
                     continue
+
+                if instance_id in successful_instances:
+                    continue
+    
                 if not is_valid_pull(pull):
                     # Throw out invalid PRs
                     continue
@@ -170,7 +201,7 @@ def main(pr_file: str, output: str, token: Optional[str] = None,mode: Optional[s
                 if repo_name not in repos:
                     repos[repo_name] = load_repo(repo_name,language)
                 repo = repos[repo_name]
-                instance = create_instance(repo, pull,mode)
+                instance = create_instance(repo, pull,original_output_path,mode)
                 if is_valid_instance(instance):
                     # If valid, write to .all output file
                     print(
@@ -194,8 +225,9 @@ if __name__ == "__main__":
     parser.add_argument("output", type=str, help="Output file name")
     parser.add_argument("--token", type=str, help="GitHub token")
     parser.add_argument("--mode", type=str, default='omnigirl',help="collecting mode")
-    parser.add_argument("--cutoff_date", type=str, default="2024-06-30T23:59:59Z", help="Cutoff date for filtering PRs in YYYY-MM-DDTHH:MM:SSZ format")
+    parser.add_argument("--cutoff_date", type=str, default="2025-03-31T23:59:59Z", help="Cutoff date for filtering PRs in YYYY-MM-DDTHH:MM:SSZ format")
     parser.add_argument("--language", type=str, help="language")
     
     args = parser.parse_args()
+    print(">>> reached main()")
     main(**vars(args))
