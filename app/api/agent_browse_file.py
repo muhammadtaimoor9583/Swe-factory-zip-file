@@ -14,7 +14,7 @@ from app.post_process import ExtractStatus  # Removed is_valid_json
 from app.utils import parse_function_invocation
 
 BROWSE_CONTENT_PROMPT = """
-You are a content browsing and analysis agent. Your task is to analyze the provided input (which may be a file or webpage content) and extract any information relevant to setting up the project's environment.
+You are a file content browsing and analysis agent. Your task is to analyze the provided input (which may be a file or webpage content) and extract any information relevant to setting up the project's environment and running tests.
 
 Return the result enclosed within <analysis></analysis> tags, in free-text format:
 
@@ -25,6 +25,7 @@ Example format:
 List of libraries:
 - flask==2.0.3
 - gunicorn
+- pytest==7.1.2
 
 Key environment variables:
 - DEBUG=true
@@ -33,6 +34,10 @@ Key environment variables:
 Runtime Requirements:
 - Python >=3.8
 - Node.js 16.x
+
+Testing:
+- Test framework: pytest
+- Test command: pytest tests/ --disable-warnings --maxfail=5
 </analysis>
 """
 

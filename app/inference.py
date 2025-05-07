@@ -96,7 +96,7 @@ def start_conversation_round_stratified(
     api_manager.init_write_dockerfile_agent_msg_thread()
     round_no = start_round_no
 
-    round_count = range(start_round_no, globals.conv_round_limit + 1)
+    round_count = range(start_round_no, globals.conv_round_limit )
 
     try_generate_locs = False
     if globals.disable_patch_generation:

@@ -1,0 +1,11 @@
+assertj__assertj-2247
+assertj__assertj-2297
+assertj__assertj-3724
+assertj__assertj-1511
+assertj__assertj-2685
+assertj__assertj-2549
+assertj__assertj-3325
+assertj__assertj-1134
+assertj__assertj-1014
+assertj__assertj-3735
+assertj__assertj-169

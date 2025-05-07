@@ -42,7 +42,7 @@ class ProjectApiManager:
     api_functions = [
         "browse_folder",
         "browse_file_for_environment_info",
-        "browse_webpage_for_environment_info",
+        # "browse_webpage_for_environment_info",
          "write_dockerfile",
          'write_eval_script',
          'search_files_by_keyword',
@@ -1057,12 +1057,12 @@ Your objective is to ensure that the necessary environment is in place and that 
         prompt = (
         "Your task is to gather sufficient context from the repository and external sources to understand how to set up the project's environment. To achieve this, you can use the following APIs to browse and extract relevant information:"
         "\n- browse_folder(path: str, depth: str): Browse and return the folder structure for a given path in the repository.  The depth is a string representing a number of folder levels to include in the output such as ``1''. "
-        "\n- browse_file_for_environment_info(file_path: str): Browse a file such as README or CONTRIBUTING.md and extract environment setup information."
-        "\n- browse_webpage_for_environment_info(url: str): Fetch a web page and extract environment setup information."
+        "\n- browse_file_for_environment_info(file_path: str): Browse a file such as README or CONTRIBUTING.md and extract environment setup and running tests information."
         "\n- search_files_by_keyword(keyword: str): Search for files in the repository whose names contain the given keyword."
         "\n\nYou may invoke multiple APIs in one round as needed to gather the required information."
         "\n\nNow analyze the repository and use the necessary APIs to gather the information required to understand and set up the environment. Ensure each API call has concrete arguments as inputs."
         )
+         # "\n- browse_webpage_for_environment_info(url: str): Fetch a web page and extract environment setup information."
         self.context_retrieval_agent_msg_thread.add_user(prompt)
         
         self.context_retrieval_num += 1

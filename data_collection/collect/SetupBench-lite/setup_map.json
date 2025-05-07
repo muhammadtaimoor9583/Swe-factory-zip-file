@@ -1,0 +1,4699 @@
+{
+    "assertj__assertj-3820": {
+        "repo_path": "",
+        "env_name": "setup_assertj/assertj__4.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "assertj__assertj-3735": {
+        "repo_path": "",
+        "env_name": "setup_assertj/assertj__3.27",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "assertj__assertj-3724": {
+        "repo_path": "",
+        "env_name": "setup_assertj/assertj__3.27",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "assertj__assertj-3325": {
+        "repo_path": "",
+        "env_name": "setup_assertj/assertj__3.25",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "assertj__assertj-3318": {
+        "repo_path": "",
+        "env_name": "setup_assertj/assertj__3.25",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "assertj__assertj-3691": {
+        "repo_path": "",
+        "env_name": "setup_assertj/assertj__3.26",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "assertj__assertj-3120": {
+        "repo_path": "",
+        "env_name": "setup_assertj/assertj__3.24",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "assertj__assertj-3056": {
+        "repo_path": "",
+        "env_name": "setup_assertj/assertj__3.24",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "assertj__assertj-2726": {
+        "repo_path": "",
+        "env_name": "setup_assertj/assertj__3.23",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "assertj__assertj-2685": {
+        "repo_path": "",
+        "env_name": "setup_assertj/assertj__3.23",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "assertj__assertj-2549": {
+        "repo_path": "",
+        "env_name": "setup_assertj/assertj__3.22",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "assertj__assertj-2410": {
+        "repo_path": "",
+        "env_name": "setup_assertj/assertj__3.21",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "assertj__assertj-2297": {
+        "repo_path": "",
+        "env_name": "setup_assertj/assertj__3.20",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "assertj__assertj-2247": {
+        "repo_path": "",
+        "env_name": "setup_assertj/assertj__3.20",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "assertj__assertj-2200": {
+        "repo_path": "",
+        "env_name": "setup_assertj/assertj__3.19",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "assertj__assertj-2193": {
+        "repo_path": "",
+        "env_name": "setup_assertj/assertj__3.19",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "assertj__assertj-2042": {
+        "repo_path": "",
+        "env_name": "setup_assertj/assertj__3.18",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "assertj__assertj-1983": {
+        "repo_path": "",
+        "env_name": "setup_assertj/assertj__3.17",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "assertj__assertj-1890": {
+        "repo_path": "",
+        "env_name": "setup_assertj/assertj__3.16",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "assertj__assertj-1769": {
+        "repo_path": "",
+        "env_name": "setup_assertj/assertj__3.15",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "assertj__assertj-1743": {
+        "repo_path": "",
+        "env_name": "setup_assertj/assertj__3.14",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "assertj__assertj-1629": {
+        "repo_path": "",
+        "env_name": "setup_assertj/assertj__3.13",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "assertj__assertj-1332": {
+        "repo_path": "",
+        "env_name": "setup_assertj/assertj__3.11",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "assertj__assertj-1568": {
+        "repo_path": "",
+        "env_name": "setup_assertj/assertj__3.13",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "assertj__assertj-1511": {
+        "repo_path": "",
+        "env_name": "setup_assertj/assertj__3.12",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "assertj__assertj-1243": {
+        "repo_path": "",
+        "env_name": "setup_assertj/assertj__3.10",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "assertj__assertj-1204": {
+        "repo_path": "",
+        "env_name": "setup_assertj/assertj__2.9",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "assertj__assertj-1184": {
+        "repo_path": "",
+        "env_name": "setup_assertj/assertj__3.9",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "assertj__assertj-1134": {
+        "repo_path": "",
+        "env_name": "setup_assertj/assertj__3.8",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "assertj__assertj-1014": {
+        "repo_path": "",
+        "env_name": "setup_assertj/assertj__2.8",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "assertj__assertj-813": {
+        "repo_path": "",
+        "env_name": "setup_assertj/assertj__3.6",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "assertj__assertj-656": {
+        "repo_path": "",
+        "env_name": "setup_assertj/assertj__3.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "assertj__assertj-54": {
+        "repo_path": "",
+        "env_name": "setup_assertj/assertj__1.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "assertj__assertj-73": {
+        "repo_path": "",
+        "env_name": "setup_assertj/assertj__1.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "assertj__assertj-169": {
+        "repo_path": "",
+        "env_name": "setup_assertj/assertj__1.5",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "assertj__assertj-225": {
+        "repo_path": "",
+        "env_name": "setup_assertj/assertj__1.6",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "assertj__assertj-101": {
+        "repo_path": "",
+        "env_name": "setup_assertj/assertj__1.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "assertj__assertj-120": {
+        "repo_path": "",
+        "env_name": "setup_assertj/assertj__1.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "assertj__assertj-613": {
+        "repo_path": "",
+        "env_name": "setup_assertj/assertj__2.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "nodejs__undici-4178": {
+        "repo_path": "",
+        "env_name": "setup_nodejs/undici__7.8",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "nodejs__undici-4131": {
+        "repo_path": "",
+        "env_name": "setup_nodejs/undici__7.6",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "nodejs__undici-4112": {
+        "repo_path": "",
+        "env_name": "setup_nodejs/undici__7.5",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "nodejs__undici-4088": {
+        "repo_path": "",
+        "env_name": "setup_nodejs/undici__7.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "nodejs__undici-3977": {
+        "repo_path": "",
+        "env_name": "setup_nodejs/undici__7.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "nodejs__undici-3855": {
+        "repo_path": "",
+        "env_name": "setup_nodejs/undici__6.21",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "nodejs__undici-3941": {
+        "repo_path": "",
+        "env_name": "setup_nodejs/undici__7.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "nodejs__undici-3833": {
+        "repo_path": "",
+        "env_name": "setup_nodejs/undici__7.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "nodejs__undici-3842": {
+        "repo_path": "",
+        "env_name": "setup_nodejs/undici__7.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "nodejs__undici-3758": {
+        "repo_path": "",
+        "env_name": "setup_nodejs/undici__7.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "nodejs__undici-3631": {
+        "repo_path": "",
+        "env_name": "setup_nodejs/undici__6.19",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "nodejs__undici-3566": {
+        "repo_path": "",
+        "env_name": "setup_nodejs/undici__6.19",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "nodejs__undici-3495": {
+        "repo_path": "",
+        "env_name": "setup_nodejs/undici__6.19",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "nodejs__undici-3505": {
+        "repo_path": "",
+        "env_name": "setup_nodejs/undici__6.19",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "nodejs__undici-3294": {
+        "repo_path": "",
+        "env_name": "setup_nodejs/undici__6.18",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "nodejs__undici-3251": {
+        "repo_path": "",
+        "env_name": "setup_nodejs/undici__6.16",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "nodejs__undici-3206": {
+        "repo_path": "",
+        "env_name": "setup_nodejs/undici__6.15",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "nodejs__undici-3169": {
+        "repo_path": "",
+        "env_name": "setup_nodejs/undici__6.14",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "nodejs__undici-3105": {
+        "repo_path": "",
+        "env_name": "setup_nodejs/undici__6.13",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "nodejs__undici-3047": {
+        "repo_path": "",
+        "env_name": "setup_nodejs/undici__6.11",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "nodejs__undici-3005": {
+        "repo_path": "",
+        "env_name": "setup_nodejs/undici__6.10",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "nodejs__undici-2992": {
+        "repo_path": "",
+        "env_name": "setup_nodejs/undici__6.10",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "nodejs__undici-2939": {
+        "repo_path": "",
+        "env_name": "setup_nodejs/undici__6.7",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-12450": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__4.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-12451": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__4.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-12497": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__4.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-12533": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__4.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-12379": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.13",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-12300": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.12",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-12224": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.12",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-12254": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.12",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-12121": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.11",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-12367": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.13",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-12052": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.11",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-11944": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.11",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-11921": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.10",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-11923": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.10",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-11799": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.10",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-11638": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.9",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-11403": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.9",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-11200": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.8",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-11180": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.8",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-11078": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.9",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-10853": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.8",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-10937": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.8",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-10809": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.8",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-10766": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.8",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-10450": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.8",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-10368": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.7",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-10499": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.7",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-10340": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.7",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-10143": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.7",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-10134": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.7",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-9808": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.6",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-9369": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.5",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-9328": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.5",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-9222": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.6",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-8718": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-8574": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-8438": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-8394": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-8372": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-7581": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-7657": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-7146": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-7075": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-7055": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-6587": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-6710": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-6589": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-6691": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-6448": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-6353": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__3.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-5116": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__2.6",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-4765": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__0.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-3956": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__1.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-3580": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__0.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-2710": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__1.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-2362": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__1.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-2345": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__0.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-1801": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__1.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-1664": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__1.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-1540": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__1.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-1661": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__1.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-1492": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__1.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-1270": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__0.8",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-1169": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__0.7",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-1095": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__0.6",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-1069": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__0.5",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-1054": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__0.5",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-683": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__0.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-581": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__0.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-493": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__0.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-465": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__0.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-445": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__0.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-313": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__0.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-201": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__0.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-200": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__0.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-140": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__0.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-111": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__0.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "apollographql__apollo-client-133": {
+        "repo_path": "",
+        "env_name": "setup_apollographql/apollo-client__0.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-5347": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__4.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-5273": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__4.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-5137": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__4.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-4904": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__4.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-5346": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__4.5",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-4616": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__4.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-4597": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__4.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-4485": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__4.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-4423": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__4.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-4413": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__4.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-4377": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__4.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-4311": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__4.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-4307": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__4.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-4225": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__4.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-4191": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__4.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-4172": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__4.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-4164": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__4.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-4160": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__4.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-4134": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__4.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-4080": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__4.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-4125": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__4.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-4053": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__4.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-4037": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__4.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-3946": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__4.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-3913": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__4.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-3853": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__4.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-3800": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__4.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-3764": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__4.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-3754": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__4.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-3718": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__3.9",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-3663": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__4.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-3657": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__4.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-3604": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__3.9",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-3607": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__4.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-3559": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__4.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-3428": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__3.9",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-3418": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__4.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-3384": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__3.9",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-3247": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__4.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-3197": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__4.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-3101": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__3.8",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-3016": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__3.7",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-2929": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__3.7",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-2883": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__3.6",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-2726": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__3.6",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-2723": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__3.6",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-2724": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__3.6",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-2631": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__3.5",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-2458": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__3.5",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-2392": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__3.5",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-2366": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__3.5",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-2309": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__3.5",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-2354": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__3.5",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-2209": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__3.5",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-2108": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__3.5",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-2083": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__3.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-2074": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__3.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-2073": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__3.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-2064": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__3.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-2017": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__3.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-1907": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__3.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-1799": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__3.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-1770": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__3.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-1615": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__3.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-1604": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__3.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-1565": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__3.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-1476": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__3.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-1366": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__3.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-1300": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__3.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "eclipse-vertx__vert.x-1287": {
+        "repo_path": "",
+        "env_name": "setup_eclipse-vertx/vert.x__3.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-17647": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__4.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-17754": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__4.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-17301": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__4.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-16800": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__4.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-16631": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__4.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-16078": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__4.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-16103": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__4.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-16069": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__4.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-15576": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__4.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-15318": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__4.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-15183": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__4.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-15003": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__3.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-14962": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__4.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-14981": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__4.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-14993": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__4.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-14744": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__4.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-14747": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__4.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-14877": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__4.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-14269": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__3.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-13949": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__3.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-13770": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__3.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-13379": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__3.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-11470": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__3.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-12404": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__3.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-11157": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__3.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-12113": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__3.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-11002": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__3.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-10288": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__3.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-10074": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__3.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-10601": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__3.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-9704": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__3.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-9405": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__3.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-9319": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__3.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-9208": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__3.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-8773": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__3.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-8687": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__3.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-8622": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__3.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-8448": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__3.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-8125": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__3.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-7789": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__3.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-8091": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__3.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-7565": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__3.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-7291": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__3.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-7163": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__3.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-6519": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__3.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-6469": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__3.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-5470": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__2.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-5245": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__2.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-4852": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__2.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-4471": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__2.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-4263": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__2.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-4214": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__2.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-2951": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__2.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-2331": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__1.8",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-2322": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__1.8",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-2271": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__1.8",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-2211": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__1.7",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-2108": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__1.6",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-2075": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__1.5",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-1083": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__1.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-1680": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__1.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-1094": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__1.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-1799": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__1.9",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-992": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__1.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-847": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__1.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-681": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__0.7",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-516": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__0.6",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-497": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__0.5",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-418": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__0.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-255": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__0.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-77": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__0.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "tailwindlabs__tailwindcss-82": {
+        "repo_path": "",
+        "env_name": "setup_tailwindlabs/tailwindcss__0.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-16515": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__10.23",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-16605": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__10.22",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-16418": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__10.21",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-15969": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__10.21",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-15822": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__10.19",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-15686": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__10.18",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-15681": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__10.18",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-15430": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__10.17",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-15334": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__10.17",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-15337": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__10.17",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-15358": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__10.17",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-15212": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__10.17",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-15199": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__10.17",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-15127": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__10.17",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-14983": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__10.17",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-14882": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__10.20",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-14804": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__10.16",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-14623": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__10.15",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-14553": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__10.14",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-14497": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__10.13",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-13667": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__10.12",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-13357": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__10.12",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-13320": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__10.12",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-12487": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__10.5",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-12831": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__10.9",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-12516": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__10.11",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-12444": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__10.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-12105": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__10.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-11972": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__10.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-11517": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__10.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-11601": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__10.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-11383": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__10.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-11264": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__10.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-11245": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__9.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-11482": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__10.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-11173": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__9.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-10930": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__9.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-10958": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__9.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-10904": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__9.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-10922": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__9.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-10857": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__9.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-10762": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__9.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-10280": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__8.45",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-10216": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__8.44",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-9942": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__8.43",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-9759": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__8.42",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-9728": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__8.44",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-9539": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__8.41",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-9744": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__8.45",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-9370": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__8.41",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-9209": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__8.39",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-9261": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__8.40",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-9018": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__8.38",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-8984": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__8.37",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-8913": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__8.36",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-8907": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__8.36",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-8720": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__8.35",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-8420": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__8.34",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-8273": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__8.33",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-8103": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__8.31",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-8127": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__8.32",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-8070": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__8.31",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-8008": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__8.32",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-7899": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__8.30",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-7894": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__8.31",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-7853": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__8.30",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-7851": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__8.30",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-7798": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__8.30",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-7193": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__8.27",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-7172": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__8.28",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-6882": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__8.22",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-6567": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__8.19",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-6515": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__8.20",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-4463": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__7.8",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-3366": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__7.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-1485": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__6.14",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "checkstyle__checkstyle-1399": {
+        "repo_path": "",
+        "env_name": "setup_checkstyle/checkstyle__6.8",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "iamkun__dayjs-2369": {
+        "repo_path": "",
+        "env_name": "setup_iamkun/dayjs__1.11",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "iamkun__dayjs-2377": {
+        "repo_path": "",
+        "env_name": "setup_iamkun/dayjs__1.11",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "iamkun__dayjs-2231": {
+        "repo_path": "",
+        "env_name": "setup_iamkun/dayjs__1.11",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "iamkun__dayjs-1571": {
+        "repo_path": "",
+        "env_name": "setup_iamkun/dayjs__1.10",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "iamkun__dayjs-1321": {
+        "repo_path": "",
+        "env_name": "setup_iamkun/dayjs__1.10",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "iamkun__dayjs-1414": {
+        "repo_path": "",
+        "env_name": "setup_iamkun/dayjs__1.10",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "iamkun__dayjs-1229": {
+        "repo_path": "",
+        "env_name": "setup_iamkun/dayjs__1.9",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "iamkun__dayjs-1086": {
+        "repo_path": "",
+        "env_name": "setup_iamkun/dayjs__1.8",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "iamkun__dayjs-1101": {
+        "repo_path": "",
+        "env_name": "setup_iamkun/dayjs__1.9",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "iamkun__dayjs-1003": {
+        "repo_path": "",
+        "env_name": "setup_iamkun/dayjs__1.8",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "iamkun__dayjs-1023": {
+        "repo_path": "",
+        "env_name": "setup_iamkun/dayjs__1.8",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "iamkun__dayjs-996": {
+        "repo_path": "",
+        "env_name": "setup_iamkun/dayjs__1.8",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "iamkun__dayjs-980": {
+        "repo_path": "",
+        "env_name": "setup_iamkun/dayjs__1.8",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "iamkun__dayjs-851": {
+        "repo_path": "",
+        "env_name": "setup_iamkun/dayjs__1.8",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "iamkun__dayjs-1112": {
+        "repo_path": "",
+        "env_name": "setup_iamkun/dayjs__1.9",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "iamkun__dayjs-891": {
+        "repo_path": "",
+        "env_name": "setup_iamkun/dayjs__1.8",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "iamkun__dayjs-768": {
+        "repo_path": "",
+        "env_name": "setup_iamkun/dayjs__1.8",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "iamkun__dayjs-719": {
+        "repo_path": "",
+        "env_name": "setup_iamkun/dayjs__1.8",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "iamkun__dayjs-678": {
+        "repo_path": "",
+        "env_name": "setup_iamkun/dayjs__1.8",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "iamkun__dayjs-539": {
+        "repo_path": "",
+        "env_name": "setup_iamkun/dayjs__1.8",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "iamkun__dayjs-528": {
+        "repo_path": "",
+        "env_name": "setup_iamkun/dayjs__1.8",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "iamkun__dayjs-453": {
+        "repo_path": "",
+        "env_name": "setup_iamkun/dayjs__1.8",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "iamkun__dayjs-76": {
+        "repo_path": "",
+        "env_name": "setup_iamkun/dayjs__1.5",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "iamkun__dayjs-55": {
+        "repo_path": "",
+        "env_name": "setup_iamkun/dayjs__1.5",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "iamkun__dayjs-337": {
+        "repo_path": "",
+        "env_name": "setup_iamkun/dayjs__1.7",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "iamkun__dayjs-1161": {
+        "repo_path": "",
+        "env_name": "setup_iamkun/dayjs__1.9",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "iamkun__dayjs-952": {
+        "repo_path": "",
+        "env_name": "setup_iamkun/dayjs__1.8",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "iamkun__dayjs-162": {
+        "repo_path": "",
+        "env_name": "setup_iamkun/dayjs__1.6",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-8852": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__11.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-8792": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__11.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-8701": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__11.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-8535": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__11.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-8602": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__11.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-8635": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__11.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-8476": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__11.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-8422": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__10.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-8231": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__10.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-8366": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__10.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-8056": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__10.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-8063": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__10.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-7948": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__10.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-7870": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__10.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-7823": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__10.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-7883": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__10.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-7496": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__10.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-7481": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__10.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-7383": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__10.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-7420": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__10.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-7412": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__10.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-7302": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__10.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-7274": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__10.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-7151": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__9.5",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-7078": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__9.5",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-7111": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__9.5",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-6954": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__9.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-6890": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__9.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-6852": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__9.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-6830": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__9.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-6819": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__9.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-6783": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__9.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-6647": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__9.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-6582": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__9.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-6517": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__9.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-6500": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__9.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-6481": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__9.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-6431": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__9.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-6381": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__9.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-6265": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__9.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-6234": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__9.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-6242": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__9.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-6188": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__9.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-6128": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__9.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-6124": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__9.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-6101": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__9.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-6097": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__9.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-6086": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__9.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-6054": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__9.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-5891": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__8.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-5845": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__8.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-5839": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__8.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-5696": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__8.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-5756": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__8.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-5647": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__8.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-5609": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__8.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-5572": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__8.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-5557": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__8.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-5554": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__8.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-5549": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__8.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-5437": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__8.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-5425": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__8.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-5417": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__8.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-5330": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__8.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-5313": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__8.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-5208": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__8.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-5139": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__8.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-5125": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__8.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-4966": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__7.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-4677": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__7.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-4749": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__7.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-4741": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__7.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-4664": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__7.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-4605": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__7.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-4474": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__7.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-4471": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__7.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-4283": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__6.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-4240": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__6.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-4063": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__6.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-4003": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__6.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-4147": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__6.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-3897": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__6.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-3859": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__6.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-3825": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__6.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-3778": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__6.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-3673": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__5.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-3625": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__5.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-3588": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__5.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-3532": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__5.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-3558": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__5.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-3513": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__5.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-3479": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__5.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-3364": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__5.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-3338": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__5.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-3233": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__5.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-3086": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__5.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-3023": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__5.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-2899": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__4.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-2852": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__4.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-2683": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__4.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-2410": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__4.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-2641": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__4.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-2399": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__4.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-2330": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__4.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-2328": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__3.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-2262": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__3.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-2115": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__3.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-2131": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__3.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-2103": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__3.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-1988": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__3.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-1985": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__3.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-1647": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__3.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-1686": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__3.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-1594": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__3.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-1539": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__3.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-1401": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__2.9",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-1400": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__2.9",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-1152": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__2.7",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-1302": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__2.8",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-997": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__2.6",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-808": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__2.5",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-898": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__2.5",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-669": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__2.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-638": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__2.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-537": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__2.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-525": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__2.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-380": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__2.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-364": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__2.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-333": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__2.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-171": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__2.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-228": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__2.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-pillow__Pillow-64": {
+        "repo_path": "",
+        "env_name": "setup_python-pillow/Pillow__1.7",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "pallets__click-2840": {
+        "repo_path": "",
+        "env_name": "setup_pallets/click__8.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "pallets__click-2622": {
+        "repo_path": "",
+        "env_name": "setup_pallets/click__8.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "pallets__click-2607": {
+        "repo_path": "",
+        "env_name": "setup_pallets/click__8.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "pallets__click-2591": {
+        "repo_path": "",
+        "env_name": "setup_pallets/click__8.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "pallets__click-2397": {
+        "repo_path": "",
+        "env_name": "setup_pallets/click__8.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "pallets__click-2333": {
+        "repo_path": "",
+        "env_name": "setup_pallets/click__8.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "pallets__click-2271": {
+        "repo_path": "",
+        "env_name": "setup_pallets/click__8.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "pallets__click-2151": {
+        "repo_path": "",
+        "env_name": "setup_pallets/click__8.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "pallets__click-2094": {
+        "repo_path": "",
+        "env_name": "setup_pallets/click__8.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "pallets__click-2219": {
+        "repo_path": "",
+        "env_name": "setup_pallets/click__8.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "pallets__click-2030": {
+        "repo_path": "",
+        "env_name": "setup_pallets/click__8.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "pallets__click-1998": {
+        "repo_path": "",
+        "env_name": "setup_pallets/click__8.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "pallets__click-1840": {
+        "repo_path": "",
+        "env_name": "setup_pallets/click__8.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "pallets__click-1829": {
+        "repo_path": "",
+        "env_name": "setup_pallets/click__8.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "pallets__click-1785": {
+        "repo_path": "",
+        "env_name": "setup_pallets/click__8.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "pallets__click-1784": {
+        "repo_path": "",
+        "env_name": "setup_pallets/click__8.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "pallets__click-1786": {
+        "repo_path": "",
+        "env_name": "setup_pallets/click__8.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "pallets__click-1543": {
+        "repo_path": "",
+        "env_name": "setup_pallets/click__7.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "pallets__click-1402": {
+        "repo_path": "",
+        "env_name": "setup_pallets/click__8.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "pallets__click-1318": {
+        "repo_path": "",
+        "env_name": "setup_pallets/click__7.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "pallets__click-1304": {
+        "repo_path": "",
+        "env_name": "setup_pallets/click__7.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "pallets__click-1261": {
+        "repo_path": "",
+        "env_name": "setup_pallets/click__7.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "pallets__click-1167": {
+        "repo_path": "",
+        "env_name": "setup_pallets/click__7.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "pallets__click-1014": {
+        "repo_path": "",
+        "env_name": "setup_pallets/click__6.7",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "pallets__click-1098": {
+        "repo_path": "",
+        "env_name": "setup_pallets/click__6.7",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "pallets__click-865": {
+        "repo_path": "",
+        "env_name": "setup_pallets/click__6.7",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "pallets__click-552": {
+        "repo_path": "",
+        "env_name": "setup_pallets/click__6.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "pallets__click-706": {
+        "repo_path": "",
+        "env_name": "setup_pallets/click__6.6",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "pallets__click-545": {
+        "repo_path": "",
+        "env_name": "setup_pallets/click__6.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "pallets__click-240": {
+        "repo_path": "",
+        "env_name": "setup_pallets/click__3.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "pallets__click-212": {
+        "repo_path": "",
+        "env_name": "setup_pallets/click__3.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "pallets__click-123": {
+        "repo_path": "",
+        "env_name": "setup_pallets/click__1.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "reduxjs__redux-toolkit-4758": {
+        "repo_path": "",
+        "env_name": "setup_reduxjs/redux-toolkit__2.6",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "reduxjs__redux-toolkit-4768": {
+        "repo_path": "",
+        "env_name": "setup_reduxjs/redux-toolkit__2.5",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "reduxjs__redux-toolkit-4762": {
+        "repo_path": "",
+        "env_name": "setup_reduxjs/redux-toolkit__2.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "reduxjs__redux-toolkit-4869": {
+        "repo_path": "",
+        "env_name": "setup_reduxjs/redux-toolkit__2.6",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "reduxjs__redux-toolkit-4732": {
+        "repo_path": "",
+        "env_name": "setup_reduxjs/redux-toolkit__2.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "reduxjs__redux-toolkit-4204": {
+        "repo_path": "",
+        "env_name": "setup_reduxjs/redux-toolkit__2.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "reduxjs__redux-toolkit-4084": {
+        "repo_path": "",
+        "env_name": "setup_reduxjs/redux-toolkit__2.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "reduxjs__redux-toolkit-4082": {
+        "repo_path": "",
+        "env_name": "setup_reduxjs/redux-toolkit__2.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "reduxjs__redux-toolkit-4055": {
+        "repo_path": "",
+        "env_name": "setup_reduxjs/redux-toolkit__2.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "reduxjs__redux-toolkit-3878": {
+        "repo_path": "",
+        "env_name": "setup_reduxjs/redux-toolkit__2.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "reduxjs__redux-toolkit-3800": {
+        "repo_path": "",
+        "env_name": "setup_reduxjs/redux-toolkit__1.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "reduxjs__redux-toolkit-3414": {
+        "repo_path": "",
+        "env_name": "setup_reduxjs/redux-toolkit__1.9",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "reduxjs__redux-toolkit-3388": {
+        "repo_path": "",
+        "env_name": "setup_reduxjs/redux-toolkit__2.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "reduxjs__redux-toolkit-3188": {
+        "repo_path": "",
+        "env_name": "setup_reduxjs/redux-toolkit__1.9",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "reduxjs__redux-toolkit-3116": {
+        "repo_path": "",
+        "env_name": "setup_reduxjs/redux-toolkit__2.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "reduxjs__redux-toolkit-3089": {
+        "repo_path": "",
+        "env_name": "setup_reduxjs/redux-toolkit__1.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "reduxjs__redux-toolkit-2835": {
+        "repo_path": "",
+        "env_name": "setup_reduxjs/redux-toolkit__1.9",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "reduxjs__redux-toolkit-2804": {
+        "repo_path": "",
+        "env_name": "setup_reduxjs/redux-toolkit__1.9",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "reduxjs__redux-toolkit-2595": {
+        "repo_path": "",
+        "env_name": "setup_reduxjs/redux-toolkit__1.8",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "reduxjs__redux-toolkit-2363": {
+        "repo_path": "",
+        "env_name": "setup_reduxjs/redux-toolkit__1.8",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "reduxjs__redux-toolkit-2225": {
+        "repo_path": "",
+        "env_name": "setup_reduxjs/redux-toolkit__2.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "reduxjs__redux-toolkit-2000": {
+        "repo_path": "",
+        "env_name": "setup_reduxjs/redux-toolkit__1.7",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "reduxjs__redux-toolkit-1984": {
+        "repo_path": "",
+        "env_name": "setup_reduxjs/redux-toolkit__1.7",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "reduxjs__redux-toolkit-1662": {
+        "repo_path": "",
+        "env_name": "setup_reduxjs/redux-toolkit__1.6",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "reduxjs__redux-toolkit-1496": {
+        "repo_path": "",
+        "env_name": "setup_reduxjs/redux-toolkit__1.6",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "reduxjs__redux-toolkit-1520": {
+        "repo_path": "",
+        "env_name": "setup_reduxjs/redux-toolkit__1.6",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-attrs__attrs-1417": {
+        "repo_path": "",
+        "env_name": "setup_python-attrs/attrs__25.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-attrs__attrs-1410": {
+        "repo_path": "",
+        "env_name": "setup_python-attrs/attrs__25.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-attrs__attrs-1383": {
+        "repo_path": "",
+        "env_name": "setup_python-attrs/attrs__24.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-attrs__attrs-1329": {
+        "repo_path": "",
+        "env_name": "setup_python-attrs/attrs__24.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-attrs__attrs-1172": {
+        "repo_path": "",
+        "env_name": "setup_python-attrs/attrs__23.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-attrs__attrs-1267": {
+        "repo_path": "",
+        "env_name": "setup_python-attrs/attrs__23.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-attrs__attrs-1009": {
+        "repo_path": "",
+        "env_name": "setup_python-attrs/attrs__22.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-attrs__attrs-1319": {
+        "repo_path": "",
+        "env_name": "setup_python-attrs/attrs__23.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-attrs__attrs-1122": {
+        "repo_path": "",
+        "env_name": "setup_python-attrs/attrs__22.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-attrs__attrs-969": {
+        "repo_path": "",
+        "env_name": "setup_python-attrs/attrs__21.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-attrs__attrs-806": {
+        "repo_path": "",
+        "env_name": "setup_python-attrs/attrs__21.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-attrs__attrs-760": {
+        "repo_path": "",
+        "env_name": "setup_python-attrs/attrs__20.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-attrs__attrs-830": {
+        "repo_path": "",
+        "env_name": "setup_python-attrs/attrs__21.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-attrs__attrs-886": {
+        "repo_path": "",
+        "env_name": "setup_python-attrs/attrs__21.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-attrs__attrs-763": {
+        "repo_path": "",
+        "env_name": "setup_python-attrs/attrs__20.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-attrs__attrs-684": {
+        "repo_path": "",
+        "env_name": "setup_python-attrs/attrs__20.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-attrs__attrs-712": {
+        "repo_path": "",
+        "env_name": "setup_python-attrs/attrs__20.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-attrs__attrs-660": {
+        "repo_path": "",
+        "env_name": "setup_python-attrs/attrs__19.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-attrs__attrs-607": {
+        "repo_path": "",
+        "env_name": "setup_python-attrs/attrs__19.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-attrs__attrs-563": {
+        "repo_path": "",
+        "env_name": "setup_python-attrs/attrs__19.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-attrs__attrs-586": {
+        "repo_path": "",
+        "env_name": "setup_python-attrs/attrs__19.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-attrs__attrs-489": {
+        "repo_path": "",
+        "env_name": "setup_python-attrs/attrs__18.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-attrs__attrs-556": {
+        "repo_path": "",
+        "env_name": "setup_python-attrs/attrs__19.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-attrs__attrs-367": {
+        "repo_path": "",
+        "env_name": "setup_python-attrs/attrs__17.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-attrs__attrs-394": {
+        "repo_path": "",
+        "env_name": "setup_python-attrs/attrs__18.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-attrs__attrs-383": {
+        "repo_path": "",
+        "env_name": "setup_python-attrs/attrs__18.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-attrs__attrs-286": {
+        "repo_path": "",
+        "env_name": "setup_python-attrs/attrs__17.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-attrs__attrs-292": {
+        "repo_path": "",
+        "env_name": "setup_python-attrs/attrs__17.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-attrs__attrs-343": {
+        "repo_path": "",
+        "env_name": "setup_python-attrs/attrs__17.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-attrs__attrs-277": {
+        "repo_path": "",
+        "env_name": "setup_python-attrs/attrs__17.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-attrs__attrs-229": {
+        "repo_path": "",
+        "env_name": "setup_python-attrs/attrs__17.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-attrs__attrs-60": {
+        "repo_path": "",
+        "env_name": "setup_python-attrs/attrs__16.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-attrs__attrs-181": {
+        "repo_path": "",
+        "env_name": "setup_python-attrs/attrs__16.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "python-attrs__attrs-186": {
+        "repo_path": "",
+        "env_name": "setup_python-attrs/attrs__16.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-5292": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__11.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-5325": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__11.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-5165": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__11.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-5231": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__10.8",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-5198": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__10.7",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-5032": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__10.5",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-4985": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__10.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-5074": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__10.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-4842": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__9.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-4835": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__10.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-4771": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__10.6",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-4807": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__9.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-4746": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__9.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-4668": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__9.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-4614": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__8.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-4638": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__8.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-4557": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__8.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-4607": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__9.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-4418": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__8.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-4382": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__8.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-4315": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__7.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-4165": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__7.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-4234": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__7.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-4147": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__7.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-4063": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__6.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-4068": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__6.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-3834": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__6.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-3816": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__6.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-3767": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__6.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-3737": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__6.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-3699": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__6.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-3632": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__6.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-3375": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__5.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-3222": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__5.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-3268": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__5.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-3024": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__3.5",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-3143": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__4.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-2746": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__4.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-2696": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__3.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-2642": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__3.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-2513": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__3.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-2479": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__3.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-2499": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__3.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-2345": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__2.5",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-2094": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__2.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-2081": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__2.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-1965": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__2.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-1410": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__2.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-1520": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__2.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-1878": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__2.3",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-1698": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__2.2",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-1337": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__1.21",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-1243": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__1.20",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-1224": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__1.19",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-1110": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__1.17",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-795": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__1.9",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-577": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__1.4",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-635": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__1.6",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-368": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__1.0",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    },
+    "mochajs__mocha-462": {
+        "repo_path": "",
+        "env_name": "setup_mochajs/mocha__1.1",
+        "test_cmd": "",
+        "install": "",
+        "pre_install": ""
+    }
+}
