@@ -4,7 +4,7 @@ import docker
 import json
 import resource
 import traceback
-
+import os
 from argparse import ArgumentParser
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
@@ -451,6 +451,7 @@ def get_dataset_from_preds(
         predictions: dict,
         run_id: str,
         version_spec: str,
+        output_path: str,
         exclude_completed: bool = True
     ):
     """
@@ -507,20 +508,27 @@ def get_dataset_from_preds(
 
     # check which instance IDs have already been run
     completed_ids = set()
-    # for instance in dataset:
-    #     if instance["instance_id"] not in prediction_ids:
-    #         # skip instances without predictions
-    #         continue
-    #     prediction = predictions[instance["instance_id"]]
-    #     report_file = (
-    #         RUN_INSTANCE_LOG_DIR
-    #         / run_id
-    #         / prediction["model_name_or_path"].replace("/", "__")
-    #         / prediction["instance_id"]
-    #         / "report.json"
-    #     )
-    #     if report_file.exists():
-    #         completed_ids.add(instance["instance_id"])
+    for instance in dataset:
+        if instance["instance_id"] not in prediction_ids:
+            # skip instances without predictions
+            continue
+        prediction = predictions[instance["instance_id"]]
+        prev_apply_file = (
+            Path(output_path)
+            / run_id
+            / prediction["model_name_or_path"].replace("/", "__")
+            / prediction["instance_id"]
+            / "test_output_prev_apply.txt"
+        )
+        after_apply_file = (
+            Path(output_path)
+            / run_id
+            / prediction["model_name_or_path"].replace("/", "__")
+            / prediction["instance_id"]
+            / "test_output_after_apply.txt"
+        )
+        if prev_apply_file.exists() and after_apply_file.exists():
+            completed_ids.add(instance["instance_id"])
 
     if completed_ids and exclude_completed:
         # filter dataset to only instances that have not been run
@@ -731,27 +739,95 @@ def main(
     resource.setrlimit(resource.RLIMIT_NOFILE, (open_file_limit, open_file_limit))
     client = docker.from_env()
 
-    # load predictions as map of instance_id to prediction
-    if setup_predictions_path == 'gold':
-        print("Using gold predictions - ignoring predictions_path")
-        predictions = get_gold_predictions(dataset_name, split,version_spec,instance_ids)
-    elif setup_predictions_path == 'none':
-        print("Using no predictions - ignoring predictions_path")
-        predictions = get_none_predictions(dataset_name, split,version_spec,instance_ids)
+
+
+
+
+    # Assume setup_predictions_path variable is defined and assigned
+
+    if setup_predictions_path.endswith(".json"):
+        # Handle .json file
+        print(f"Reading predictions from single .json file: {setup_predictions_path}")
+        try:
+            with open(setup_predictions_path, "r", encoding='utf-8') as f:
+                predictions = json.load(f)
+            print("Successfully loaded predictions from .json file.")
+        except FileNotFoundError:
+            raise FileNotFoundError(f"Error: .json file not found at {setup_predictions_path}")
+        except json.JSONDecodeError:
+            raise json.JSONDecodeError(f"Error: Could not decode JSON from {setup_predictions_path}. Please check the file format.", doc=None, pos=0)
+        except Exception as e:
+            raise RuntimeError(f"An error occurred while reading {setup_predictions_path}: {e}")
+
+    elif setup_predictions_path.endswith(".jsonl"):
+        # Handle .jsonl file
+        print(f"Reading predictions from .jsonl file: {setup_predictions_path}")
+        predictions = []
+        try:
+            with open(setup_predictions_path, "r", encoding='utf-8') as f:
+                for line_num, line in enumerate(f, 1):
+                    line = line.strip()
+                    if not line: continue
+                    try:
+                        predictions.append(json.loads(line))
+                    except json.JSONDecodeError:
+                        print(f"Warning: Could not decode JSON on line {line_num} in {setup_predictions_path}. Skipping line.")
+                print(f"Successfully loaded {len(predictions)} entries from .jsonl file.")
+        except FileNotFoundError:
+            raise FileNotFoundError(f"Error: .jsonl file not found at {setup_predictions_path}")
+        except Exception as e:
+            raise RuntimeError(f"An error occurred while reading {setup_predictions_path}: {e}")
+
+    elif os.path.isdir(setup_predictions_path):
+        # Handle directory, find and merge predictions.json files
+        print(f"Searching for 'predictions.json' in directory: {setup_predictions_path}")
+        combined_predictions = []
+        file_count = 0
+        found_files = []
+
+        # Recursively walk through the directory
+        for root, dirs, files in os.walk(setup_predictions_path):
+            if "predictions.json" in files:
+                file_path = os.path.join(root, "predictions.json")
+                found_files.append(file_path)
+                try:
+                    with open(file_path, "r", encoding='utf-8') as f:
+                        file_data = json.load(f)
+                        # Assuming predictions.json usually contains a list of predictions
+                        if isinstance(file_data, list):
+                            combined_predictions.extend(file_data)
+                        else:
+                            # If not a list, append the whole content as a single prediction item
+                            combined_predictions.append(file_data)
+                    file_count += 1
+                    print(f"Successfully read {file_path}")
+                except json.JSONDecodeError:
+                    print(f"Warning: Could not decode JSON from {file_path}. Skipping this file.")
+                except FileNotFoundError:
+                    print(f"Warning: File vanished during walk? {file_path}. Skipping.")
+                except Exception as e:
+                    print(f"Warning: An error occurred while reading {file_path}: {e}. Skipping this file.")
+
+        print(f"Finished searching directory '{setup_predictions_path}'.")
+        print(f"Found and read {file_count} 'predictions.json' file(s).")
+
+        if file_count == 0:
+            # Decide how to handle no files found in a directory - maybe raise an error?
+            # Or just proceed with an empty predictions list? Depends on requirements.
+            # For now, we'll allow it and predictions will be an empty list.
+            print("No 'predictions.json' files were found or successfully read in the directory.")
+
+        predictions = combined_predictions
 
     else:
-        if setup_predictions_path.endswith(".json"):
-            with open(setup_predictions_path, "r") as f:
-                predictions = json.load(f)
-        elif setup_predictions_path.endswith(".jsonl"):
-            with open(setup_predictions_path, "r") as f:
-                predictions = [json.loads(line) for line in f]
-        else:
-            raise ValueError("Predictions path must be \"gold\", .json, or .jsonl")
+       
+        raise ValueError(f"Predictions path must be a directory, \"gold\", .json, or .jsonl, but got '{setup_predictions_path}'")
+
+
     predictions = {pred["instance_id"]: pred for pred in predictions}
 
     # get dataset from predictions
-    dataset = get_dataset_from_preds(dataset_name, split, instance_ids, predictions, run_id,version_spec)
+    dataset = get_dataset_from_preds(dataset_name, split, instance_ids, predictions, run_id,version_spec,output_path)
     full_dataset = load_omnigirl_dataset(dataset_name, split)
     existing_images = list_images(client)
     print(f"Running {len(dataset)} unevaluated instances...")

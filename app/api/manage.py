@@ -11,12 +11,9 @@ import re
 from app.analysis import sbfl
 from app.analysis.sbfl import NoCoverageData
 from app.api import agent_proxy,  agent_write_dockerfile, agent_analyze_test_log,agent_web_search,agent_common
-# agent_write_locations, agent_write_patch,
 from app.data_structures import FunctionCallIntent, MessageThread
 from app.log import log_exception,setup_logger,close_logger
-# from app.search.search_manage import SearchManager
 from app.repoBrowse.repo_browse_manage import  RepoBrowseManager
-# from app.api.python.validation import PythonValidator
 from app.task import Task
 import docker
 from datetime import datetime
