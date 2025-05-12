@@ -41,3 +41,5 @@ context_generation_limit: int = -1
 get_version: bool = False
 
 enable_web_search: bool = False
+
+agent_mode: str = "multi_agent"

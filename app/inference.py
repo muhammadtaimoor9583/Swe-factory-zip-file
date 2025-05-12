@@ -19,6 +19,7 @@ from app.log import (
     print_issue,
     print_retrieval,
 )
+from app.agents.agents_manager import AgentsManager
 from app.model import common, ollama
 from app.repoBrowse.repo_browse_manage import RepoBrowseManager
 from app.utils import parse_function_invocation
@@ -67,6 +68,8 @@ def add_step_trigger(orig_prompt: str, is_first: bool = False) -> str:
         trigger = "What's the next step to complete the task? Be reminded that you are solving the initial issue."
     return orig_prompt + "\n" + trigger
 
+    
+
 
 def start_conversation_round_stratified(
     output_dir: str,
@@ -98,11 +101,6 @@ def start_conversation_round_stratified(
 
     round_count = range(start_round_no, globals.conv_round_limit )
 
-    try_generate_locs = False
-    if globals.disable_patch_generation:
-        round_count = range(
-            start_round_no, start_round_no + globals.context_generation_limit + 1
-        )
 
     for round_no in round_count:
         if  api_manager.get_web_search_agent_status():
@@ -264,8 +262,6 @@ def start_conversation_round_stratified(
         api_manager.dump_cost()
         if api_manager.get_write_dockerfile_agent_status():
             
-            
-            mode = None
             api_manager.start_new_tool_call_layer()
             dockerfile_intent = FunctionCallIntent("write_dockerfile", {}, None)
             # if api_manager.write_dockerfile_num > 0:
@@ -402,7 +398,7 @@ def start_conversation_round_stratified(
         with open(os.path.join(output_dir, "Dockerfile"), "w") as dockerfile_f:
             dockerfile_f.write(dockerfile_content)
 
-        # 保存 eval.sh
+      
         with open(os.path.join(output_dir, "eval.sh"), "w") as eval_script_f:
             eval_script_f.write(eval_script_content)
 

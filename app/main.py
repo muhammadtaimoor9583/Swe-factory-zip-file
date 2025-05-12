@@ -23,6 +23,7 @@ from app import utils as apputils
 from app.api.manage import ProjectApiManager
 from app.model import common
 from app.model.register import register_all_models
+from app.agents.agents_manager import AgentsManager
 from app.post_process import (
     extract_organize_and_form_input,
     get_final_patch_path,
@@ -768,12 +769,10 @@ def do_inference(
 
     start_time = datetime.now()
 
-    api_manager = ProjectApiManager(python_task, task_output_dir,client,globals.enable_web_search,start_time)
-
+    
     try:
-        if globals.only_save_sbfl_result:
-            _, _, run_ok = api_manager.fault_localization()
-        else:
+        if globals.agent_mode=="single_agent":
+            api_manager = ProjectApiManager(python_task, task_output_dir,client,globals.enable_web_search,start_time)
             run_ok = inference.run_one_task(
                 api_manager.output_dir,
                 api_manager,
@@ -790,9 +789,13 @@ def do_inference(
             api_manager.dump_tool_call_sequence_to_file()
             api_manager.dump_tool_call_layers_to_file()
 
-            end_time = datetime.now()
+            
+        else:
+            agents_manager = AgentsManager(python_task, task_output_dir,client,start_time,globals.conv_round_limit)
+            agents_manager.run_workflow()
+        end_time = datetime.now()
 
-            dump_cost(start_time, end_time, task_output_dir, python_task.project_path)
+        dump_cost(start_time, end_time, task_output_dir, python_task.project_path)
     finally:
         # python_task.reset_project()
         python_task.remove_project()

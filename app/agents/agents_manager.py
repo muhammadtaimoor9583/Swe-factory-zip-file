@@ -1,0 +1,183 @@
+from app.data_structures import MessageThread
+from app.task import Task
+from app.agents.write_dockerfile_agent import WriteDockerfileAgent
+from app.agents.test_analysis_agent import TestAnalysisAgent
+from app.agents.write_eval_script_agent import WriteEvalScriptAgent
+from app.agents.context_retrieval_agent import ContextRetrievalAgent
+import os
+import re
+import docker
+from datetime import datetime
+from app.model import common
+from os.path import join as pjoin
+from loguru import logger
+import json
+DIFF_MODIFIED_FILE_REGEX = r"--- a/(.*)"
+class AgentsManager:
+    """
+    Simple manager to orchestrate LLM-based agents.
+    """
+    def __init__(self, task: Task, output_dir: str, client: docker.DockerClient, start_time: datetime, max_iteration_num: int):
+        self.task = task
+        self.output_dir = os.path.abspath(output_dir)
+        self.thread = MessageThread()
+        self.run_count = 0
+        self.client = client
+        self.max_iterration_num  = max_iteration_num
+        self.start_time = start_time
+        
+        self.test_files = self.get_test_files()
+        self.repo_basic_info = self.get_repository_basic_info()
+        self.finish_status  = False
+        # Initialize agents
+        self.agents_dict = {
+            "write_docker_agent": WriteDockerfileAgent(task, output_dir, self.repo_basic_info),
+            "write_eval_script_agent": WriteEvalScriptAgent(task, output_dir, self.repo_basic_info),
+            "test_analysis_agent": TestAnalysisAgent(task, output_dir, self.repo_basic_info, client),
+            "context_retrieval_agent": ContextRetrievalAgent(task, output_dir, self.repo_basic_info),
+        }
+        self.set_agent_status('all',False)
+
+    def set_agent_status(self, agent_name: str, status: bool):
+        """Set the status of an agent to control if it's active or inactive."""
+        if agent_name == 'all':
+            for agent_key, agent_value in self.agents_dict.items():
+                agent_value.finish_status = status  
+
+        elif agent_name in self.agents_dict:
+            agent = self.agents_dict[agent_name]
+            agent.finish_status = status  
+        else:
+            print(f"Agent {agent_name} not found!")
+
+    def get_agent_status(self, agent_name: str) -> bool:
+        """Get the current status of an agent."""
+        if agent_name in self.agents_dict:
+            return self.agents_dict[agent_name].finish_status
+        else:
+            print(f"Agent {agent_name} not found!")
+            return False
+
+    def set_agents_iteration_num(self, iteration_num: int) -> None:
+        """Get the current status of an agent."""
+        for agent_key, agent_value in self.agents_dict.items():
+            
+            agent_value.iteration_num = iteration_num 
+            
+    def get_test_files(self) -> str:
+        test_files = re.findall(DIFF_MODIFIED_FILE_REGEX, self.task.test_patch)
+        return test_files
+    
+    def get_repository_basic_info(self) -> str:
+        return (
+            f"Target repository name: {self.task.repo_name}\n"
+            f"Commit SHA: {self.task.commit}\n"
+            f"Version: {self.task.version}\n"
+            "Target test files:\n"
+            + "\n".join(self.test_files)
+            + "\n"
+        )
+
+    def dump_cost(
+        self
+    ):
+        start_time = self.start_time
+        end_time = datetime.now()
+        task_output_dir = self.output_dir
+        project_path  = self.task.project_path
+        # with apputils.cd(project_path):
+        #     commit_hash = apputils.get_current_commit_hash()
+        model_stats = common.SELECTED_MODEL.get_overall_exec_stats()
+        stats = {
+            # "commit": commit_hash,
+            "start_epoch": start_time.timestamp(),
+            "end_epoch": end_time.timestamp(),
+            "elapsed_seconds": (end_time - start_time).total_seconds(),
+        }
+        stats.update(model_stats)
+
+        with open(pjoin(task_output_dir, "cost.json"), "w") as f:
+            json.dump(stats, f, indent=4)
+
+    def run_workflow(self) -> None:
+        for iteration_num in range(self.max_iterration_num):
+            self.set_agents_iteration_num(iteration_num)
+            if not self.get_agent_status("context_retrieval_agent"):
+                collected_information, summary, success =  self.agents_dict['context_retrieval_agent'].run_task()
+                self.dump_cost()
+                if collected_information != None:
+                    self.set_agent_status("context_retrieval_agent",True)
+                    self.agents_dict['write_eval_script_agent'].add_user_message(collected_information)
+                    self.agents_dict['write_docker_agent'].add_user_message(collected_information)
+                    self.agents_dict['context_retrieval_agent'].init_msg_thread()
+                
+            if self.get_agent_status("context_retrieval_agent") and not self.get_agent_status("write_docker_agent"):
+                _, _, success =  self.agents_dict['write_docker_agent'].run_task()
+                self.dump_cost()
+                if success:
+                    self.set_agent_status("write_docker_agent",True)
+                self.dump_cost()
+            if self.get_agent_status("context_retrieval_agent") and self.get_agent_status("write_docker_agent") and not self.get_agent_status("write_eval_script_agent"):
+                _, _, success =  self.agents_dict['write_eval_script_agent'].run_task()
+                self.dump_cost()
+                if success:
+                    self.set_agent_status("write_eval_script_agent",True)
+                
+            if self.get_agent_status("context_retrieval_agent") and self.get_agent_status("write_docker_agent") and self.get_agent_status("write_eval_script_agent"):
+                dockerfile = self.agents_dict['write_docker_agent'].get_latest_dockerfile()
+                eval_script_skeleton = self.agents_dict['write_eval_script_agent'].get_latest_eval_script_skeleton
+                eval_script= self.agents_dict['write_eval_script_agent'].get_latest_eval_script
+                self.agents_dict['test_analysis_agent'].dockerfile = dockerfile
+                self.agents_dict['test_analysis_agent'].eval_script_skeleton = eval_script_skeleton
+                self.agents_dict['test_analysis_agent'].eval_script = eval_script
+                analysis, _, success =  self.agents_dict['test_analysis_agent'].run_task()
+                self.dump_cost()
+                analysis = json.loads(analysis)
+
+                is_finish = analysis.get("is_finish", None)
+                if is_finish:
+                    self.finish_status = True
+                    break
+                
+                # write dockerile + eval script + build contaier + run eval script
+                # collect feedback (image error + test error)
+                # image error: 1. modify dockerfile directly
+                #              2. go to context retrieval  agent for more information.
+                # test error: 1. go to modfiy dockerfile.
+                #             2. or go to collect more information
+
+                # scheduler
+                guidance_for_context_retrieval_agent = analysis.get("guidance_for_context_retrieval_agent", None)
+                if guidance_for_context_retrieval_agent:
+                    self.set_agent_status("context_retrieval_agent",False)
+                    self.agents_dict['context_retrieval_agent'].add_user_message(f'After setting up dockerfile and running tests, the test log analysis agent find that there is other context information need to collect. Here is his analysis:\n{guidance_for_context_retrieval_agent}\n\n')
+
+                guidance_for_write_dockerfile_agent = analysis.get("guidance_for_write_dockerfile_agent", None)
+                if guidance_for_write_dockerfile_agent:
+                    self.set_agent_status("write_docker_agent",False)
+                    self.agents_dict['write_docker_agent'].add_user_message(f'After setting up dockerfile and running tests, the test log analysis agent find that there is a problem with dockefile. Here is his analysis:\n{guidance_for_write_dockerfile_agent}\n\n')
+
+                guidance_for_write_eval_script_agent = analysis.get("guidance_for_write_eval_script_agent", None)
+                if guidance_for_write_eval_script_agent:
+                    self.set_agent_status("write_eval_script_agent",False)
+                    self.agents_dict['write_eval_script_agent'].add_user_message(f'After setting up dockerfile and running tests, the test log analysis agent find that there is a problem with eval script. Here is his analysis:\n{guidance_for_write_eval_script_agent}\n\n')
+
+        else:
+            log_msg = "Exceed largest number of tries.."
+            logger.info(f"Too many rounds. {log_msg}")
+
+        dockerfile_content = self.agents_dict['write_docker_agent'].get_latest_dockerfile()
+        eval_script_content = self.agents_dict['write_eval_script_agent'].get_latest_eval_script()
+
+        if dockerfile_content and eval_script_content:
+            with open(os.path.join(self.output_dir, "Dockerfile"), "w") as dockerfile_f:
+                dockerfile_f.write(dockerfile_content)
+
+        
+            with open(os.path.join(self.output_dir, "eval.sh"), "w") as eval_script_f:
+                eval_script_f.write(eval_script_content)
+
+
+        with open(os.path.join(self.output_dir, "status.json"), "w") as status_file_f:
+                json.dump({"is_finish": self.finish_status}, status_file_f)
+        

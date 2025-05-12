@@ -53,11 +53,13 @@ class FunctionCallIntent:
     def to_dict(self):
         return {"func_name": self.func_name, "arguments": self.arg_values}
 
-    def to_dict_with_result(self, call_ok: bool):
+    def to_dict_with_result(self, call_ok: bool, result: str | None=None,agent_id:str | None=None):
         return {
             "func_name": self.func_name,
             "arguments": self.arg_values,
             "call_ok": call_ok,
+            "result": result,
+            "agent_id": agent_id
         }
 
 

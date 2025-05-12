@@ -8,8 +8,6 @@ from pathlib import Path
 from docstring_parser import parse
 from loguru import logger
 import re
-# from app.analysis import sbfl
-# from app.analysis.sbfl import NoCoverageData
 from app.api import agent_proxy,  agent_write_dockerfile, agent_analyze_test_log,agent_web_search,agent_common
 from app.data_structures import FunctionCallIntent, MessageThread
 from app.log import log_exception,setup_logger,close_logger
@@ -1067,7 +1065,7 @@ Your objective is to ensure that the necessary environment is in place and that 
             self.test_log_analysis_agent_msg_thread.add_system(agent_analyze_test_log.SYSTEM_PROMPT)
         self.test_log_analysis_agent_msg_thread.add_user(self.repo_basic_info)
         # test_log = display_test_log_with_line_numbers(test_log)
-        self.test_log_analysis_agent_msg_thread.add_user(f'Target test files:\n{self.test_files}\n\n')
+        # self.test_log_analysis_agent_msg_thread.add_user(f'Target test files:\n{self.test_files}\n\n')
         
         # msg_thread.add_user(f'Test log:\n{test_log}\n\n')
     

@@ -11,23 +11,7 @@ from app.data_structures import MessageThread
 from app.model import common
 from app.post_process import ExtractStatus, is_valid_json
 import json
-# ANALYZE_PROMPT = """
-# Given the test log and the target tests, answer questions below:
-# 1. Do this results achieve the goal? If yes, set is_finish to false.
-# 2. If this task does not finish, could you give a plan to call other agents to finish the task.
-#    If you think there is a problem with eval script/dockerfile, you can call write_dockerfile_agent/write_dockerfile_agent to modify current eval script/dockerfile. Please give some detailed guidance for they to achieve this.
-#    If you think there should be some infomtaion to collect for write_dockerfile_agent/write_dockerfile_agent, you can call context retrieval agent to collect necessary information for them. Similary, leave your guidance for context retrieval agent.
 
-# Note:
-# 1. When is_finish is set to true, guidance for three agents can be set to empty. 
-# 2. Provide your answer in JSON structure like this:
-# {
-#     "is_finish": true/false,
-#     "guidance_for_write_dockerfile_agent": <Content of guidance>,
-#     "guidance_for_write_eval_script_agent": <Content of guidance>,
-#     "guidance_for_context_retrieval_agent": <Content of guidance>
-# }
-# """
 SYSTEM_PROMPT_WITH_WEB_SEARCH = """You are an expert in analyzing test logs and debugging test execution.  
 Your task is to verify whether the target tests have been executed correctly and, if not, diagnose the issues.
 
