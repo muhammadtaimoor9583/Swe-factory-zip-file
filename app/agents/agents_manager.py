@@ -23,12 +23,12 @@ class AgentsManager:
         self.thread = MessageThread()
         self.run_count = 0
         self.client = client
-        self.max_iterration_num  = max_iteration_num
+        self.max_iteration_num  = max_iteration_num
         self.start_time = start_time
         
         self.test_files = self.get_test_files()
         self.repo_basic_info = self.get_repository_basic_info()
-        self.finish_status  = False
+        self.workflow_finish_status  = False
         # Initialize agents
         self.agents_dict = {
             "write_docker_agent": WriteDockerfileAgent(task, output_dir, self.repo_basic_info),
@@ -48,14 +48,14 @@ class AgentsManager:
             agent = self.agents_dict[agent_name]
             agent.finish_status = status  
         else:
-            print(f"Agent {agent_name} not found!")
+            logger.error(f"Agent {agent_name} not found!")
 
     def get_agent_status(self, agent_name: str) -> bool:
         """Get the current status of an agent."""
         if agent_name in self.agents_dict:
             return self.agents_dict[agent_name].finish_status
         else:
-            print(f"Agent {agent_name} not found!")
+            logger.error(f"Agent {agent_name} not found!")
             return False
 
     def set_agents_iteration_num(self, iteration_num: int) -> None:
@@ -64,7 +64,7 @@ class AgentsManager:
             
             agent_value.iteration_num = iteration_num 
             
-    def get_test_files(self) -> str:
+    def get_test_files(self) -> list[str]:
         test_files = re.findall(DIFF_MODIFIED_FILE_REGEX, self.task.test_patch)
         return test_files
     
@@ -100,7 +100,7 @@ class AgentsManager:
             json.dump(stats, f, indent=4)
 
     def run_workflow(self) -> None:
-        for iteration_num in range(self.max_iterration_num):
+        for iteration_num in range(self.max_iteration_num):
             self.set_agents_iteration_num(iteration_num)
             if not self.get_agent_status("context_retrieval_agent"):
                 collected_information, summary, success =  self.agents_dict['context_retrieval_agent'].run_task()
@@ -125,8 +125,8 @@ class AgentsManager:
                 
             if self.get_agent_status("context_retrieval_agent") and self.get_agent_status("write_docker_agent") and self.get_agent_status("write_eval_script_agent"):
                 dockerfile = self.agents_dict['write_docker_agent'].get_latest_dockerfile()
-                eval_script_skeleton = self.agents_dict['write_eval_script_agent'].get_latest_eval_script_skeleton
-                eval_script= self.agents_dict['write_eval_script_agent'].get_latest_eval_script
+                eval_script_skeleton = self.agents_dict['write_eval_script_agent'].get_latest_eval_script_skeleton()
+                eval_script= self.agents_dict['write_eval_script_agent'].get_latest_eval_script()
                 self.agents_dict['test_analysis_agent'].dockerfile = dockerfile
                 self.agents_dict['test_analysis_agent'].eval_script_skeleton = eval_script_skeleton
                 self.agents_dict['test_analysis_agent'].eval_script = eval_script
@@ -136,7 +136,7 @@ class AgentsManager:
 
                 is_finish = analysis.get("is_finish", None)
                 if is_finish:
-                    self.finish_status = True
+                    self.workflow_finish_status = True
                     break
                 
                 # write dockerile + eval script + build contaier + run eval script
@@ -179,5 +179,5 @@ class AgentsManager:
 
 
         with open(os.path.join(self.output_dir, "status.json"), "w") as status_file_f:
-                json.dump({"is_finish": self.finish_status}, status_file_f)
+                json.dump({"is_finish": self.workflow_finish_status}, status_file_f)
         
