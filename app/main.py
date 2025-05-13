@@ -793,6 +793,7 @@ def do_inference(
         else:
             agents_manager = AgentsManager(python_task, task_output_dir,client,start_time,globals.conv_round_limit)
             agents_manager.run_workflow()
+            run_ok = True
         end_time = datetime.now()
 
         dump_cost(start_time, end_time, task_output_dir, python_task.project_path)

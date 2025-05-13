@@ -20,7 +20,6 @@ class AgentsManager:
     def __init__(self, task: Task, output_dir: str, client: docker.DockerClient, start_time: datetime, max_iteration_num: int):
         self.task = task
         self.output_dir = os.path.abspath(output_dir)
-        self.thread = MessageThread()
         self.run_count = 0
         self.client = client
         self.max_iteration_num  = max_iteration_num
@@ -116,7 +115,7 @@ class AgentsManager:
                 self.dump_cost()
                 if success:
                     self.set_agent_status("write_docker_agent",True)
-                self.dump_cost()
+          
 
             if self.get_agent_status("context_retrieval_agent") and self.get_agent_status("write_docker_agent") and not self.get_agent_status("write_eval_script_agent"):
                 self.agents_dict['write_eval_script_agent'].dockerfile =  self.agents_dict['write_docker_agent'].get_latest_dockerfile()
