@@ -117,7 +117,9 @@ class AgentsManager:
                 if success:
                     self.set_agent_status("write_docker_agent",True)
                 self.dump_cost()
+
             if self.get_agent_status("context_retrieval_agent") and self.get_agent_status("write_docker_agent") and not self.get_agent_status("write_eval_script_agent"):
+                self.agents_dict['write_eval_script_agent'].dockerfile =  self.agents_dict['write_docker_agent'].get_latest_dockerfile()
                 _, _, success =  self.agents_dict['write_eval_script_agent'].run_task()
                 self.dump_cost()
                 if success:
