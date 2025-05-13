@@ -167,7 +167,7 @@ class ContextRetrievalAgent(Agent):
             is_termination = selected_apis_json.get("terminate", None)
             summary_of_collected_information = selected_apis_json.get("collected_information", None)
             if is_termination:
-                msg_summary_of_collected_information = f'Collected information from context retireval agent:\n{summary_of_collected_information}\n\n'
+                msg_summary_of_collected_information = f'Collected information from context retrieval agent:\n{summary_of_collected_information}\n\n'
                 # self.add_user_message(msg_summary_of_collected_information)
                 # self.add_user_message(msg_summary_of_collected_information)
 
