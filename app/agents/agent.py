@@ -32,9 +32,9 @@ class Agent(ABC):
         """add a system message to the thread"""
         self.msg_thread.add_system(text)
 
-    def add_model_message(self, text: str):
+    def add_model_message(self, text: str,tools: list):
         """add a model message to the thread"""
-        self.msg_thread.add_model(text)
+        self.msg_thread.add_model(text,tools)
 
     @abstractmethod
     def run_task(self, print_callback=None) -> tuple[str, str, bool]:
