@@ -174,7 +174,7 @@ class ContextRetrievalAgent(Agent):
                 # #  update message thread of context retrieval agent.
                 # # api_manager.context_retrieval_num += 1
                 # self.is_context_retrieval = False
-                # self.init_msg_thread()
+                self.init_msg_thread()
                 task_output = msg_summary_of_collected_information
                 summary = "Collect context information successfully."
                 success = True
