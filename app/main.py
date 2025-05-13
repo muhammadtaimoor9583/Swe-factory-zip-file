@@ -9,7 +9,7 @@ import re
 import docker
 from argparse import ArgumentParser
 from collections.abc import Callable, Mapping, Sequence
-from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures import ProcessPoolExecutor, as_completed
 from datetime import datetime
 from itertools import chain
 from os.path import abspath
@@ -603,20 +603,45 @@ def run_task_groups_parallel(
         task_groups.items(), key=lambda x: len(x[1]), reverse=True
     )
     log.print_with_time(f"Sorted task groups: {[x[0] for x in task_group_ids_items]}")
+    # try:
+    #     # Use ProcessPoolExecutor instead of multiprocessing.Pool,
+    #     # to support nested sub-processing
+
+    #     group_ids, group_tasks = zip(*task_group_ids_items)
+    #     print(group_ids)
+    #     print(group_tasks)
+    #     with ProcessPoolExecutor(num_processes) as executor:
+    #         executor.map(run_task_group, group_ids, group_tasks)
+    # except Exception as e:
+    #     log.print_with_time(e)
+    # finally:
+    #     log.print_with_time("Finishing all tasks in the pool.")
+    with ProcessPoolExecutor(max_workers=num_processes) as executor:
+        future_to_gid = {
+        executor.submit(_safe_run_group, gid, tasks): gid
+        for gid, tasks in task_group_ids_items
+        }
+
+        # as_completed yields each Future as soon as it finishes
+    for future in as_completed(future_to_gid):
+        gid = future_to_gid[future]
+        try:
+            future.result()
+            log.print_with_time(f"Task group {gid} finished successfully.")
+        except Exception as e:
+            log.print_with_time(f"Task group {gid} failed: {e!r}")
+
+    log.print_with_time("All task groups have been processed.")
+    
+def _safe_run_group(gid: str, tasks: Sequence[RawTask]) -> None:
+    """
+    Wrapper to run one task group inside a child process.
+    Any exception is re-raised with the group ID for clearer logging.
+    """
     try:
-        # Use ProcessPoolExecutor instead of multiprocessing.Pool,
-        # to support nested sub-processing
-
-        group_ids, group_tasks = zip(*task_group_ids_items)
-        print(group_ids)
-        print(group_tasks)
-        with ProcessPoolExecutor(num_processes) as executor:
-            executor.map(run_task_group, group_ids, group_tasks)
+        run_task_group(gid, tasks)
     except Exception as e:
-        log.print_with_time(e)
-    finally:
-        log.print_with_time("Finishing all tasks in the pool.")
-
+        raise RuntimeError(f"Group {gid} execution failed: {e!r}")
 
 def run_task_group(task_group_id: str, task_group_items: list[RawTask]) -> None:
     """
