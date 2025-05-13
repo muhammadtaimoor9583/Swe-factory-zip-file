@@ -114,7 +114,7 @@ class TestAnalysisAgent(Agent):
         4. Invoke agent_analyze_test_log.run_with_retries(...)
         5. Return (tool_output, summary, ok)
         """
-        print_banner(f"Iteration ROUND {self.iteration_num} Try to setup docker and run tests ")
+        print_banner(f"Task {self.task.task_id} Iteration ROUND {self.iteration_num} Try to setup docker and run tests ")
         self.init_msg_thread()
         self.analysis_count += 1
         intent = FunctionCallIntent("setup_docker_and_run_test", {}, None)
@@ -123,7 +123,7 @@ class TestAnalysisAgent(Agent):
             # fail to build image. go to dockefile refine.
             print_acr(
                 'Build Image Failure!',
-                f"Iteration ROUND {self.iteration_num}  test analysis",
+                f"Task {self.task.task_id} Iteration ROUND {self.iteration_num}  test analysis",
                 print_callback=print_callback,
             )
             error_in_building_dockerfile = f'We can not run tests successfully, cause we encounter some errors when building dockerfile. As follows:\n{tool_output}\n\n'
@@ -131,7 +131,7 @@ class TestAnalysisAgent(Agent):
         elif success:
             print_acr(
                 'Build Image Successfully!',
-                f"Iteration ROUND {self.iteration_num}  test analysis ",
+                f"Task {self.task.task_id} Iteration ROUND {self.iteration_num}  test analysis ",
                 print_callback=print_callback,
             )
             test_log = self.get_test_log_with_line_numbers()
@@ -145,8 +145,8 @@ class TestAnalysisAgent(Agent):
         # if test log show that it fails, we go to plan for futrure directions
         # judge whether achieve the goal, if not planning for the work in the next stage.
         print_acr(
-                f'Iteration ROUND {self.iteration_num}  Try to analyze the test log ',
-                f"Iteration ROUND {self.iteration_num}  test analysis round ",
+                f'Task {self.task.task_id} Iteration ROUND {self.iteration_num}  Try to analyze the test log ',
+                f"Task {self.task.task_id} Iteration ROUND {self.iteration_num}  test analysis round ",
                 print_callback=print_callback,
             )
             

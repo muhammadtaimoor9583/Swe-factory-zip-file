@@ -131,7 +131,7 @@ class ContextRetrievalAgent(Agent):
             # save current state before starting a new round
             self.msg_thread.save_to_file(conversation_file)
 
-            print_banner(f"Iteration ROUND {self.iteration_num} CONTEXT RETRIEVAL ROUND {context_retrieval_round}")
+            print_banner(f"Task {self.task.task_id} Iteration ROUND {self.iteration_num} CONTEXT RETRIEVAL ROUND {context_retrieval_round}")
 
             print_acr(
                 # prompt,

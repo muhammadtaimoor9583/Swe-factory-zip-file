@@ -31,10 +31,11 @@ class WriteEvalScriptAgent(Agent):
         self.output_dir = os.path.abspath(output_dir)
         self.test_patch = self.task.test_patch
         self.test_files = self.get_test_files()
-        self.initial_skeleton = self.get_eval_script_skeleton()
+        self.initial_skeleton = self.get_initial_eval_script_skeleton()
         self.run_count = 0
         self.repo_basic_info = repo_basic_info
         self.reference_setup = None
+        self.dockerfile = None
         self.init_msg_thread()
 
 
@@ -52,7 +53,7 @@ class WriteEvalScriptAgent(Agent):
             reference_text = (
                 f"A Eval script from a closely related version ({reference_version}) of the same repository "
                 f"successfully run the target tests. You can refer to it as guidance:\n\n"
-                f"Dockerfile:\n{reference_eval_script}"
+                f"Eval Script:\n{reference_eval_script}"
             )
             self.add_user_message(reference_text)
         
@@ -62,7 +63,7 @@ class WriteEvalScriptAgent(Agent):
 
     
         
-    def get_eval_script_skeleton(self):
+    def get_initial_eval_script_skeleton(self):
         HEREDOC_DELIMITER = "EOF_114329324912"
         test_files = self.test_files
         reset_test_files = ['"' + t + '"' for t in test_files]
@@ -97,7 +98,7 @@ class WriteEvalScriptAgent(Agent):
     def get_latest_eval_script(self) -> str:
         eval_script = None
         try:
-            eval_script_path = f'{self.get_latest_write_eval_script_output_dir()}/eval.sh'
+            eval_script_path = f'{self.get_latest_write_output_dir()}/eval.sh'
             with open(eval_script_path, 'r') as file:
                 eval_script = file.read()
         except Exception as e:
@@ -112,7 +113,7 @@ class WriteEvalScriptAgent(Agent):
         Generate or modify the evaluation script based on the shared message_thread.
         Returns raw_output, summary, success.
         """
-        print_banner(f"Iteration ROUND {self.iteration_num}: Eval Script Generation ")
+        print_banner(f"Task {self.task.task_id} Iteration ROUND {self.iteration_num}: Eval Script Generation ")
         self.run_count += 1
         prev_dir = os.path.join(self.output_dir, f"output_eval_script_{self.run_count - 1}")
         curr_dir = os.path.join(self.output_dir, f"output_eval_script_{self.run_count}")
@@ -121,15 +122,19 @@ class WriteEvalScriptAgent(Agent):
         prev_script = os.path.join(prev_dir, 'eval.sh')
         prev_skel = os.path.join(prev_dir, 'eval_skeleton.sh')
         # decide create vs modify
+        dockerfile_msg = f'The dockerfile environment you are running tests on:\n{self.dockerfile}\n\n'
         if os.path.exists(prev_script):
             # modify: use only skeleton to prompt changes
-            skeleton = self.get_latest_skeleton()
+            self.add_user_message(dockerfile_msg)
+            msg_prev_eval_script = f'Previous generated eval script skeleton (Test patch omitted because of its long length):\n{self.get_latest_eval_script_skeleton()}\n\n'
+            self.add_user_message(msg_prev_eval_script)
             modify_prompt = """Please modify current eval script according to collected information. 
             Return modified eval script in defined format. Wrap results in <script></script>.
             """
             self.add_user_message(modify_prompt)
         else:
             # initial: provide skeleton
+            self.add_user_message(dockerfile_msg)
             self.add_user_message(write_eval_script_utils.get_user_prompt_init_eval_script(self.initial_skeleton))
 
         task_output = write_eval_script_utils.write_eval_script_with_retries(
