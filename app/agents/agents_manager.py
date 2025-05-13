@@ -11,13 +11,45 @@ from datetime import datetime
 from app.model import common
 from os.path import join as pjoin
 from loguru import logger
+from packaging import version
 import json
+import random
+from filelock import FileLock
+
 DIFF_MODIFIED_FILE_REGEX = r"--- a/(.*)"
+def normalize_version(ver_str):
+    match = re.search(r"(\d+(?:\.\d+){0,2})", ver_str)
+    return match.group(1) if match else ver_str
+
+def get_closest_version_info(records, repo, target_version):
+    same_repo = [r for r in records if r.get('repo') == repo]
+    if not same_repo:
+        return None
+    ver_map = {r['version']: normalize_version(r['version']) for r in same_repo}
+    try:
+        sorted_list = sorted(same_repo, key=lambda r: version.parse(ver_map[r['version']]))
+        target_parsed = version.parse(normalize_version(target_version))
+    except Exception:
+        sorted_list = sorted(same_repo, key=lambda r: r['version'])
+        target_parsed = normalize_version(target_version)
+    exact_matches = [r for r in same_repo if r['version'] == target_version]
+    if exact_matches:
+        return random.choice(exact_matches)
+    candidates = [r for r in sorted_list if version.parse(ver_map[r['version']]) <= target_parsed]
+    return random.choice(candidates) if candidates else None
+
 class AgentsManager:
     """
     Simple manager to orchestrate LLM-based agents.
     """
-    def __init__(self, task: Task, output_dir: str, client: docker.DockerClient, start_time: datetime, max_iteration_num: int):
+    def __init__(self, 
+                task: Task, 
+                output_dir: str,
+                client: docker.DockerClient, 
+                start_time: datetime, 
+                max_iteration_num: int,
+                results_path:str
+                ):
         self.task = task
         self.output_dir = os.path.abspath(output_dir)
         self.run_count = 0
@@ -36,6 +68,13 @@ class AgentsManager:
             "context_retrieval_agent": ContextRetrievalAgent(task, output_dir, self.repo_basic_info),
         }
         self.set_agent_status('all',False)
+        self.results_file = f'{results_path}/results.json'
+        lock_path = self.results_file + '.lock'
+        self.lock = FileLock(lock_path, timeout=30)
+        with self.lock:
+            if not os.path.exists(self.results_file):
+                with open(self.results_file, 'w') as f:
+                    json.dump([], f, indent=2)
 
     def set_agent_status(self, agent_name: str, status: bool):
         """Set the status of an agent to control if it's active or inactive."""
@@ -98,6 +137,22 @@ class AgentsManager:
         with open(pjoin(task_output_dir, "cost.json"), "w") as f:
             json.dump(stats, f, indent=4)
 
+    def _read_results(self) -> list:
+        with self.lock:
+            with open(self.results_file, "r") as f:
+                return json.load(f)
+
+    def _write_results(self, records: list) -> None:
+        tmp = self.results_file + ".tmp"
+        with self.lock:
+            with open(tmp, "w") as f:
+                json.dump(records, f, indent=2)
+            os.replace(tmp, self.results_file)
+
+    def get_latest_reference_setup_for_repo(self):
+        records = self._read_results()
+        return get_closest_version_info(records, self.task.repo_name, self.task.version)
+
     def run_workflow(self) -> None:
         for iteration_num in range(self.max_iteration_num):
             self.set_agents_iteration_num(iteration_num)
@@ -108,8 +163,12 @@ class AgentsManager:
                     self.set_agent_status("context_retrieval_agent",True)
                     self.agents_dict['write_eval_script_agent'].add_user_message(collected_information)
                     self.agents_dict['write_docker_agent'].add_user_message(collected_information)
-                    self.agents_dict['context_retrieval_agent'].init_msg_thread()
-                
+                    
+            reference_setup = self.get_latest_reference_setup_for_repo()
+            if reference_setup:
+                self.agents_dict['write_docker_agent'].add_reference_message(reference_setup)
+                self.agents_dict['write_eval_script_agent'].add_reference_message(reference_setup)
+
             if self.get_agent_status("context_retrieval_agent") and not self.get_agent_status("write_docker_agent"):
                 _, _, success =  self.agents_dict['write_docker_agent'].run_task()
                 self.dump_cost()
@@ -169,7 +228,7 @@ class AgentsManager:
 
         dockerfile_content = self.agents_dict['write_docker_agent'].get_latest_dockerfile()
         eval_script_content = self.agents_dict['write_eval_script_agent'].get_latest_eval_script()
-
+        eval_script_skeleton_content = self.agents_dict['write_eval_script_agent'].get_latest_eval_script_skeleton()
         if dockerfile_content and eval_script_content:
             with open(os.path.join(self.output_dir, "Dockerfile"), "w") as dockerfile_f:
                 dockerfile_f.write(dockerfile_content)
@@ -181,4 +240,16 @@ class AgentsManager:
 
         with open(os.path.join(self.output_dir, "status.json"), "w") as status_file_f:
                 json.dump({"is_finish": self.workflow_finish_status}, status_file_f)
+
+        if self.workflow_finish_status:
+            recs = self._read_results()
+            recs.append({
+                "repo":self.task.repo_name,
+                "instance_id": getattr(self.task, "task_id", None),
+                "version": getattr(self.task, "version", None),
+                "dockerfile": dockerfile_content ,
+                "eval_script":  eval_script_content,
+                "eval_script_skeleton": eval_script_skeleton_content
+            })
+            self._write_results(recs)
         
