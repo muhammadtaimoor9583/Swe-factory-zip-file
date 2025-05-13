@@ -47,16 +47,21 @@ class WriteEvalScriptAgent(Agent):
         self.msg_thread = MessageThread()
         self.add_system_message(write_eval_script_utils.get_system_prompt_eval_script())
         self.add_user_message(self.repo_basic_info)
-        if self.reference_setup:
-            reference_version = self.reference_setup['version']
-            reference_eval_script = self.reference_setup['eval_script']
-            reference_text = (
-                f"A Eval script from a closely related version ({reference_version}) of the same repository "
-                f"successfully run the target tests. You can refer to it as guidance:\n\n"
-                f"Eval Script:\n{reference_eval_script}"
-            )
-            self.add_user_message(reference_text)
         
+        
+    def add_reference_message(self, reference_setup: dict) -> None:
+        version = reference_setup.get('version', 'unknown')
+        skeleton = reference_setup.get('eval_script_skeleton', '')
+        reference_text = (
+            f"I've pulled an eval script skeleton from version {version} of this repo that worked well in a similar context. "
+            "This is provided purely as a reference—if its structure and commands align with your current environment, you may "
+            "adapt parts of it to save time; otherwise, feel free to adjust or ignore it. "
+            "Note that the full test_patch is quite long and has been omitted here to conserve space:\n\n"
+            f"{skeleton}"
+        )
+        self.add_user_message(reference_text)
+
+
 
     def get_latest_write_output_dir(self) -> str:
         return os.path.join(self.output_dir, f"output_eval_script_{self.run_count}")
@@ -159,4 +164,5 @@ class WriteEvalScriptAgent(Agent):
         eval_script_output_dir = self.get_latest_write_output_dir()
         conversation_file = pjoin(eval_script_output_dir, f"conversation.json")
         self.msg_thread.save_to_file(conversation_file)
+        self.init_msg_thread()
         return task_output, summary, ok

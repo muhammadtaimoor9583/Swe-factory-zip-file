@@ -115,7 +115,7 @@ class TestAnalysisAgent(Agent):
         5. Return (tool_output, summary, ok)
         """
         print_banner(f"Task {self.task.task_id} Iteration ROUND {self.iteration_num} Try to setup docker and run tests ")
-        self.init_msg_thread()
+        
         self.analysis_count += 1
         intent = FunctionCallIntent("setup_docker_and_run_test", {}, None)
         tool_output, _, success = self.dispatch_intent(intent)
@@ -165,6 +165,7 @@ class TestAnalysisAgent(Agent):
         #need to save analysis into json file
         conversation_file = pjoin(test_log_output_dir, f"conversation.json")
         self.msg_thread.save_to_file(conversation_file)
+        self.init_msg_thread()
         return task_output, summary, success 
 
     

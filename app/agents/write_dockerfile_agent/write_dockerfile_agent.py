@@ -28,7 +28,6 @@ class WriteDockerfileAgent(Agent):
         self.run_count = 0
 
         self.repo_basic_info = repo_basic_info
-        self.reference_setup = None
         self.init_msg_thread()
 
 
@@ -36,15 +35,18 @@ class WriteDockerfileAgent(Agent):
         self.msg_thread = MessageThread()
         self.add_system_message(write_dockerfile_utils.get_system_prompt_dockerfile())
         self.add_user_message(self.repo_basic_info)
-        if self.reference_setup:
-            reference_version = self.reference_setup['version']
-            reference_dockerfile = self.reference_setup['dockerfile']
-            reference_text = (
-                f"A Dockerfile from a closely related version ({reference_version}) of the same repository "
-                f"successfully set up the environment. You can refer to it as guidance:\n\n"
-                f"Dockerfile:\n{reference_dockerfile}"
-            )
-            self.add_user_message(reference_text)
+
+    def add_reference_message(self, reference_setup:dict) -> None:
+        reference_version = reference_setup['version']
+        reference_dockerfile = reference_setup['dockerfile']
+        reference_text = (
+            f"I found a Dockerfile from version {reference_version} of this repo that worked well in a similar setup. "
+            "You might consider it as a reference—if its configuration aligns with your current environment, it could "
+            "save you some effort. Otherwise, feel free to adapt or disregard as needed:\n\n"
+            f"{reference_dockerfile}"
+        )
+        self.add_user_message(reference_text)
+
 
     def run_task(self, print_callback=None) -> tuple[str, str, bool]:
         """
@@ -93,6 +95,7 @@ class WriteDockerfileAgent(Agent):
         dockerfile_output_dir = self.get_latest_write_dockerfile_output_dir()
         conversation_file = pjoin(dockerfile_output_dir, f"conversation.json")
         self.msg_thread.save_to_file(conversation_file)
+        self.init_msg_thread()
         return task_output, summary, is_ok
 
     def _read_file(self, path: str) -> str:
