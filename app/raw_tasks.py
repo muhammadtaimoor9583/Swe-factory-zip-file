@@ -72,7 +72,7 @@ class RawSweTask(RawTask):
             testcases_failing=task_info["FAIL_TO_PASS"],
             language=language,
             image_urls=task_info['image_urls'],
-            reference_setup=task_info['reference_setup'],
+            # reference_setup=task_info['reference_setup'],
             version=task_info['version'],
             client = client
         )

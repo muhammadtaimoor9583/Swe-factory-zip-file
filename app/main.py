@@ -101,8 +101,8 @@ def main(args, subparser_dest_attr_name: str = "command"):
     globals.setup_dir = args.setup_dir 
     globals.augmented_issues_path = args.augmented_issues_path
     globals.get_version = args.get_version
-    globals.past_results_dir = args.past_results_dir
     globals.organize_output_only = args.organize_output_only
+    globals.results_path = args.results_path 
     
     subcommand = getattr(args, subparser_dest_attr_name)
     if subcommand == "swe-bench":
@@ -114,7 +114,7 @@ def main(args, subparser_dest_attr_name: str = "command"):
             client = None
             # try:
             tasks = make_swe_tasks(
-                args.task, args.task_list_file, args.setup_map, args.tasks_map,args.augmented_issues_path,args.enable_images, args.setup_dir,args.past_results_dir,client
+                args.task, args.task_list_file, args.setup_map, args.tasks_map,args.augmented_issues_path,args.enable_images, args.setup_dir,client
             )
 
             groups = group_swe_tasks_by_env(tasks)
@@ -177,7 +177,7 @@ def set_swe_parser_args(parser: ArgumentParser) -> None:
         help="The directory where repositories should be cloned to.",
     )
     parser.add_argument(
-        "--past-results-dir",
+        "--results-path",
         type=str,
         default=None,
         help="The directory where repositories should be cloned to.",
@@ -350,49 +350,6 @@ def add_task_related_args(parser: ArgumentParser) -> None:
 
 
 
-def normalize_version(ver_str):
-    """
-    提取版本号中的数字部分，用于排序和比较。
-    如 "v3.1" -> "3.1", "release-3.1.2" -> "3.1.2"
-    """
-    match = re.search(r'(\d+(?:\.\d+){0,2})', ver_str)
-    if match:
-        return match.group(1)
-    return ver_str  # fallback 原始字符串
-
-def get_closest_version_info(past_results_dict, repo, target_version):
-    if repo not in past_results_dict:
-        return None
-
-    versions = list(past_results_dict[repo].keys())
-    version_map = {v: normalize_version(v) for v in versions}
-
-    try:
-        parsed_versions = sorted(versions, key=lambda v: version.parse(version_map[v]))
-        target_parsed = version.parse(normalize_version(target_version))
-    except:
-        parsed_versions = sorted(versions)
-        target_parsed = target_version
-
-    # Exact match
-    if target_version in past_results_dict[repo]:
-        items = past_results_dict[repo][target_version]
-        return items[0] if items else None
-
-    # 找 <= target_version 的最近版本
-    closest = None
-    for v in parsed_versions:
-        if version.parse(version_map[v]) <= target_parsed:
-            closest = v
-        else:
-            break
-
-    if closest:
-        items = past_results_dict[repo][closest]
-        return items[0] if items else None
-    
-    return None
-
 
 def make_swe_tasks(
     task_id: str | None,
@@ -402,7 +359,6 @@ def make_swe_tasks(
     augmented_issues_path: str,
     enable_images: bool,
     setup_dir: str,
-    past_results_dir: str,
     client: docker.DockerClient,
 ) -> list[RawSweTask]:
     if task_id is not None and task_list_file is not None:
@@ -416,53 +372,6 @@ def make_swe_tasks(
     if len(all_task_ids) == 0:
         raise ValueError("No task ids to run.")
 
-    past_results = None
-    if past_results_dir:
-        past_results = []
-        if os.path.isdir(past_results_dir):
-            # Traverse the directory and its subdirectories to find all predictions.json files
-            for root, _, files in os.walk(past_results_dir):
-                for file_name in files:
-                    if file_name == "predictions.json":
-                        file_path = os.path.join(root, file_name)
-                        try:
-                            with open(file_path, 'r', encoding='utf-8') as f:
-                                data = json.load(f)
-                                if isinstance(data, list):
-                                    past_results.extend(data)
-                                else:
-                                    print(f"Warning: Content of {file_path} is not a list, skipping")
-                        except json.JSONDecodeError:
-                            print(f"Error: {file_path} is not a valid JSON format, skipping")
-                        except Exception as e:
-                            print(f"Error: Failed to read {file_path}, reason: {str(e)}, skipping")
-            if not past_results:
-                print(f"Warning: No predictions.json files found under {past_results_dir}")
-        else:
-            print(f"Warning: {past_results_dir} is not a directory, skipping loading")
-
-    past_results_dict = {}
-    past_results_list = []
-    if past_results:
-        for past_result in past_results:
-            repo = past_result['repo']
-            version = past_result['version']
-            dockerfile = past_result['dockerfile']
-            eval_script = past_result['eval_script']
-            instance_id = past_result['instance_id']
-            past_results_list.append(instance_id)
-
-            if repo not in past_results_dict:
-                past_results_dict[repo] = {}
-
-            if version not in past_results_dict[repo]:
-                past_results_dict[repo][version] = []
-
-            past_results_dict[repo][version].append({
-                'version': version,  # 冗余保留
-                'dockerfile': dockerfile,
-                'eval_script': eval_script
-            })
 
 
     with open(setup_map_file) as f:
@@ -483,13 +392,6 @@ def make_swe_tasks(
             )
         # And drop them from the list of all task ids
         all_task_ids = filter(lambda x: x not in missing_task_ids, all_task_ids)
-    if past_results_list:
-        for task_id in sorted(past_results_list):
-            log.print_with_time(
-                f"Skipping task {task_id} which was finshed."
-            )
-        # And drop them from the list of all task ids
-        all_task_ids = filter(lambda x: x not in past_results_list, all_task_ids)
 
     all_task_ids = sorted(all_task_ids)
 
@@ -510,12 +412,7 @@ def make_swe_tasks(
         task_info = tasks_map[task_id]
         task_start_time_s = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         task_repo_name = f'{task_id}_{task_start_time_s}'
-        github_link = f'https://github.com/{task_info['repo']}.git'
-        commit_hash = task_info['base_commit']
-      
         task_repo_dir =  pjoin(setup_dir,task_repo_name)
-        reference_setup = get_closest_version_info(past_results_dict, task_info['repo'], task_info['version'])
-        task_info['reference_setup'] = reference_setup
         apputils.create_dir_if_not_exists(task_repo_dir)
 
         setup_info['repo_path'] = task_repo_dir
@@ -816,7 +713,7 @@ def do_inference(
 
             
         else:
-            agents_manager = AgentsManager(python_task, task_output_dir,client,start_time,globals.conv_round_limit)
+            agents_manager = AgentsManager(python_task, task_output_dir,client,start_time,globals.conv_round_limit,globals.results_path)
             agents_manager.run_workflow()
             run_ok = True
         end_time = datetime.now()

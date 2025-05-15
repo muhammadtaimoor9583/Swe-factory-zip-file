@@ -249,7 +249,8 @@ class AgentsManager:
                 "version": getattr(self.task, "version", None),
                 "dockerfile": dockerfile_content ,
                 "eval_script":  eval_script_content,
-                "eval_script_skeleton": eval_script_skeleton_content
+                "eval_script_skeleton": eval_script_skeleton_content,
+                "model_name_or_path":common.SELECTED_MODEL.name,
             })
             self._write_results(recs)
         

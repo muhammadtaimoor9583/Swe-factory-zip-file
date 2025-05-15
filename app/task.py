@@ -67,7 +67,7 @@ class SweTask(Task):
     testcases_failing: list[str]
     language: str
     image_urls: list[str]
-    reference_setup: dict
+    # reference_setup: dict
     version: str
     client: DockerClient
     @property
