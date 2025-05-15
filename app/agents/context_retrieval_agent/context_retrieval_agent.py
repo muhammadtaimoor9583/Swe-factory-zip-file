@@ -74,14 +74,19 @@ class ContextRetrievalAgent(Agent):
         """
         return self.repo_browse_manager.search_files_by_keyword(keyword)
 
-    def browse_file_for_environment_info(self, file_path: str) -> tuple[str, str, bool]:
-        """Browse a file and extract environment setup information.
-        
+    def browse_file_for_environment_info(self, file_path: str, custom_query: str) -> tuple[str, str, bool]:
+        """
+        Browse a file and extract environment setup information, with an optional custom query.
+
         Args:
             file_path: The path to the file to browse, relative to the project root.
-            
+            custom_query: A free‐form string describing what extra information the agent should look for
+                          (e.g. 'pom.xml dependency versions', 'custom test profiles', etc.).
+
         Returns:
-            A string containing extracted environment setup info.
+            extracted_info: Detailed info extracted from the file.
+            summary:      A brief summary of the findings.
+            success:      Whether extraction succeeded.
         """
         # Ensure file_path is correctly adjusted to be relative to project root
         
@@ -90,8 +95,8 @@ class ContextRetrievalAgent(Agent):
             if not file_path.startswith(self.task.project_path):
                 file_path = pjoin(self.task.project_path, file_path)
             # Attempt to extract the environment setup information from the file
-            # 如果想返回 (info: str, summary: str, success: bool)：
-            extracted_info, summary, success = self.repo_browse_manager.browse_file_for_environment_info(file_path)
+            
+            extracted_info, summary, success = self.repo_browse_manager.browse_file_for_environment_info(file_path,custom_query)
             return extracted_info, summary, success
 
 

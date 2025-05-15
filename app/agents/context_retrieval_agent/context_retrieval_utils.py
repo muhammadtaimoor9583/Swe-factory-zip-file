@@ -202,7 +202,7 @@ class RepoBrowseManager:
         except requests.exceptions.RequestException as e:
             raise ValueError(f"Failed to fetch web content: {str(e)}")
         
-    def browse_file_for_environment_info(self, file_path: str) -> tuple[str, str, bool]:
+    def browse_file_for_environment_info(self, file_path: str, custom_query: str = "") -> tuple[str, str, bool]:
         """Browse a file and extract environment setup information.
         
         Args:
@@ -219,7 +219,7 @@ class RepoBrowseManager:
             logger.info(f"{file_content}")
             file_content = f"The content of {file_path} is:\n"+file_content 
             # Step 2: Use LLM to extract environment information
-            extracted_info = browse_file_run_with_retries(file_content)
+            extracted_info = browse_file_run_with_retries(file_content, custom_query)
 
             # Step 3: Return extracted information
             return extracted_info,'Get File Info', True
@@ -284,7 +284,11 @@ The text will consist of two parts:
      - You should extract detailed collected information form analyssis of the context retrieval agent. This information will be used by other agent.
    - Otherwise, set `"terminate": false` and provide all collected details.
 
+API List:
 
+- browse_folder(path: str, depth: str): Browse and return the folder structure for a given path in the repository.  The depth is a string representing a number of folder levels to include in the output such as ``1''. 
+- browse_file_for_environment_info(file_path: str, custom_query: str): Call an agent to browse a file such as README or CONTRIBUTING.md and extract environment setup and running tests information. Use the `custom_query` parameter to tell the agent any extra details it should pay special attention to (for example, 'pom.xml dependency versions').
+- search_files_by_keyword(keyword: str): Search for files in the repository whose names contain the given keyword.
 
 ### **IMPORTANT RULES**:
 - **Extract all relevant API calls from the text**:
@@ -422,11 +426,22 @@ def extract_json_from_response(res_text: str):
 
 
 BROWSE_CONTENT_PROMPT = """
-You are a file content browsing and analysis agent. Your task is to analyze the provided input (which may be a file or webpage content) and extract any information relevant to setting up the project's environment and running tests.
+You are an autonomous file-browsing and analysis agent. Now the user gives you a file, your overall mission is:
+1. To review the given file content.
+2. To extract any details necessary for setting up the project's environment and running its test suite.
+3. To pay special attention to contents realted to custom query of user.
 
-Return the result enclosed within <analysis></analysis> tags, in free-text format:
+Primary objectives:
+- Identify libraries, packages, and their versions.
+- List any environment variables or configuration files.
+- Extract the exact commands or scripts used to run tests, including flags/options.
+- Note any prerequisites (e.g., required OS packages, language runtimes).
 
-Keep it concise and human-readable for end-users, ensuring to preserve the original format of values where applicable.
+Formatting rules:
+- Return your answer enclosed within `<analysis></analysis>` tags.
+- Use bullet lists for clarity.
+- Keep it concise and human-readable.
+- Preserve original value formats (e.g., version strings, paths, flags).
 
 Example format:
 <analysis>
@@ -449,13 +464,13 @@ Testing:
 </analysis>
 """
 
-def browse_file_run_with_retries(content: str, retries=3) -> str | None:
+def browse_file_run_with_retries(content: str, custom_query: str, retries: int=3) -> str | None:
     """Run file content analysis with retries and return the parsed <analysis> content."""
     parsed_result=None
     for idx in range(1, retries + 1):
         logger.debug("Analyzing file content. Try {} of {}", idx, retries)
         
-        res_text, _ = browse_file_run(content)
+        res_text, _ = browse_file_run(content, custom_query)
 
         # Extract <analysis> content if valid
         parsed_result = parse_analysis_tags(res_text)
@@ -475,12 +490,12 @@ def browse_file_run_with_retries(content: str, retries=3) -> str | None:
         return 'Do not get the content of the file.'
 
 
-def browse_file_run(content: str) -> tuple[str, MessageThread]:
+def browse_file_run(content: str, custom_query: str) -> tuple[str, MessageThread]:
     """Run the simplified content analysis agent."""
     msg_thread = MessageThread()
     msg_thread.add_system(BROWSE_CONTENT_PROMPT)
-    msg_thread.add_user(f"File content:\n{content}")  # Truncate to prevent overflow
-    
+    msg_thread.add_user(f"File content:\n{content}\n")  # Truncate to prevent overflow
+    msg_thread.add_user(f"Custom query from user:\n{custom_query}\n") 
     res_text, *_ = common.SELECTED_MODEL.call(
         msg_thread.to_msg()
     )
@@ -535,7 +550,7 @@ Your objective is to ensure that the necessary environment is in place and that 
 USER_PROMPT = (
         "Your task is to gather sufficient context from the repository and external sources to understand how to set up the project's environment. To achieve this, you can use the following APIs to browse and extract relevant information:"
         "\n- browse_folder(path: str, depth: str): Browse and return the folder structure for a given path in the repository.  The depth is a string representing a number of folder levels to include in the output such as ``1''. "
-        "\n- browse_file_for_environment_info(file_path: str): Browse a file such as README or CONTRIBUTING.md and extract environment setup and running tests information."
+        "\n- browse_file_for_environment_info(file_path: str, custom_query: str): Call an agent to browse a file such as README or CONTRIBUTING.md and extract environment setup and running tests information. Use the `custom_query` parameter to tell the agent any extra details it should pay special attention to (for example, 'pom.xml dependency versions')."
         "\n- search_files_by_keyword(keyword: str): Search for files in the repository whose names contain the given keyword."
         "\n\nYou may invoke multiple APIs in one round as needed to gather the required information."
         "\n\nNow analyze the repository and use the necessary APIs to gather the information required to understand and set up the environment. Ensure each API call has concrete arguments as inputs."
