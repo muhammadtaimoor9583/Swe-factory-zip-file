@@ -64,7 +64,7 @@ class WriteEvalScriptAgent(Agent):
 
 
     def get_latest_write_output_dir(self) -> str:
-        return os.path.join(self.output_dir, f"output_eval_script_{self.run_count}")
+        return os.path.join(self.output_dir, f"write_eval_script_agent_{self.run_count}")
 
     
         
@@ -119,9 +119,10 @@ class WriteEvalScriptAgent(Agent):
         Returns raw_output, summary, success.
         """
         print_banner(f"Task {self.task.task_id} Iteration ROUND {self.iteration_num}: Eval Script Generation ")
+        
+        prev_dir = self.get_latest_write_output_dir()
         self.run_count += 1
-        prev_dir = os.path.join(self.output_dir, f"output_eval_script_{self.run_count - 1}")
-        curr_dir = os.path.join(self.output_dir, f"output_eval_script_{self.run_count}")
+        curr_dir = self.get_latest_write_output_dir()
         os.makedirs(curr_dir, exist_ok=True)
 
         prev_script = os.path.join(prev_dir, 'eval.sh')
@@ -164,5 +165,5 @@ class WriteEvalScriptAgent(Agent):
         eval_script_output_dir = self.get_latest_write_output_dir()
         conversation_file = pjoin(eval_script_output_dir, f"conversation.json")
         self.msg_thread.save_to_file(conversation_file)
-        self.init_msg_thread()
+        # self.init_msg_thread()
         return task_output, summary, ok

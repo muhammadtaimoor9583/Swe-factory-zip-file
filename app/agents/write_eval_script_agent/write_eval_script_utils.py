@@ -74,7 +74,7 @@ The script must execute the provided test files inside the specified Docker envi
     -Example structure:
     git apply -v - <<'EOF_114329324912'\n[CONTENT OF TEST PATCH]\nEOF_114329324912
 
-
+6. You MUST capture the exit code immediately after running the tests using ``rc=$? '', and then echo: ``OMNIGRIL_EXIT_CODE=$rc''. This ensures the judge can determine whether the tests passed successfully.
 
 Eval script skeleton:
 {eval_script_skeleton}
@@ -94,6 +94,8 @@ git apply -v - <<'EOF_114329324912'
 [CONTENT OF TEST PATCH]
 EOF_114329324912
 pytest --no-header -rA --tb=no -p no:cacheprovider -n4 mypy/test/testcheck.py::TypeCheckSuite::check-functions.test mypy/test/testcheck.py::TypeCheckSuite::check-redefine.test
+rc=$?            #Required, save exit code\n 
+echo "OMNIGRIL_EXIT_CODE=$rc" #Required, echo test status
 git checkout 6de254ef00f99ce5284ab947f2dd1179db6d28f6 "test-data/unit/check-functions.test" "test-data/unit/check-redefine.test"
 </script>
 """
