@@ -105,6 +105,7 @@ Given the test log and the target tests, analyze the results and determine the n
 - Sometimes, tests may fail due to incorrect versions of specific dependencies. Be sure to check the versions of critical dependencies to ensure compatibility.
 - If there are missing dependencies or unknown errors, consider whether additional context retrieval is required.
 - Tests should not be run in the Dockerfile**; skip tests during environment setup and run them in the evaluation script.
+- Note that the eval script MUST catch exit code after running tests, and echo "OMNIGRIL_EXIT_CODE=$rc". This is important for judge whether tests are run successfully.
 
 ### **Step 3: Plan Corrective Actions**
 - If a fix is needed in the **Dockerfile**, provide guidance to `write_dockerfile_agent` on how to fix it.
@@ -124,7 +125,7 @@ Provide your answer in JSON format:
 
 **Important Notes:**
 - If `is_finish` is `true`, all guidance fields can be empty.
-- Be specific in your guidance, providing detailed steps for the necessary fixes. Only provide guidance to the relevant agent based on the actual issue.
+- Be specific in your guidance, providing detailed steps for the necessary fixes. Only provide guidance to the relevant agent based on the actual issue. For any agent not called, its guidance field must be empty. 
 """
 
 
