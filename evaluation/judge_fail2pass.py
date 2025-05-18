@@ -1,4 +1,5 @@
 import os
+import re
 import json
 import argparse
 import multiprocessing
@@ -25,6 +26,8 @@ _process_local_client = None
 _process_local_api_key_used = None
 _process_local_base_url_used = None
 
+# Regex for exit code detection
+EXIT_CODE_RE = re.compile(r"echo OMNIGRIL_EXIT_CODE=(\d)")
 
 def truncate_content(content, subdir):
     """
@@ -40,6 +43,12 @@ def truncate_content(content, subdir):
     print(f"[{subdir}][Process {os.getpid()}] Content truncated: {omitted} lines omitted.")
     return "\n".join(head_part + [notice] + tail_part)
 
+def extract_exit_code(content):
+    """
+    Extract OMNIGRIL_EXIT_CODE from content. Returns int or None.
+    """
+    m = EXIT_CODE_RE.search(content)
+    return int(m.group(1)) if m else None
 
 def get_openai_client(api_key_for_init, base_url_for_init):
     """
@@ -54,7 +63,6 @@ def get_openai_client(api_key_for_init, base_url_for_init):
         _process_local_api_key_used = api_key_for_init
         _process_local_base_url_used = base_url_for_init
     return _process_local_client
-
 
 def check_fail2pass_with_llm(prev_content, after_content, model_name, api_key, base_url, subdir, max_retries=3):
     """
@@ -96,7 +104,6 @@ File 2 (after patch):
                 temperature=0.0,
                 max_tokens=5
             )
-            # Extract usage tokens
             usage = getattr(resp, 'usage', None) or resp.get('usage', {})
             tokens = usage.total_tokens if hasattr(usage, 'total_tokens') else usage.get('total_tokens', 0)
             total_tokens += tokens
@@ -111,7 +118,6 @@ File 2 (after patch):
         time.sleep(2 ** attempt)
     print(f"[{subdir}][Process {os.getpid()}] Persistent API errors; will retry on next run.")
     return None, total_tokens
-
 
 def process_subdirectory(args_tuple):
     """
@@ -137,15 +143,36 @@ def process_subdirectory(args_tuple):
             json.dump(data, f, indent=2)
         return data
 
+    # Read raw outputs (do not strip here, to preserve exit code lines)
     try:
-        prev = open(prev_path, encoding="utf-8", errors="ignore").read().strip()
-        after = open(after_path, encoding="utf-8", errors="ignore").read().strip()
+        prev = open(prev_path, encoding="utf-8", errors="ignore").read()
+        after = open(after_path, encoding="utf-8", errors="ignore").read()
     except Exception as e:
         print(f"[{subdir}][Process {os.getpid()}] File read error: {e}")
         return None
 
-    if prev and after:
-        result, tokens = check_fail2pass_with_llm(prev, after, model_name, api_key, base_url, subdir)
+    # --- New: exit code based quick check ---
+    prev_exit = extract_exit_code(prev)
+    after_exit = extract_exit_code(after)
+    if prev_exit is not None and after_exit is not None:
+        if prev_exit == 1 and after_exit == 0:
+            # fail->pass by exit code
+            status_data = {"status": "success", "tokens": 0}
+            with open(status_path, 'w', encoding='utf-8') as f:
+                json.dump(status_data, f, indent=2)
+            return status_data
+        # else: fall through to LLM check
+    # ---------------------------------------
+
+    # Strip for LLM/truncation logic
+    prev_stripped = prev.strip()
+    after_stripped = after.strip()
+
+    if prev_stripped and after_stripped:
+        # result, tokens = check_fail2pass_with_llm(prev_stripped, after_stripped,
+        #                                           model_name, api_key, base_url, subdir)
+        result = False
+        tokens = 0
         if result is None:
             return None
         status = "success" if result else "failure"
@@ -161,13 +188,12 @@ def process_subdirectory(args_tuple):
         print(f"[{subdir}][Process {os.getpid()}] Write status error: {e}")
     return status_data
 
-
 def main():
     parser = argparse.ArgumentParser(
         description="Detect fail2pass with token tracking and retry logic."
     )
     parser.add_argument("target_folder", help="Top-level folder to scan.")
-    parser.add_argument("--model", default="gpt-3.5-turbo", help="OpenAI model name.")
+    parser.add_argument("--model", default="gpt-4.1-mini", help="OpenAI model name.")
     parser.add_argument("--processes", type=int, default=20, help="Worker processes count.")
     args = parser.parse_args()
 
