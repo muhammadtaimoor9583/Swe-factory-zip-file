@@ -69,6 +69,8 @@ The Dockerfile must ensure that the provided test files can be executed correctl
 6. DO NOT run tests in the Dockerfile**.  
    - Do not include commands like `npm test`, `pytest`, or `mvn test` in the Dockerfile.  
    - Tests will be executed separately, and running them during the Docker build stage is an unnecessary overhead.
+   - You can skip tests during environment setup because this is not your job.
+
 7. If there is a reference Dockerfile, use it as a guideline.   
 8. Do not use ENTRYPOINT.
 9. Please install necessary essential tools and libraries required for development and runtime, such as git etc.

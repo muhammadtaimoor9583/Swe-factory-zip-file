@@ -55,10 +55,10 @@ class WriteDockerfileAgent(Agent):
         """
         # 1. Determine previous vs current output paths
         print_banner(f"Iteration ROUND {self.iteration_num}: Dockerfile Generation ")
-        prev_dir = os.path.join(self.output_dir, f"output_dockerfile_{self.run_count}")
+        prev_dir = self.get_latest_write_dockerfile_output_dir()
         prev_file = os.path.join(prev_dir, 'Dockerfile')
         self.run_count += 1
-        curr_dir = os.path.join(self.output_dir, f"output_dockerfile_{self.run_count}")
+        curr_dir = self.get_latest_write_dockerfile_output_dir()
         os.makedirs(curr_dir, exist_ok=True)
 
         # 2. Inject either modify or init prompt
@@ -95,7 +95,7 @@ class WriteDockerfileAgent(Agent):
         dockerfile_output_dir = self.get_latest_write_dockerfile_output_dir()
         conversation_file = pjoin(dockerfile_output_dir, f"conversation.json")
         self.msg_thread.save_to_file(conversation_file)
-        self.init_msg_thread()
+        # self.init_msg_thread()
         return task_output, summary, is_ok
 
     def _read_file(self, path: str) -> str:
@@ -109,7 +109,7 @@ class WriteDockerfileAgent(Agent):
         """
         Return the directory of the most recent Dockerfile outputs.
         """
-        return os.path.join(self.output_dir, f"output_dockerfile_{self.run_count}")
+        return os.path.join(self.output_dir, f"write_dockerfile_agent_{self.run_count}")
 
     def get_latest_dockerfile(self) -> str:
         """
