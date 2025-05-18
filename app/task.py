@@ -55,6 +55,7 @@ class SweTask(Task):
     task_id: str
     problem_statement: str
     repo_path: str
+    repo_cache_path: str
     commit: str
     env_name: str
     repo_name: str

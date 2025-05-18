@@ -7,7 +7,7 @@ from os.path import dirname as pdirname
 from os.path import join as pjoin
 from pathlib import Path
 from subprocess import CalledProcessError
-
+import shutil
 from app.log import log_and_print
 
 
@@ -110,10 +110,16 @@ def clone_repo_and_checkout(
         - path to the newly cloned directory.
     """
     # cloned_dir = 
-    clone_repo(clone_link, cloned_dir)
-    checkout_cmd = ["git", "checkout", commit_hash]
-    with cd(cloned_dir):
-        run_command(checkout_cmd)
+    if clone_link.endswith('.git'):
+        clone_repo(clone_link, cloned_dir)
+    else:
+        if os.path.isdir(cloned_dir):
+            shutil.rmtree(cloned_dir)
+        shutil.copytree(clone_link, cloned_dir)
+    if commit_hash != "":
+        checkout_cmd = ["git", "checkout", commit_hash]
+        with cd(cloned_dir):
+            run_command(checkout_cmd)
     # return cloned_dir
 
 def get_version_by_git(cloned_dir:str)-> str:

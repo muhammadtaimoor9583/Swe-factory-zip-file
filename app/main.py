@@ -102,7 +102,7 @@ def main(args, subparser_dest_attr_name: str = "command"):
     globals.augmented_issues_path = args.augmented_issues_path
     globals.organize_output_only = args.organize_output_only
     globals.results_path = args.results_path 
-    globals.disable_memory_pool = args.disable_memory_tool
+    globals.disable_memory_pool = args.disable_memory_pool
     
     subcommand = getattr(args, subparser_dest_attr_name)
     if subcommand == "swe-bench":
@@ -411,13 +411,23 @@ def make_swe_tasks(
         setup_info = setup_map[task_id]
         task_info = tasks_map[task_id]
         task_start_time_s = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        repo_cache_name = f'{task_info['repo']}_cache'
+        repo_cache_dir =  pjoin(setup_dir,repo_cache_name)
+        if not os.path.isdir(repo_cache_dir):
+            github_link = f"https://github.com/{task_info['repo']}.git"
+            apputils.clone_repo_and_checkout(github_link, "", repo_cache_dir)
+        else:
+            # 可以在这里打印日志或直接跳过
+            print(f"Cache already exists: {repo_cache_dir}, skip clone.")
         task_repo_name = f'{task_id}_{task_start_time_s}'
         task_repo_dir =  pjoin(setup_dir,task_repo_name)
         apputils.create_dir_if_not_exists(task_repo_dir)
 
         setup_info['repo_path'] = task_repo_dir
+        setup_info['repo_cache_path'] = repo_cache_dir
         task = RawSweTask(task_id, setup_info, task_info,client)
         all_tasks.append(task)
+    # input()
     return all_tasks
 
 
@@ -677,9 +687,9 @@ def do_inference(
 ) -> bool:
     client = docker.from_env()
     apputils.create_dir_if_not_exists(task_output_dir)
-    github_link = f'https://github.com/{python_task.repo_name}.git'
+    # github_link = f'https://github.com/{python_task.repo_name}.git'
     commit_hash = python_task.commit
-    apputils.clone_repo_and_checkout(github_link,commit_hash,python_task.project_path)
+    apputils.clone_repo_and_checkout(python_task.repo_cache_path,commit_hash,python_task.project_path)
     logger.add(
         pjoin(task_output_dir, "info.log"),
         level="DEBUG",

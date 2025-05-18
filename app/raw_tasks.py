@@ -58,6 +58,7 @@ class RawSweTask(RawTask):
             task_id=task_id,
             problem_statement=task_info["problem_statement"],
             repo_path=setup_info["repo_path"],
+            repo_cache_path=setup_info["repo_cache_path"],
             env_name=setup_info["env_name"],
             pre_install_cmds=setup_info["pre_install"],
             install_cmd=setup_info["install"],
