@@ -491,9 +491,9 @@ def make_test_spec(instance: SWEbenchInstance,predictions: dict,language = 'pyth
     problem_statement = instance["problem_statement"]
     hints_text = instance["hints_text"]  # Unused
     test_patch = instance["test_patch"]
-    patch = predictions['patch']
-    eval_script = predictions['eval_script']
-    dockerfile = predictions['dockerfile']
+    patch = predictions['model_patch']
+    eval_script = instance['eval_script']
+    dockerfile = instance['dockerfile']
 
 
 

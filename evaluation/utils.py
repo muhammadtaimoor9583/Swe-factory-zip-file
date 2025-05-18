@@ -37,6 +37,8 @@ class SWEbenchInstance(TypedDict):
     FAIL_TO_PASS: str
     PASS_TO_PASS: str
     environment_setup_commit: str
+    dockerfile: str
+    eval_script: str
 
 def load_omnigirl_dataset(name="princeton-nlp/SWE-bench", split="test") -> list[SWEbenchInstance]:
     """
