@@ -100,9 +100,9 @@ def main(args, subparser_dest_attr_name: str = "command"):
     globals.context_generation_limit = args.output_fix_limit
     globals.setup_dir = args.setup_dir 
     globals.augmented_issues_path = args.augmented_issues_path
-    globals.get_version = args.get_version
     globals.organize_output_only = args.organize_output_only
     globals.results_path = args.results_path 
+    globals.disable_memory_pool = args.disable_memory_tool
     
     subcommand = getattr(args, subparser_dest_attr_name)
     if subcommand == "swe-bench":
@@ -309,12 +309,6 @@ def add_task_related_args(parser: ArgumentParser) -> None:
         help="(Experimental) Enable angelic debugging",
     )
     parser.add_argument(
-        "--get-version",
-        action="store_true",
-        default=False,
-        help="(Experimental) Enable angelic debugging",
-    )
-    parser.add_argument(
         "--save-sbfl-result",
         action="store_true",
         default=False,
@@ -346,6 +340,12 @@ def add_task_related_args(parser: ArgumentParser) -> None:
         required=False,
         default=None,
         help="Limit output of content retrieval rounds",
+    )
+    parser.add_argument(
+        "--disable-memory-pool",
+        action="store_true",
+        default=False,
+        help="Enable layered code search.",
     )
 
 
@@ -713,7 +713,7 @@ def do_inference(
 
             
         else:
-            agents_manager = AgentsManager(python_task, task_output_dir,client,start_time,globals.conv_round_limit,globals.results_path)
+            agents_manager = AgentsManager(python_task, task_output_dir,client,start_time,globals.conv_round_limit,globals.results_path,globals.disable_memory_pool)
             agents_manager.run_workflow()
             run_ok = True
         end_time = datetime.now()

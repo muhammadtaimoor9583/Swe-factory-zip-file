@@ -43,3 +43,5 @@ get_version: bool = False
 enable_web_search: bool = False
 
 agent_mode: str = "multi_agent"
+
+disable_memory_pool: bool = False
