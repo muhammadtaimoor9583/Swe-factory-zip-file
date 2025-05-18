@@ -1,11 +1,11 @@
 ## 🚀 Environment Setup
 ```bash
-conda create --name omnigirl python=3.12.5 -y
-conda activate omnigirl
-pip install -r requirements.txx
+conda create --name swe-collector python=3.12.5 -y
+conda activate swe-collector
+pip install -r requirements.txt
 ```
 
-##Run SWE-collector
+## Run SWE-collector
 
 ```bash
 export OPENAI_API_BASE_URL=<your url>
