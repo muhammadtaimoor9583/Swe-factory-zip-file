@@ -1,7 +1,7 @@
 import os
 import json
 import argparse
-from collections import Counter, defaultdict
+from collections import defaultdict
 
 def analyze_data(directory):
     repo_version_distribution = defaultdict(set)
@@ -9,6 +9,8 @@ def analyze_data(directory):
     repo_instance_count = defaultdict(int)
     total_instance_count = 0
     total_unique_versions = set()
+
+    long_test_patch_instances = []  # 存储超过1000行 test_patch 的 instance_id
 
     # 遍历路径下所有 instances_versions.jsonl 文件
     for root, _, files in os.walk(directory):
@@ -23,7 +25,13 @@ def analyze_data(directory):
 
                         repo = data.get('repo', 'unknown')
                         version = data.get('version', 'unknown')
-                        created_at = data.get('created_at', '')[:4]  # Extract year
+                        created_at = data.get('created_at', '')[:4]  # 提取年份
+                        instance_id = data.get('instance_id', 'unknown')
+
+                        # 检查 test_patch 行数是否超过1000
+                        test_patch = data.get('test_patch', '')
+                        if isinstance(test_patch, str) and len(test_patch.splitlines()) > 1000:
+                            long_test_patch_instances.append(instance_id)
 
                         repo_version_distribution[repo].add(version)
                         total_unique_versions.add(version)
@@ -34,7 +42,14 @@ def analyze_data(directory):
                 print(f"📄 Collected {file_instance_count} records from {file_path}")
                 total_instance_count += file_instance_count
 
-    # Display Results
+    # 保存结果到当前目录
+    output_path = 'long_test_patch_instances.txt'
+    with open(output_path, 'w', encoding='utf-8') as f:
+        for instance_id in long_test_patch_instances:
+            f.write(instance_id + '\n')
+    print(f"\n📝 Saved {len(long_test_patch_instances)} long test_patch instance_ids to {output_path}")
+
+    # 展示统计信息
     print("\n====== Per Repository Stats ======")
     for repo in repo_version_distribution:
         num_versions = len(repo_version_distribution[repo])

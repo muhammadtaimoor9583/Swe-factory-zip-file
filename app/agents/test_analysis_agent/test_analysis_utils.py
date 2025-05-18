@@ -91,11 +91,12 @@ ANALYZE_PROMPT = """
 Given the test log and the target tests, analyze the results and determine the next steps.
 
 ### **Step 1: Verify Test Execution**
-1. Were the expected test files executed? Specifically, which tests were modified or added by the `eval script`?
-2. Did all tests pass? If not, what errors or failures occurred?
-   - If all tests pass, then the process is considered finished.
-   - If some tests in the test log did not pass, but the tests that were newly added or modified by the developer (the tests you specifically built the environment and script for) have passed, the process can still be considered finished. This is because the focus is on the new or modified tests that are being run.
-
+- Identify which test files were added or modified by the eval script.
+- Confirm that those tests were actually executed (they appear in the test log).
+- Check their pass/fail status:
+   - If all tests passed, report success.
+- Ensure there is at least some test output in the log:
+   - If no test output is found, set `is_finish = false` and include an instruction for write_eval_script_agent to revise the eval script so that tests actually run.
 
 ### **Step 2: Identify Problems**
 - If the tests failed due to **environment setup issues**, analyze whether the problem comes from:
@@ -103,6 +104,7 @@ Given the test log and the target tests, analyze the results and determine the n
   - The **evaluation script** (e.g., incorrect test commands, wrong paths, missing environment activation).
 - Sometimes, tests may fail due to incorrect versions of specific dependencies. Be sure to check the versions of critical dependencies to ensure compatibility.
 - If there are missing dependencies or unknown errors, consider whether additional context retrieval is required.
+- Tests should not be run in the Dockerfile**; skip tests during environment setup and run them in the evaluation script.
 
 ### **Step 3: Plan Corrective Actions**
 - If a fix is needed in the **Dockerfile**, provide guidance to `write_dockerfile_agent` on how to fix it.
