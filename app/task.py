@@ -70,6 +70,7 @@ class SweTask(Task):
     # reference_setup: dict
     version: str
     client: DockerClient
+    task_info: dict
     @property
     def project_path(self) -> str:
         return self.repo_path
