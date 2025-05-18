@@ -125,6 +125,7 @@ class ContextRetrievalAgent(Agent):
         task_output = None 
         summary = None
         success = None
+        self.reset_tool_sequence()
         while True:
             context_retrieval_round += 1
           
@@ -264,7 +265,7 @@ class ContextRetrievalAgent(Agent):
                 summary = "Collect context information failure."
                 success = False
                 break
-        
+        self.dump_tool_sequence(self.get_latest_context_retrieval_output_dir())
         return task_output, summary, success
 
     def _read_file(self, path: str) -> str:
@@ -278,5 +279,5 @@ class ContextRetrievalAgent(Agent):
         """
         Return the directory of the most recent Context retrieval outputs.
         """
-        return os.path.join(self.output_dir, f"output_context_retrieval_{self.run_count}")
+        return os.path.join(self.output_dir, f"context_retrieval_agent_{self.run_count}")
 
