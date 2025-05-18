@@ -15,6 +15,7 @@ from packaging import version
 import json
 import random
 from filelock import FileLock
+from copy import deepcopy
 
 DIFF_MODIFIED_FILE_REGEX = r"--- a/(.*)"
 def normalize_version(ver_str):
@@ -31,7 +32,7 @@ def get_closest_version_info(records, repo, target_version):
         target_parsed = version.parse(normalize_version(target_version))
     except Exception:
         sorted_list = sorted(same_repo, key=lambda r: r['version'])
-        target_parsed = normalize_version(target_version)
+        target_parsed = version.parse(normalize_version(target_version))
     exact_matches = [r for r in same_repo if r['version'] == target_version]
     if exact_matches:
         return random.choice(exact_matches)
@@ -48,7 +49,8 @@ class AgentsManager:
                 client: docker.DockerClient, 
                 start_time: datetime, 
                 max_iteration_num: int,
-                results_path:str
+                results_path:str,
+                disable_memory_pool:bool,
                 ):
         self.task = task
         self.output_dir = os.path.abspath(output_dir)
@@ -68,6 +70,7 @@ class AgentsManager:
             "context_retrieval_agent": ContextRetrievalAgent(task, output_dir, self.repo_basic_info),
         }
         self.set_agent_status('all',False)
+        self.disable_memory_pool = disable_memory_pool
         self.results_file = f'{results_path}/results.json'
         lock_path = self.results_file + '.lock'
         self.lock = FileLock(lock_path, timeout=30)
@@ -164,10 +167,11 @@ class AgentsManager:
                     self.agents_dict['write_eval_script_agent'].add_user_message(collected_information)
                     self.agents_dict['write_docker_agent'].add_user_message(collected_information)
                     
-            reference_setup = self.get_latest_reference_setup_for_repo()
-            if reference_setup:
-                self.agents_dict['write_docker_agent'].add_reference_message(reference_setup)
-                self.agents_dict['write_eval_script_agent'].add_reference_message(reference_setup)
+            if self.disable_memory_pool == False:        
+                reference_setup = self.get_latest_reference_setup_for_repo()
+                if reference_setup:
+                    self.agents_dict['write_docker_agent'].add_reference_message(reference_setup)
+                    self.agents_dict['write_eval_script_agent'].add_reference_message(reference_setup)
 
             if self.get_agent_status("context_retrieval_agent") and not self.get_agent_status("write_docker_agent"):
                 _, _, success =  self.agents_dict['write_docker_agent'].run_task()
@@ -192,7 +196,14 @@ class AgentsManager:
                 self.agents_dict['test_analysis_agent'].eval_script = eval_script
                 analysis, _, success =  self.agents_dict['test_analysis_agent'].run_task()
                 self.dump_cost()
-                analysis = json.loads(analysis)
+                if isinstance(analysis, str):
+                    try:
+                        analysis = json.loads(analysis)
+                    except:
+                        analysis = {}
+                else:
+                    analysis = {}
+
 
                 is_finish = analysis.get("is_finish", None)
                 if is_finish:
@@ -243,14 +254,16 @@ class AgentsManager:
 
         if self.workflow_finish_status:
             recs = self._read_results()
-            recs.append({
-                "repo":self.task.repo_name,
-                "instance_id": getattr(self.task, "task_id", None),
-                "version": getattr(self.task, "version", None),
-                "dockerfile": dockerfile_content ,
-                "eval_script":  eval_script_content,
+            info = deepcopy(self.task.task_info)
+
+            # merge in your new fields
+            info.update({
+                "dockerfile": dockerfile_content,
+                "eval_script": eval_script_content,
                 "eval_script_skeleton": eval_script_skeleton_content,
-                "model_name_or_path":common.SELECTED_MODEL.name,
+                # keep any other existing keys from task_info
             })
+
+            recs.append(info)
             self._write_results(recs)
         
