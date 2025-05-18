@@ -85,20 +85,23 @@ class Agent(ABC):
         # Record the call
         result, _, ok = call_res
         self.tool_call_sequence.append(intent.to_dict_with_result(ok,result,self.agent_id))
-        if not self.tool_call_layers:
-            self.tool_call_layers.append([])
-        self.tool_call_layers[-1].append(intent.to_dict_with_result(ok,result,self.agent_id))
+        # if not self.tool_call_layers:
+        #     self.tool_call_layers.append([])
+        # self.tool_call_layers[-1].append(intent.to_dict_with_result(ok,result,self.agent_id))
 
         return call_res
 
     def start_new_layer(self):
         self.tool_call_layers.append([])
 
-    def dump_sequences(self, output_dir: str):
+    def reset_tool_sequence(self):
+        self.tool_call_sequence = []
+
+    def dump_tool_sequence(self, output_dir: str):
         os.makedirs(output_dir, exist_ok=True)
-        seq_file = os.path.join(output_dir, 'agent_tool_sequence.json')
-        layer_file = os.path.join(output_dir, 'agent_tool_layers.json')
+        seq_file = os.path.join(output_dir, 'tool_sequence.json')
+        # layer_file = os.path.join(output_dir, 'agent_tool_layers.json')
         with open(seq_file, 'w') as f:
             json.dump(self.tool_call_sequence, f, indent=2)
-        with open(layer_file, 'w') as f:
-            json.dump(self.tool_call_layers, f, indent=2)
+        # with open(layer_file, 'w') as f:
+        #     json.dump(self.tool_call_layers, f, indent=2)
