@@ -10,5 +10,5 @@ pip install -r requirements.txt
 ```bash
 export OPENAI_API_BASE_URL=<your url>
 export OPENAI_KEY=<your key>
-bash run_gpt_new.sh
+bash run/run.sh
 ```
