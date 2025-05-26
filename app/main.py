@@ -18,17 +18,15 @@ from os.path import join as pjoin
 from packaging import version
 from loguru import logger
 from concurrent.futures import TimeoutError
-from app import globals, globals_mut, inference, log
+from app import globals, globals_mut, log
 from app import utils as apputils
-from app.api.manage import ProjectApiManager
 from app.model import common
 from app.model.register import register_all_models
 from app.agents.agents_manager import AgentsManager
 from app.post_process import (
-    extract_organize_and_form_input,
-    get_final_patch_path,
+   
     organize_and_form_input,
-    reextract_organize_and_form_inputs,
+   
 )
 from app.raw_tasks import RawGithubTask, RawLocalTask, RawSweTask, RawTask
 from app.task import Task
@@ -103,6 +101,9 @@ def main(args, subparser_dest_attr_name: str = "command"):
     globals.organize_output_only = args.organize_output_only
     globals.results_path = args.results_path 
     globals.disable_memory_pool = args.disable_memory_pool
+    globals.disable_run_test = args.disable_run_test
+    
+    globals.disable_context_retrieval= args.disable_context_retrieval
     
     subcommand = getattr(args, subparser_dest_attr_name)
     if subcommand == "swe-bench":
@@ -116,7 +117,7 @@ def main(args, subparser_dest_attr_name: str = "command"):
             tasks = make_swe_tasks(
                 args.task, args.task_list_file, args.setup_map, args.tasks_map,args.augmented_issues_path,args.enable_images, args.setup_dir,client
             )
-
+       
             groups = group_swe_tasks_by_env(tasks)
             run_task_groups(groups, num_processes, organize_output=True)
         # finally:
@@ -134,6 +135,7 @@ def main(args, subparser_dest_attr_name: str = "command"):
             setup_dir,
             args.use_comments,
         )
+    
         groups = {"github": [task]}
         run_task_groups(groups, num_processes)
     elif subcommand == "local-issue":
@@ -148,9 +150,6 @@ def main(args, subparser_dest_attr_name: str = "command"):
         run_task_groups(groups, num_processes)
     elif subcommand == "extract-patches":
         organize_and_form_input(globals.output_dir)
-        # extract_organize_and_form_input(args.experiment_dir)
-    elif subcommand == "re-extract-patches":
-        reextract_organize_and_form_inputs(args.experiment_dir)
 
 
 def set_swe_parser_args(parser: ArgumentParser) -> None:
@@ -347,7 +346,18 @@ def add_task_related_args(parser: ArgumentParser) -> None:
         default=False,
         help="Enable layered code search.",
     )
-
+    parser.add_argument(
+        "--disable-run-test",
+        action="store_true",
+        default=False,
+        help="Enable layered code search.",
+    )
+    parser.add_argument(
+        "--disable-context-retrieval",
+        action="store_true",
+        default=False,
+        help="Enable layered code search.",
+    )
 
 
 
@@ -652,31 +662,6 @@ def run_raw_task(
 
     log.log_and_always_print(run_status_message)
 
-    # if globals.disable_patch_generation:
-    #     log.log_and_always_print(
-    #         f"Patch generation is disabled. Please find fix locations at: {task_output_dir}/fix_locations.json"
-    #     )
-    # else:
-    #     output_patch_path = pjoin(task_output_dir, "final_patch.diff")
-    #     final_patch_path = get_final_patch_path(task_output_dir)
-    #     if final_patch_path is not None:
-    #         # cppy the final patch to the fixed path
-    #         shutil.copy2(final_patch_path, output_patch_path)
-
-    #         log.log_and_always_print(
-    #             f"Please find the generated patch at: {output_patch_path}"
-    #         )
-
-    #         if isinstance(task, RawSweTask):
-    #             log.log_and_always_print(
-    #                 "[SWE-bench mode] Note that the patch may be move to other paths in SWE-bench mode. "
-    #                 "Please check the SWE-bench input file containing generated patches for all tasks."
-    #             )
-    #     else:
-    #         log.log_and_always_print(
-    #             "No patch generated. You can try running ACR again."
-    #         )
-
     return run_ok
 
 
@@ -703,29 +688,18 @@ def do_inference(
 
     
     try:
-        if globals.agent_mode=="single_agent":
-            api_manager = ProjectApiManager(python_task, task_output_dir,client,globals.enable_web_search,start_time)
-            run_ok = inference.run_one_task(
-                api_manager.output_dir,
-                api_manager,
-                python_task.repo_name,
-                # python_task.get_issue_statement(),
-                python_task.project_path,
-                python_task.commit,
-
-                python_task.get_image_urls(),
-                print_callback,
-               
-            )
-
-            api_manager.dump_tool_call_sequence_to_file()
-            api_manager.dump_tool_call_layers_to_file()
-
-            
-        else:
-            agents_manager = AgentsManager(python_task, task_output_dir,client,start_time,globals.conv_round_limit,globals.results_path,globals.disable_memory_pool)
-            agents_manager.run_workflow()
-            run_ok = True
+        agents_manager = AgentsManager(python_task, 
+                                        task_output_dir,
+                                        client,
+                                        start_time,
+                                        globals.conv_round_limit,
+                                        globals.results_path,
+                                        disable_memory_pool = globals.disable_memory_pool,
+                                        disable_context_retrieval= globals.disable_context_retrieval,
+                                        disable_run_test= globals.disable_run_test
+                                        )
+        agents_manager.run_workflow()
+        run_ok = True
         end_time = datetime.now()
 
         dump_cost(start_time, end_time, task_output_dir, python_task.project_path)
