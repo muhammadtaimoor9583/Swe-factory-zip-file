@@ -51,6 +51,8 @@ class AgentsManager:
                 max_iteration_num: int,
                 results_path:str,
                 disable_memory_pool:bool,
+                disable_context_retrieval:bool,
+                disable_run_test:bool,
                 ):
         self.task = task
         self.output_dir = os.path.abspath(output_dir)
@@ -71,6 +73,12 @@ class AgentsManager:
         }
         self.set_agent_status('all',False)
         self.disable_memory_pool = disable_memory_pool
+        self.disable_context_retrieval = disable_context_retrieval
+        self.disable_run_test = disable_run_test
+        if disable_context_retrieval:
+            self.set_agent_status("context_retrieval_agent",True)
+        self.agents_dict['test_analysis_agent'].disable_context_retrieval= disable_context_retrieval
+        self.agents_dict['test_analysis_agent'].disable_run_test = disable_run_test
         self.results_file = f'{results_path}/results.json'
         lock_path = self.results_file + '.lock'
         self.lock = FileLock(lock_path, timeout=30)
@@ -126,8 +134,7 @@ class AgentsManager:
         end_time = datetime.now()
         task_output_dir = self.output_dir
         project_path  = self.task.project_path
-        # with apputils.cd(project_path):
-        #     commit_hash = apputils.get_current_commit_hash()
+      
         model_stats = common.SELECTED_MODEL.get_overall_exec_stats()
         stats = {
             # "commit": commit_hash,
@@ -159,6 +166,14 @@ class AgentsManager:
     def run_workflow(self) -> None:
         for iteration_num in range(self.max_iteration_num):
             self.set_agents_iteration_num(iteration_num)
+            
+            if self.disable_context_retrieval and iteration_num==0:
+              readme_content = self.agents_dict['context_retrieval_agent'].browse_readme()
+              if readme_content:
+                  self.agents_dict['write_eval_script_agent'].add_user_message(readme_content)
+                  self.agents_dict['write_docker_agent'].add_user_message(readme_content)
+            
+
             if not self.get_agent_status("context_retrieval_agent"):
                 collected_information, summary, success =  self.agents_dict['context_retrieval_agent'].run_task()
                 self.dump_cost()
@@ -170,8 +185,9 @@ class AgentsManager:
             if self.disable_memory_pool == False:        
                 reference_setup = self.get_latest_reference_setup_for_repo()
                 if reference_setup:
-                    self.agents_dict['write_docker_agent'].add_reference_message(reference_setup)
-                    self.agents_dict['write_eval_script_agent'].add_reference_message(reference_setup)
+                    self.agents_dict['write_docker_agent'].reference_setup = reference_setup
+                    
+                    self.agents_dict['write_eval_script_agent'].reference_setup = reference_setup
 
             if self.get_agent_status("context_retrieval_agent") and not self.get_agent_status("write_docker_agent"):
                 _, _, success =  self.agents_dict['write_docker_agent'].run_task()
@@ -194,7 +210,13 @@ class AgentsManager:
                 self.agents_dict['test_analysis_agent'].dockerfile = dockerfile
                 self.agents_dict['test_analysis_agent'].eval_script_skeleton = eval_script_skeleton
                 self.agents_dict['test_analysis_agent'].eval_script = eval_script
-                analysis, _, success =  self.agents_dict['test_analysis_agent'].run_task()
+                # analysis, _, success =  self.agents_dict['test_analysis_agent'].run_task()
+              
+                if self.disable_run_test:
+                    
+                    analysis, _, success =  self.agents_dict['test_analysis_agent'].run_task_without_run_test()
+                else:
+                    analysis, _, success =  self.agents_dict['test_analysis_agent'].run_task(self.disable_context_retrieval)
                 self.dump_cost()
                 if isinstance(analysis, str):
                     try:
