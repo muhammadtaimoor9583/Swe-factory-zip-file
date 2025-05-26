@@ -9,7 +9,7 @@ from app.model import common
 from app.utils import parse_function_invocation
 import json
 from app.post_process import ExtractStatus, is_valid_json
-
+import itertools
 class RepoBrowseManager:
     def __init__(self, project_path: str):
         self.project_path = os.path.abspath(project_path)  # Ensure absolute path
@@ -159,7 +159,7 @@ class RepoBrowseManager:
             
         with open(file_path, 'r') as file:
             if file_path.endswith('package-lock.json'):
-                # 读取前1000行
+              
                 lines = itertools.islice(file, 1000)
                 content = ''.join(lines)
                 content +='\nTruncated this file because it is too long.'
@@ -269,9 +269,14 @@ class RepoBrowseManager:
 
 
 PROXY_PROMPT = """
-You are a helpful assistant that extracts API calls and determines whether to terminate the current task, formatting the result as JSON.
+You are an agent whose job is to:
 
-### **Information Source**:
+1. **Extract API calls** from a context-retrieval analysis text.  
+2. **Decide whether to terminate** the context-retrieval process.  
+
+---
+
+### Input
 The text you receive is **an analysis of the context retrieval process**.  
 
 The text will consist of two parts:
@@ -346,7 +351,7 @@ def run_proxy(text: str) -> tuple[str, MessageThread]:
 
     msg_thread = MessageThread()
     msg_thread.add_system(PROXY_PROMPT)
-    msg_thread.add_user(text)
+    msg_thread.add_user(f'<analysis>\n{text}</analysis>')
     res_text, *_ = common.SELECTED_MODEL.call(
         msg_thread.to_msg(), response_format="json_object"
     )

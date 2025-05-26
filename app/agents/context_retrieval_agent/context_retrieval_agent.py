@@ -40,7 +40,10 @@ class ContextRetrievalAgent(Agent):
         self.add_system_message(context_retrieval_utils.SYSTEM_PROMPT)
         self.add_user_message(self.repo_basic_info)
         self.add_user_message(f'Structure of root directory: {self.root_structure}\n\n')
-        self.add_user_message(context_retrieval_utils.USER_PROMPT)
+        user_prompt = context_retrieval_utils.USER_PROMPT
+        if 'flash' in common.SELECTED_MODEL.name:
+            user_prompt+='Now tell me your summary and APIs you plan to invoke:'
+        self.add_user_message(user_prompt)
        
 
     def browse_folder(self, path: str, depth: str) -> str:
@@ -125,6 +128,7 @@ class ContextRetrievalAgent(Agent):
         task_output = None 
         summary = None
         success = None
+        self.init_msg_thread()
         self.reset_tool_sequence()
         while True:
             context_retrieval_round += 1
@@ -174,13 +178,7 @@ class ContextRetrievalAgent(Agent):
             summary_of_collected_information = selected_apis_json.get("collected_information", None)
             if is_termination:
                 msg_summary_of_collected_information = f'Collected information from context retrieval agent:\n{summary_of_collected_information}\n\n'
-                # self.add_user_message(msg_summary_of_collected_information)
-                # self.add_user_message(msg_summary_of_collected_information)
-
-                # #  update message thread of context retrieval agent.
-                # # api_manager.context_retrieval_num += 1
-                # self.is_context_retrieval = False
-                self.init_msg_thread()
+              
                 task_output = msg_summary_of_collected_information
                 summary = "Collect context information successfully."
                 success = True
@@ -281,3 +279,16 @@ class ContextRetrievalAgent(Agent):
         """
         return os.path.join(self.output_dir, f"context_retrieval_agent_{self.run_count}")
 
+    def browse_readme(self) -> str:
+        """
+        This is only used in ablation study: w/o the context retrieval agent.
+        """
+        readme_list = ["README.md","README.rst","README.txt"]
+        for readme_name in readme_list:
+            file_path = pjoin(self.task.project_path,readme_name)
+            try:
+                readme_content = self.repo_browse_manager.browse_file(file_path)
+                return f"The content of {readme_name} in the target repository:\n<README>\n{readme_content}\n</README>\n"
+            except Exception:
+                continue
+        return ""
