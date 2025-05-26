@@ -26,7 +26,7 @@ class WriteDockerfileAgent(Agent):
         self.task = task
         self.output_dir = os.path.abspath(output_dir)
         self.run_count = 0
-
+        self.reference_setup = None
         self.repo_basic_info = repo_basic_info
         self.init_msg_thread()
 
@@ -36,16 +36,17 @@ class WriteDockerfileAgent(Agent):
         self.add_system_message(write_dockerfile_utils.get_system_prompt_dockerfile())
         self.add_user_message(self.repo_basic_info)
 
-    def add_reference_message(self, reference_setup:dict) -> None:
-        reference_version = reference_setup['version']
-        reference_dockerfile = reference_setup['dockerfile']
-        reference_text = (
-            f"I found a Dockerfile from version {reference_version} of this repo that worked well in a similar setup. "
-            "You might consider it as a reference—if its configuration aligns with your current environment, it could "
-            "save you some effort. Otherwise, feel free to adapt or disregard as needed:\n\n"
-            f"{reference_dockerfile}"
-        )
-        self.add_user_message(reference_text)
+    def add_reference_message(self) -> None:
+        if self.reference_setup:
+            reference_version = self.reference_setup['version']
+            reference_dockerfile =self.reference_setup['dockerfile']
+            reference_text = (
+                f"I found a Dockerfile from version {reference_version} of this repo that worked well in a similar setup. "
+                "You might consider it as a reference—if its configuration aligns with your current environment, it could "
+                "save you some effort. Otherwise, feel free to adapt or disregard as needed:\n\n"
+                f"{reference_dockerfile}"
+            )
+            self.add_user_message(reference_text)
 
 
     def run_task(self, print_callback=None) -> tuple[str, str, bool]:
@@ -60,7 +61,7 @@ class WriteDockerfileAgent(Agent):
         self.run_count += 1
         curr_dir = self.get_latest_write_dockerfile_output_dir()
         os.makedirs(curr_dir, exist_ok=True)
-
+        self.add_reference_message()
         # 2. Inject either modify or init prompt
         if os.path.exists(prev_file):
             modify_prompt = write_dockerfile_utils.get_user_prompt_modify_dockerfile()

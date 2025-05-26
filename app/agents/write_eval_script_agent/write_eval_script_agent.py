@@ -49,17 +49,18 @@ class WriteEvalScriptAgent(Agent):
         self.add_user_message(self.repo_basic_info)
         
         
-    def add_reference_message(self, reference_setup: dict) -> None:
-        version = reference_setup.get('version', 'unknown')
-        skeleton = reference_setup.get('eval_script_skeleton', '')
-        reference_text = (
-            f"I've pulled an eval script skeleton from version {version} of this repo that worked well in a similar context. "
-            "This is provided purely as a reference—if its structure and commands align with your current environment, you may "
-            "adapt parts of it to save time; otherwise, feel free to adjust or ignore it. "
-            "Note that the full test_patch is quite long and has been omitted here to conserve space:\n\n"
-            f"{skeleton}"
-        )
-        self.add_user_message(reference_text)
+    def add_reference_message(self) -> None:
+        if self.reference_setup:
+            version = self.reference_setup.get('version', 'unknown')
+            skeleton = self.reference_setup.get('eval_script_skeleton', '')
+            reference_text = (
+                f"I've pulled an eval script skeleton from version {version} of this repo that worked well in a similar context. "
+                "This is provided purely as a reference—if its structure and commands align with your current environment, you may "
+                "adapt parts of it to save time; otherwise, feel free to adjust or ignore it. "
+                "Note that the full test_patch is quite long and has been omitted here to conserve space:\n\n"
+                f"{skeleton}"
+            )
+            self.add_user_message(reference_text)
 
 
 
@@ -134,6 +135,7 @@ class WriteEvalScriptAgent(Agent):
             self.add_user_message(dockerfile_msg)
             msg_prev_eval_script = f'Previous generated eval script skeleton (Test patch omitted because of its long length):\n{self.get_latest_eval_script_skeleton()}\n\n'
             self.add_user_message(msg_prev_eval_script)
+            self.add_reference_message()
             modify_prompt = """Please modify current eval script according to collected information. 
             Return modified eval script in defined format. Wrap results in <script></script>.
             """
@@ -141,6 +143,7 @@ class WriteEvalScriptAgent(Agent):
         else:
             # initial: provide skeleton
             self.add_user_message(dockerfile_msg)
+            self.add_reference_message()
             self.add_user_message(write_eval_script_utils.get_user_prompt_init_eval_script(self.initial_skeleton))
 
         task_output = write_eval_script_utils.write_eval_script_with_retries(

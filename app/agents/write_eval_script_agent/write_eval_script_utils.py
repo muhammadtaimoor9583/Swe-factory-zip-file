@@ -12,8 +12,6 @@ import os
 from loguru import logger
 
 from app import globals
-from app.api import agent_common
-from app.api.python import validation
 from app.data_structures import MessageThread, MethodId
 from app.log import print_acr, print_patch_generation
 from app.model import common
@@ -89,10 +87,15 @@ source /opt/miniconda3/bin/activate
 conda activate testbed
 cd /testbed
 pip install -r test-requirements.txt && pip install -e . 
+
 git checkout 6de254ef00f99ce5284ab947f2dd1179db6d28f6 "test-data/unit/check-functions.test" "test-data/unit/check-redefine.test"
+
+# Required: apply test patch to update target tests
 git apply -v - <<'EOF_114329324912'
 [CONTENT OF TEST PATCH]
 EOF_114329324912
+
+# Required: run target tests
 pytest --no-header -rA --tb=no -p no:cacheprovider -n4 mypy/test/testcheck.py::TypeCheckSuite::check-functions.test mypy/test/testcheck.py::TypeCheckSuite::check-redefine.test
 rc=$?            #Required, save exit code\n 
 echo "OMNIGRIL_EXIT_CODE=$rc" #Required, echo test status
@@ -130,7 +133,6 @@ def write_eval_script_with_retries(
     # messages = deepcopy(message_thread.messages)
     new_thread = message_thread
     # new_thread: MessageThread = MessageThread(messages=messages)
-    # new_thread = agent_common.replace_system_prompt(new_thread, SYSTEM_PROMPT)
     # # (2) add the initial user prompt
     # user_prompt_init=USER_PROMPT_INIT.format(eval_script_skeleton=eval_script_skeleton)
     # user_prompt_init +="\nFor contents in <original></original> and <patched></patched>, please do not contain them in extra ```\n```. Something like <original>\n```js\n```</original> is forbidden. Keep these contents clean."
@@ -201,7 +203,7 @@ def replace_heredoc_content(original_content, test_patch):
     heredoc_delimiter = "EOF_114329324912"
     
     for line in lines:
-        if f"git apply -v - <<'{heredoc_delimiter}'" in line:
+        if f" - <<'{heredoc_delimiter}'" in line:
             # 找到 heredoc 开始行
             output_lines.append(line)
             in_heredoc = True

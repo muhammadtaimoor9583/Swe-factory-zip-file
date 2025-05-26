@@ -5,7 +5,7 @@ from app.agents.agent import Agent
 from app.data_structures import FunctionCallIntent, MessageThread
 from app.task import Task
 from app.agents.test_analysis_agent import test_analysis_utils
-from app.api.docker_utils import (
+from app.agents.test_analysis_agent.docker_utils  import (
     cleanup_container,
     remove_image,
     copy_to_container,
@@ -53,6 +53,8 @@ class TestAnalysisAgent(Agent):
         self.dockerfile = None
         self.eval_script = None
         self.timeout = 3600
+        self.disable_context_retrieval = False
+        self.disable_run_test = False
         # self.init_msg_thread()
 
 
@@ -66,7 +68,12 @@ class TestAnalysisAgent(Agent):
         # if getattr(agent_analyze_test_log, "SYSTEM_PROMPT_WIT_WEB_SEARCH", None) and getattr(self.task, 'enable_web_search', False):
         #     self.msg_thread.add_system(test_analysis_utils.SYSTEM_PROMPT_WIT_WEB_SEARCH)
         # else:
-        self.add_system_message(test_analysis_utils.SYSTEM_PROMPT)
+        if self.disable_context_retrieval:
+            self.add_system_message(test_analysis_utils.SYSTEM_PROMPT_WITHOUT_CONTEXT_RETRIEVAL)
+        elif self.disable_run_test:
+            self.add_system_message(test_analysis_utils.SYSTEM_PROMPT_WITHOUT_RUN_TEST)
+        else:
+            self.add_system_message(test_analysis_utils.SYSTEM_PROMPT)
         # Inject repository basic information
         self.add_user_message(self.repo_basic_info)
         self.add_user_message(f'The current dockerfile used to setup environemnt:\n{self.dockerfile}')
@@ -111,7 +118,7 @@ class TestAnalysisAgent(Agent):
         
         return f'Test log (showing first {head_size} & last {tail_size} lines):\n{truncated_log}\n\n'
 
-    def run_task(self, print_callback=None) -> tuple[str, str, bool]:
+    def run_task(self, disable_context_retrieval= False, print_callback=None) -> tuple[str, str, bool]:
         """
         2. Read and format the test log
         3. Add formatted log to the message thread
@@ -144,7 +151,7 @@ class TestAnalysisAgent(Agent):
                 print_callback=print_callback,
             )
             test_log = self.get_test_log_with_line_numbers()
-            self.add_user_message(f'Eval script (We omit details of test patch):\n{self.eval_script_skeleton}\n\n')
+            # self.add_user_message(f'Eval script (We omit details of test patch):\n{self.eval_script_skeleton}\n\n')
             self.add_user_message(test_log)
         else:
             logger.error(tool_output)
@@ -160,7 +167,7 @@ class TestAnalysisAgent(Agent):
             )
             
         success =False
-        analysis = test_analysis_utils.run_with_retries(self.msg_thread,print_callback=print_callback)
+        analysis = test_analysis_utils.run_with_retries(self.msg_thread,disable_context_retrieval=disable_context_retrieval,print_callback=print_callback)
         task_output = analysis
         analysis_file = Path(f"{self.get_latest_test_analysis_output_dir()}/analysis.json")
 
@@ -198,6 +205,63 @@ class TestAnalysisAgent(Agent):
         return task_output, summary, success 
 
     
+    def run_task_without_run_test(self, print_callback=None) -> tuple[str, str, bool]:
+        """
+        This function is just for ablation study
+        """
+        self.init_msg_thread()
+        print_banner(f"Task {self.task.task_id} Iteration ROUND {self.iteration_num} Try to setup docker and run tests ")
+        
+        self.analysis_count += 1
+        test_log_output_dir = self.get_latest_test_analysis_output_dir()
+        os.makedirs(test_log_output_dir,exist_ok=True)
+       
+        # if we judge that we achieve the goal, terminate the process
+        # if test log show that it fails, we go to plan for futrure directions
+        # judge whether achieve the goal, if not planning for the work in the next stage.
+        print_acr(
+                f'Task {self.task.task_id} Iteration ROUND {self.iteration_num}  Try to analyze the test log ',
+                f"Task {self.task.task_id} Iteration ROUND {self.iteration_num}  test analysis round ",
+                print_callback=print_callback,
+            )
+            
+        success =False
+        analysis = test_analysis_utils.run_with_retries(self.msg_thread,disable_run_test=True,print_callback=print_callback)
+        task_output = analysis
+        analysis_file = Path(f"{self.get_latest_test_analysis_output_dir()}/analysis.json")
+
+        to_save = {}
+        if isinstance(analysis, dict):
+            to_save = analysis
+        elif isinstance(analysis, str):
+            try:
+                to_save = json.loads(analysis)
+            except Exception as e:
+                to_save = {}
+        else:
+            # analysis 既不是 dict 也不是 str，按需处理
+            to_save = {}
+
+        # to_save['build_image_status'] = build_image_status
+
+        if task_output is None:
+            summary = "The tool returned nothing. The main agent probably did not provide enough clues."
+            success = False
+          
+            
+        else:
+            summary = "The tool returned the selected search APIs in json format generated by another agent."
+            success = True
+           
+            
+        with analysis_file.open("w", encoding="utf-8") as f:
+            json.dump(to_save, f, ensure_ascii=False, indent=2)
+        
+        #need to save analysis into json file
+        conversation_file = pjoin(test_log_output_dir, f"conversation.json")
+        self.msg_thread.save_to_file(conversation_file)
+        
+        return task_output, summary, success 
        
 
     def build_docker_image(

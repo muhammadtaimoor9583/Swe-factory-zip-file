@@ -3,26 +3,15 @@ An agent, which is only responsible for the write_dockerfile tool call.
 """
 
 import json
-import shutil
-from collections.abc import Callable, Iterable
-from copy import deepcopy
+from collections.abc import Callable
 from os.path import join as pjoin
 from pathlib import Path
 import os
 from loguru import logger
-
-from app import globals
-from app.api import agent_common
-from app.api.python import validation
 from app.data_structures import MessageThread, MethodId
 from app.log import print_acr, print_patch_generation
 from app.model import common
-from app.post_process import (
-    ExtractStatus,
-    extract_diff_one_instance,
-    record_extract_status,
-)
-from app.task import SweTask, Task
+from app.task import Task
 import re
 
 
@@ -100,7 +89,7 @@ RUN conda init --all     && conda config --append channels conda-forge
 RUN /bin/bash -c "source /opt/miniconda3/etc/profile.d/conda.sh &&     conda create -n testbed python=3.7 -y &&     conda activate testbed &&     pip install pytest==6.2.5 typing_extensions==3.10"
 # set default workdir to testbed. (Required)
 WORKDIR /testbed/
-# Target Project setup. Clones source code, configures it, and installs project-specific dependencies
+# Target Project setup. Clones source code, checkouts to the taget version, configures it, and installs project-specific dependencies
 RUN /bin/bash -c "source /opt/miniconda3/etc/profile.d/conda.sh &&     conda activate testbed &&     git clone https://github.com/python/mypy /testbed &&     chmod -R 777 /testbed &&     cd /testbed &&     git reset --hard 6de254ef00f99ce5284ab947f2dd1179db6d28f6 &&     git remote remove origin &&     pip install -r test-requirements.txt &&     pip install -e ."
 RUN echo "source /opt/miniconda3/etc/profile.d/conda.sh && conda activate testbed" >> /root/.bashrc
 </dockerfile>
@@ -143,8 +132,6 @@ def write_dockerfile_with_retries(
     Since the agent may not always write an applicable patch, we allow for retries.
     This is a wrapper around the actual run.
     """
-    # (1) replace system prompt
-    # messages = deepcopy(message_thread.messages)
     new_thread = message_thread
     # new_thread: MessageThread = MessageThread(messages=messages)
     # new_thread = agent_common.replace_system_prompt(new_thread, SYSTEM_PROMPT)
