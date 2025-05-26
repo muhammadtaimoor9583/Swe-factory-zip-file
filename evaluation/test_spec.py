@@ -505,10 +505,11 @@ def make_test_spec(instance: SWEbenchInstance,predictions: dict,language = 'pyth
             return json.loads(instance[key])
         return instance[key]
 
-    pass_to_pass = _from_json_or_obj("PASS_TO_PASS")
-    fail_to_pass = _from_json_or_obj("FAIL_TO_PASS")
+    # pass_to_pass = _from_json_or_obj("PASS_TO_PASS")
+    # fail_to_pass = _from_json_or_obj("FAIL_TO_PASS")
 
-  
+    pass_to_pass = ""
+    fail_to_pass = ""
     return TestSpec(
         instance_id=instance_id,
         repo=repo,
