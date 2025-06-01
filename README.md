@@ -4,7 +4,7 @@ SWE-collector is an automated GitHub Issue Resolution construction tool based on
 
 ## Introduction
 
-An overview of SWE-collector is shown in [figure/overview.pdf]. As an LLM-driven multi-agent tool, SWE-collector comprises four agents:
+Here is the overview of SWE-collector. As an LLM-driven multi-agent tool, SWE-collector comprises four agents:
 
 ![Overview](figure/overview.png)
 
@@ -36,8 +36,8 @@ We collected a total of 671 issues from 12 repositories covering four languages 
 The evaluation metrics are:  
 1. **Fail2Pass Rate**: Following the SWE-bench Fail2Pass validation procedure to determine whether an instance is valid.  
 2. **Success Rate**: The percentage of issues for which the model successfully generated a runnable result.  
-3. **Cost (USD)**: Total expense incurred (e.g., API calls) for evaluating all issues.  
-4. **Time (s)**: Total time in seconds taken to complete the evaluation of all issues.
+3. **Cost (USD)**: Average API cost for each issue.  
+4. **Time (min)**: Average Time cost for each issue..
 
 The summary of our experimental results (sample numbers—please replace with actual measured values) is shown below:
 
