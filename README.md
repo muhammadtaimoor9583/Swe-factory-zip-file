@@ -1,10 +1,42 @@
-# SWE-collector
+[![SVG Banners](https://svg-banners.vercel.app/api?type=origin&text1=SWE-Factory%20🧑‍💻&text2=💖%20GitHub%20Issue%20Resolusion&width=900&height=200)](https://github.com/Akshay090/svg-banners)
 
-SWE-collector is an automated GitHub Issue Resolution construction tool based on a multi-agent framework. With SWE-collector, you can build a GitHub Issue Resolution benchmark from repositories covering multiple languages (Python, Java, JavaScript, and TypeScript, etc.). Our technical report is coming soon!
 
-## Introduction
+# 👉🏻 SWE-Factory 👈🏻
 
-Here is the overview of SWE-collector. As an LLM-driven multi-agent tool, SWE-collector comprises four agents:
+Your Automated Factory for Issue Resolution Training Data and Evaluation Benchmarks.
+
+## ✨ Key Features
+
+* 
+
+
+## 📦 Environment Setup
+
+To get started, run the bash script below to set up the environment:
+
+```bash
+conda create --name swe-factory python=3.12.5 -y
+conda activate swe-factory
+pip install -r requirements.txt
+```
+
+## 🚀 Run SWE-factory
+
+After setting up the environment, you can get your custom issue benchmark by running the script below:
+
+```bash
+export OPENAI_API_BASE_URL=<your url>
+export OPENAI_KEY=<your key>
+bash run/run.sh
+```
+
+## 📃 Technical Report
+
+[arXiv Preprint](http://arxiv.org/abs/2505.04606)
+
+### Overview
+
+As an LLM-driven multi-agent tool, SWE-Factory comprises four agents:
 
 ![Overview](figure/overview.png)
 
@@ -26,7 +58,7 @@ Here is the overview of SWE-collector. As an LLM-driven multi-agent tool, SWE-co
    - Determines whether the target tests pass or fail.  
    - If tests succeed, outputs the finalized Dockerfile and evaluation script; otherwise, plans the next iteration of adjustments and signals earlier agents to update their outputs.
 
-## Results
+### Results
 
 We collected a total of 671 issues from 12 repositories covering four languages (Python, Java, JavaScript, and TypeScript) and evaluated them using three models:  
 - **GPT-4.1-mini**  
@@ -47,18 +79,10 @@ The summary of our experimental results (sample numbers—please replace with ac
 | DeepSeek-v3-0324         | 35.9 (241/671)         | 50.8 (341/671)       | 0.0435     | 22.45      |
 | Gemini-2.5-flash-preview | 37.0 (248/671)         | 49.8 (334/671)       | 0.0245     | 27.03      |
 
+## 📖 Citation
 
-## 🚀 Environment Setup
-```bash
-conda create --name swe-collector python=3.12.5 -y
-conda activate swe-collector
-pip install -r requirements.txt
-```
+If you find our scripts useful for your research or applications, feel free to give us a star ⭐ or cite us using:
 
-## Run SWE-collector
+```bibtex
 
-```bash
-export OPENAI_API_BASE_URL=<your url>
-export OPENAI_KEY=<your key>
-bash run/run.sh
 ```
