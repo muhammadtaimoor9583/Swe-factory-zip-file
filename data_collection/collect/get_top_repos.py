@@ -59,7 +59,7 @@ def main():
     parser.add_argument("--top_n", type=int, default=500, help="Number of top repositories to fetch")
     args = parser.parse_args()
 
-    token = os.environ.get("github_token")
+    token = os.environ.get("GITHUB_TOKEN")
     if not token:
         print("❌ GitHub token not found. Please set the environment variable `github_token`.")
         sys.exit(1)
