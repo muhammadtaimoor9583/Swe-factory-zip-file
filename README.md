@@ -2,14 +2,14 @@
 
 Your automated factory for GitHub Issue Resolution Training Data and Evaluation Benchmarks.
 
-[![SVG Banners](https://svg-banners.vercel.app/api?type=origin&text1=SWE-Factory%20🧑‍💻&text2=💖%20Build%20Your%20GitHub%20Issue%20Resolution%20Dataset%2C%20Right%20Now!&width=900&height=200)](https://github.com/Akshay090/svg-banners)
+[![SVG Banners](https://svg-banners.vercel.app/api?type=origin&text1=SWE-Factory%20🧑‍💻&text2=✨%20Build%20Your%20GitHub%20Issue%20Resolution%20Dataset%2C%20Right%20Now!&width=900&height=200)](https://github.com/Akshay090/svg-banners)
 
 ## ✨ Key Features
 
-- **Automated data collection** from GitHub issues
-- **Reusable Docker-based evaluation environments**
-- **LLM-powered multi-agent system (SWE-Builder)**
-- **Efficient and scalable evaluation benchmarks**
+- **An automated pipeline** for GitHub issue resolution data collection, reducing your manual effort!
+- **Produce reliable and reproducible Docker-based evaluation environments**
+- **Automatic environment construction using the LLM-powered multi-agent system (SWE-Builder)**
+- **Support for multiple programming languages** (we have evaluated Python, Java, JS, and TS extensively.)
 
 ## 📦 Environment Setup
 
@@ -67,7 +67,7 @@ We employ SWE-Builder, an LLM-based multi-agent system consisting of:
 
 ![Overview](figure/overview.png)
 
-## 📊 SWE-Builder Evaluation Results
+### 📊 SWE-Builder Evaluation Results
 
 We evaluated SWE-Builder using three base models:
 
@@ -85,13 +85,13 @@ export OPENAI_KEY=<your_key>
 bash run/run.sh
 ```
 
-## ✅ Fail2Pass Validation
+## ✅ Stage III: Fail2Pass Validation
 
-After generating evaluation environments, conduct Fail2Pass validation:
+After generating evaluation environments, perform Fail2Pass validation:
 
-1. Obtain test logs before and after applying the ground-truth patch. Refer to [evaluation](./evaluation) for a detailed tutorial.
+1. Obtain test logs before and after applying the ground-truth patch. Check [evaluation](./evaluation) for detailed instructions.
 
-2. Run automated validation:
+2. Run automated Fail2Pass validation:
 
 ```bash
 python scripts/judge_fail2pass.py evaluation/run_instance/mypy_gpt-4.1-mini/gold fail2pass_status.json
@@ -99,11 +99,11 @@ python scripts/judge_fail2pass.py evaluation/run_instance/mypy_gpt-4.1-mini/gold
 
 The validated instances can be filtered using the generated `fail2pass_status.json`.
 
-**Note:** While automated validation is precise, manual checks are recommended for quality assurance.
+**Note:** Although our automated validation demonstrates high precision, manual checks are recommended to ensure dataset quality, particularly to identify and filter out error-to-pass cases.
 
-## 📌 Run Your Own Benchmark
+## 📌 Using Your Own Dataset
 
-Build your own benchmark for evaluation and training. Check the [evaluation](./evaluation) directory for details.
+After building your dataset for evaluation and training, check the [evaluation](./evaluation) directory for detailed instructions on how to run tests and obtain test exection feedback.
 
 ## 📖 Citation
 
