@@ -52,27 +52,27 @@ class RawSweTask(RawTask):
         task_id = self.task_id
         setup_info = self.setup_info
         task_info = self.task_info
-        language = task_info.get('language','Python')
+        language = task_info.get('language','None')
         client = self.client
         return SweTask(
             task_id=task_id,
             problem_statement=task_info["problem_statement"],
             repo_path=setup_info["repo_path"],
             repo_cache_path=setup_info["repo_cache_path"],
-            env_name=setup_info["env_name"],
-            pre_install_cmds=setup_info["pre_install"],
-            install_cmd=setup_info["install"],
+            # env_name=setup_info["env_name"],
+            # pre_install_cmds=setup_info["pre_install"],
+            # install_cmd=setup_info["install"],
             # command to run the relevant tests,
-            test_cmd=setup_info["test_cmd"],
+            # test_cmd=setup_info["test_cmd"],
             commit=task_info["base_commit"],
             repo_name=task_info["repo"],
             # modifications to the test suite for this task instance,
             patch=task_info["patch"],
             test_patch=task_info["test_patch"],
-            testcases_passing=task_info["PASS_TO_PASS"],
-            testcases_failing=task_info["FAIL_TO_PASS"],
+            # testcases_passing=task_info["PASS_TO_PASS"],
+            # testcases_failing=task_info["FAIL_TO_PASS"],
             language=language,
-            image_urls=task_info['image_urls'],
+            # image_urls=task_info['image_urls'],
             # reference_setup=task_info['reference_setup'],
             version=task_info['version'],
             client = client,

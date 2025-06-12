@@ -85,7 +85,7 @@ def main(args, subparser_dest_attr_name: str = "command"):
     common.set_model(args.model)
     # FIXME: make temperature part of the Model class
     common.MODEL_TEMP = args.model_temperature
-    # acr related
+    # FIXME: we will remove these hyperparamters, which are from AutoCodeRover, thanks to this work.
     globals.conv_round_limit = args.conv_round_limit
     globals.enable_layered = args.enable_layered
     globals.enable_sbfl = args.enable_sbfl
@@ -94,10 +94,11 @@ def main(args, subparser_dest_attr_name: str = "command"):
     globals.enable_web_search = args.enable_web_search
     globals.enable_perfect_angelic = args.enable_perfect_angelic
     globals.only_save_sbfl_result = args.save_sbfl_result
-    globals.disable_patch_generation = args.output_fix_locs
+    #FIXME  we will remove these hyperparamters, which are from AutoCodeRover, thanks to this work.
+
     globals.context_generation_limit = args.output_fix_limit
     globals.setup_dir = args.setup_dir 
-    globals.augmented_issues_path = args.augmented_issues_path
+    
     globals.organize_output_only = args.organize_output_only
     globals.results_path = args.results_path 
     globals.disable_memory_pool = args.disable_memory_pool
@@ -115,7 +116,7 @@ def main(args, subparser_dest_attr_name: str = "command"):
             client = None
             # try:
             tasks = make_swe_tasks(
-                args.task, args.task_list_file, args.setup_map, args.tasks_map,args.augmented_issues_path,args.enable_images, args.setup_dir,client
+                args.task, args.task_list_file,args.tasks_map, args.setup_dir,client
             )
        
             groups = group_swe_tasks_by_env(tasks)
@@ -167,6 +168,7 @@ def set_swe_parser_args(parser: ArgumentParser) -> None:
     )
     parser.add_argument(
         "--task-list-file",
+        default=None,
         type=str,
         help="Path to the file that contains all tasks ids to be run.",
     )
@@ -301,12 +303,7 @@ def add_task_related_args(parser: ArgumentParser) -> None:
         default=False,
         help="(Experimental) Enable perfect angelic debugging; overrides --enable-angelic",
     )
-    parser.add_argument(
-        "--enable-images",
-        action="store_true",
-        default=False,
-        help="(Experimental) Enable angelic debugging",
-    )
+  
     parser.add_argument(
         "--save-sbfl-result",
         action="store_true",
@@ -333,13 +330,7 @@ def add_task_related_args(parser: ArgumentParser) -> None:
         default=10,
         help="Limit output of content retrieval rounds",
     )
-    parser.add_argument(
-        "--augmented_issues_path",
-        type=str,
-        required=False,
-        default=None,
-        help="Limit output of content retrieval rounds",
-    )
+  
     parser.add_argument(
         "--disable-memory-pool",
         action="store_true",
@@ -360,39 +351,62 @@ def add_task_related_args(parser: ArgumentParser) -> None:
     )
 
 
+def load_tasks_map(tasks_map_file: str):
+    """
+    Load a .jsonl or .json file and return a dict: {instance_id: instance_dict}, with original fields only.
+    """
+    # Detect file type and load raw instances
+    if tasks_map_file.endswith('.jsonl'):
+        with open(tasks_map_file, 'r', encoding='utf-8') as f:
+            instances = [json.loads(line) for line in f if line.strip()]
+    else:
+        with open(tasks_map_file, 'r', encoding='utf-8') as f:
+            obj = json.load(f)
+            if isinstance(obj, dict):
+                # Already in {id: {...}} format
+                return obj
+            elif isinstance(obj, list):
+                instances = obj
+            else:
+                raise ValueError("Unsupported JSON structure in file: " + tasks_map_file)
+    # Convert to {instance_id: instance_dict}
+    return {inst["instance_id"]: inst for inst in instances if "instance_id" in inst}
+
 
 def make_swe_tasks(
     task_id: str | None,
     task_list_file: str | None,
-    setup_map_file: str,
+    # setup_map_file: str,
     tasks_map_file: str,
-    augmented_issues_path: str,
-    enable_images: bool,
     setup_dir: str,
     client: docker.DockerClient,
 ) -> list[RawSweTask]:
     if task_id is not None and task_list_file is not None:
         raise ValueError("Cannot specify both task and task-list.")
 
+
+
+
+
+    # with open(setup_map_file) as f:
+    #     setup_map = json.load(f)
+    tasks_map = load_tasks_map(tasks_map_file)
     all_task_ids = []
     if task_list_file is not None:
         all_task_ids = parse_task_list_file(task_list_file)
     if task_id is not None:
         all_task_ids = [task_id]
+    if task_list_file is  None:
+        all_task_ids = list(tasks_map.keys())
     if len(all_task_ids) == 0:
         raise ValueError("No task ids to run.")
-
-
-
-    with open(setup_map_file) as f:
-        setup_map = json.load(f)
-    with open(tasks_map_file) as f:
-        tasks_map = json.load(f)
+    # with open(tasks_map_file) as f:
+    #     tasks_map = json.load(f)
 
     # Check if all task ids are in the setup and tasks map
     # This allows failing safely if some tasks are not set up properly
     missing_task_ids = [
-        x for x in all_task_ids if not (x in setup_map and x in tasks_map)
+        x for x in all_task_ids if not (x in tasks_map)
     ]
     if missing_task_ids:
         # Log the tasks that are not in the setup or tasks map
@@ -407,18 +421,12 @@ def make_swe_tasks(
 
     # for each task in the list to run, create a Task instance
     all_tasks = []
-    if augmented_issues_path != None:
-        with open(augmented_issues_path) as f:
-            augmented_issue_map = json.load(f)
-        for instance_id,augmented_issue in augmented_issue_map.items():
-            tasks_map[instance_id]['problem_statement'] = augmented_issue
-    if enable_images == False:
-        for k,v in tasks_map.items():
-            tasks_map[k]['image_urls'] =[]
+    
+ 
     # print(len(all_task_ids))
     # input()
     for task_id in all_task_ids:
-        setup_info = setup_map[task_id]
+        setup_info = {}
         task_info = tasks_map[task_id]
         task_start_time_s = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         repo_cache_name = f'{task_info['repo']}_cache'
