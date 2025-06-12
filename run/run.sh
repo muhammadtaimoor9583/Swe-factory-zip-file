@@ -11,9 +11,9 @@ SETUP_DIR="testbed"
 ROUND=5
 NUM_PROCS=20
 TEMP=0.2
-BATCH_COUNT=17
+BATCH_COUNT=7
 
-for f in "$SETUP_MAP" "$TASKS_MAP"; do
+for f in  "$TASKS_MAP"; do
   if [ ! -f "$f" ]; then
     echo "❌ Missing file: $f"
     exit 1
@@ -26,7 +26,7 @@ cleanup() {
   rm -rf "$SETUP_DIR"
 }
 
-for idx in $(seq 5 $BATCH_COUNT); do
+for idx in $(seq 7 $BATCH_COUNT); do
   TASK_LIST_FILE="${BASE_TASK_DIR}/batch_${idx}.txt"
   if [ ! -f "$TASK_LIST_FILE" ]; then
     echo "⚠️  Skipping missing ${TASK_LIST_FILE}"
@@ -35,8 +35,8 @@ for idx in $(seq 5 $BATCH_COUNT); do
 
   cleanup
 
-  OUT_DIR="output_test/${REPO_NAME}/${MODEL}/round_${ROUND}_batch_${idx}"
-  RESULT_DIR="output_test/${REPO_NAME}/${MODEL}/results"
+  OUT_DIR="output_test1/${REPO_NAME}/${MODEL}/round_${ROUND}_batch_${idx}"
+  RESULT_DIR="output_test1/${REPO_NAME}/${MODEL}/results"
   mkdir -p "$OUT_DIR"
 
   echo "▶️  Running batch_${idx} with normal mode"
