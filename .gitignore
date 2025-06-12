@@ -164,5 +164,7 @@ cython_debug/
 #.idea/
 evaluation/reports/
 output/
-*data_collection/collect/*.sh
+# *data_collection/collect/*.sh
+*data_collection/collect/temp
+*evaluation/temp
 temp/

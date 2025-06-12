@@ -1,18 +1,21 @@
-[![SVG Banners](https://svg-banners.vercel.app/api?type=origin&text1=SWE-Factory%20🧑‍💻&text2=💖%20GitHub%20Issue%20Resolusion&width=900&height=200)](https://github.com/Akshay090/svg-banners)
-
-
 # 👉🏻 SWE-Factory 👈🏻
 
-Your Automated Factory for Issue Resolution Training Data and Evaluation Benchmarks.
+Your automated factory for GitHub Issue Resolution Training Data and Evaluation Benchmarks.
+
+[![SVG Banners](https://svg-banners.vercel.app/api?type=origin&text1=SWE-Factory%20🧑‍💻&text2=💖%20Build%20Your%20GitHub%20Issue%20Resolution%20Dataset%2C%20Right%20Now!&width=900&height=200)](https://github.com/Akshay090/svg-banners)
 
 ## ✨ Key Features
 
-* 
-
+- **Automated data collection** from GitHub issues
+- **Reusable Docker-based evaluation environments**
+- **LLM-powered multi-agent system (SWE-Builder)**
+- **Efficient and scalable evaluation benchmarks**
 
 ## 📦 Environment Setup
 
-To get started, run the bash script below to set up the environment:
+Our experiments are conducted using Docker version 27.0.3-1 and Ubuntu 22.04.4 LTS.
+
+To get started, run the following commands to set up the environment:
 
 ```bash
 conda create --name swe-factory python=3.12.5 -y
@@ -20,69 +23,102 @@ conda activate swe-factory
 pip install -r requirements.txt
 ```
 
-## 🚀 Run SWE-factory
+## 🚀 Running SWE-Factory
 
-After setting up the environment, you can get your custom issue benchmark by running the script below:
+### 📍 Stage I: Raw Issue Data Collection
+
+We use GitHub APIs and predefined patterns to collect raw issue data (e.g., `python-mypy-instances.jsonl`). Check the detailed tutorial in the [data_collection/collect](./data_collection/collect) directory.
+
+### 🛠 Stage II: Automated Evaluation via SWE-Builder
+
+After collecting raw issue data, set up the evaluation environment by running:
 
 ```bash
-export OPENAI_API_BASE_URL=<your url>
-export OPENAI_KEY=<your key>
-bash run/run.sh
+export OPENAI_API_BASE_URL=<your_base_url>
+export OPENAI_KEY=<your_key>
+
+python app/main.py swe-bench \
+    --model gpt-4.1-mini \
+    --tasks-map "python-mypy-instances.jsonl" \
+    --num-processes 10 \
+    --model-temperature 0.2 \
+    --conv-round-limit 10 \
+    --output-dir "output/git-4.1-mini/mypy" \
+    --setup-dir "testbed" \
+    --results-path "output/git-4.1-mini/mypy/results"
 ```
 
-## 📃 Technical Report
+We employ SWE-Builder, an LLM-based multi-agent system consisting of:
 
-[arXiv Preprint](http://arxiv.org/abs/2505.04606)
+1. **🔍 Repository Explorer**
+   - Gathers environment setup and test commands automatically.
 
-### Overview
+2. **🐳 Environment Manager**
+   - Generates Dockerfiles for reproducible test environments.
 
-As an LLM-driven multi-agent tool, SWE-Factory comprises four agents:
+3. **📝 Test Manager**
+   - Writes evaluation scripts to run tests inside containers.
+
+4. **🔬 Test Analyst**
+   - Validates generated environments and orchestrates iterative refinement.
+
+5. **💾 Evaluation Environment Memory Pool**
+   - Reuses previously successful setups for efficiency and consistency.
 
 ![Overview](figure/overview.png)
 
-1. **Context Retrieval Agent**  
-   - Clones the repository associated with each GitHub Issue to the local machine.  
-   - Automatically gathers information required to build the environment and run tests.  
-   - Shares collected data with the Dockerfile Generation Agent and the Evaluation Script Generation Agent.
+## 📊 SWE-Builder Evaluation Results
 
-2. **Dockerfile Generation Agent**  
-   - Generates a Dockerfile that sets up the environment needed to reproduce and run the Issue’s test suite.  
-   - Shares the resulting Dockerfile with the Evaluation Script Generation Agent for further use.
+We evaluated SWE-Builder using three base models:
 
-3. **Evaluation Script Generation Agent**  
-   - Writes scripts that, once the Dockerfile builds the container, execute the target tests within that environment.  
-   - Ensures that all necessary test commands and parameters are included.
+| Base Model                | Valid Rate (%) | Success Rate (%) | Cost (USD) | Time (min) |
+|---------------------------|----------------|------------------|------------|------------|
+| GPT-4.1-mini              | 40.1 (269/671) | 57.2 (384/671)   | 0.045      | 22.4       |
+| DeepSeek-v3-0324          | 34.6 (232/671) | 50.8 (341/671)   | 0.043      | 22.5       |
+| Gemini-2.5-flash-preview  | 33.5 (225/671) | 49.8 (334/671)   | 0.024      | 27.0       |
 
-4. **Test Analysis Agent**  
-   - Launches the evaluation scripts inside the built container.  
-   - Determines whether the target tests pass or fail.  
-   - If tests succeed, outputs the finalized Dockerfile and evaluation script; otherwise, plans the next iteration of adjustments and signals earlier agents to update their outputs.
+To reproduce these experiments:
 
-### Results
+```bash
+export OPENAI_API_BASE_URL=<your_base_url>
+export OPENAI_KEY=<your_key>
+bash run/run.sh
+```
 
-We collected a total of 671 issues from 12 repositories covering four languages (Python, Java, JavaScript, and TypeScript) and evaluated them using three models:  
-- **GPT-4.1-mini**  
-- **DeepSeek-v3-0324**  
-- **Gemini-2.5-flash-preview**  
+## ✅ Fail2Pass Validation
 
-The evaluation metrics are:  
-1. **Fail2Pass Rate**: Following the SWE-bench Fail2Pass validation procedure to determine whether an instance is valid.  
-2. **Success Rate**: The percentage of issues for which the model successfully generated a runnable result.  
-3. **Cost (USD)**: Average API cost for each issue.  
-4. **Time (min)**: Average Time cost for each issue..
+After generating evaluation environments, conduct Fail2Pass validation:
 
-The summary of our experimental results (sample numbers—please replace with actual measured values) is shown below:
+1. Obtain test logs before and after applying the ground-truth patch. Refer to [evaluation](./evaluation) for a detailed tutorial.
 
-| Model                    | Fail2Pass Rate (%)     | Success Rate (%)     | Cost (USD) | Time (min) |
-|--------------------------|------------------------|----------------------|------------|------------|
-| GPT-4.1-mini             | 42.9 (288/671)         | 57.2 (384/671)       | 0.0445     | 22.37      |
-| DeepSeek-v3-0324         | 35.9 (241/671)         | 50.8 (341/671)       | 0.0435     | 22.45      |
-| Gemini-2.5-flash-preview | 37.0 (248/671)         | 49.8 (334/671)       | 0.0245     | 27.03      |
+2. Run automated validation:
+
+```bash
+python scripts/judge_fail2pass.py evaluation/run_instance/mypy_gpt-4.1-mini/gold fail2pass_status.json
+```
+
+The validated instances can be filtered using the generated `fail2pass_status.json`.
+
+**Note:** While automated validation is precise, manual checks are recommended for quality assurance.
+
+## 📌 Run Your Own Benchmark
+
+Build your own benchmark for evaluation and training. Check the [evaluation](./evaluation) directory for details.
 
 ## 📖 Citation
 
-If you find our scripts useful for your research or applications, feel free to give us a star ⭐ or cite us using:
+If SWE-Factory helps your research or projects, star ⭐ our repo or cite us:
 
 ```bibtex
-
+@article{guo2025swefactory,
+  title={SWE-Factory: Your Automated Factory for Issue Resolution Training Data and Evaluation Benchmarks},
+  author={Lianghong Guo and Yanlin Wang and Caihua Li and Pengyu Yang and Jiachi Chen and Wei Tao and Yingtian Zou and Duyu Tang and Zibin Zheng},
+  journal={arXiv preprint arXiv:2506.xxxxx},
+  year={2025}
+}
 ```
+
+## 🙏 Acknowledgements
+
+- We build upon prior research — **[SWE-bench](https://arxiv.org/abs/2310.06770)**, **[AutoCodeRover](https://arxiv.org/abs/2404.05427)**, **[Magis](https://arxiv.org/abs/2403.17927)**, and **[OmniGIRL](https://arxiv.org/abs/2505.04606)** — foundational to our work.
+- Huge thanks to the **open-source developer community**; your invaluable contributions underpin software engineering research! ❤️
