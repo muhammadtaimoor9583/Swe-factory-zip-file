@@ -3,181 +3,100 @@ import re
 import json
 import argparse
 import multiprocessing
-import time
-import shutil
-from openai import OpenAI
-from dotenv import load_dotenv
 from tqdm import tqdm
+from dotenv import load_dotenv
+from openai import OpenAI
 
 # --- Configuration ---
 load_dotenv()  # Load environment variables from .env file
 
-PREV_FILE_NAME    = "test_output_prev_apply.txt"
-AFTER_FILE_NAME   = "test_output_after_apply.txt"
-STATUS_FILE_NAME  = "status.json"
+PREV_FILE_NAME  = "test_output_prev_apply.txt"
+AFTER_FILE_NAME = "test_output_after_apply.txt"
+EXIT_CODE_RE    = re.compile(r"echo OMNIGRIL_EXIT_CODE=(\d+)")
 
-MAX_LINES     = 2000
-HEAD_LINES    = 1000
-TAIL_LINES    = 1000
 
-EXIT_CODE_RE  = re.compile(r"echo OMNIGRIL_EXIT_CODE=(\d)")
-
-# process-local storage for OpenAI client
-_process_local_client         = None
-_process_local_api_key_used   = None
-_process_local_base_url_used  = None
-
-def truncate_content(content, subdir):
-    lines = content.splitlines()
-    if len(lines) <= MAX_LINES:
-        return content
-    omitted   = len(lines) - (HEAD_LINES + TAIL_LINES)
-    head_part = lines[:HEAD_LINES]
-    tail_part = lines[-TAIL_LINES:]
-    notice    = f"... ({omitted} lines omitted) ..."
-    print(f"[{subdir}][PID {os.getpid()}] Content truncated: {omitted} lines omitted.")
-    return "\n".join(head_part + [notice] + tail_part)
-
-def extract_exit_code(content):
+def extract_exit_code(content: str) -> int | None:
+    """Extracts the exit code from the content; returns None if not found."""
     m = EXIT_CODE_RE.search(content)
     return int(m.group(1)) if m else None
 
-def get_openai_client(api_key_for_init, base_url_for_init):
-    global _process_local_client, _process_local_api_key_used, _process_local_base_url_used
-    if (_process_local_client is None
-        or _process_local_api_key_used != api_key_for_init
-        or _process_local_base_url_used != base_url_for_init):
-        _process_local_client = OpenAI(api_key=api_key_for_init, base_url=base_url_for_init)
-        _process_local_client.models.list()  # validate credentials
-        _process_local_api_key_used  = api_key_for_init
-        _process_local_base_url_used = base_url_for_init
-    return _process_local_client
 
-def process_subdirectory(args_tuple):
-    subdir, model_name, api_key, base_url = args_tuple
-    status_path = os.path.join(subdir, STATUS_FILE_NAME)
-    prev_path   = os.path.join(subdir, PREV_FILE_NAME)
-    after_path  = os.path.join(subdir, AFTER_FILE_NAME)
+def process_subdirectory(subdir):
+    prev_path  = os.path.join(subdir, PREV_FILE_NAME)
+    after_path = os.path.join(subdir, AFTER_FILE_NAME)
 
-    # if status.json exists with valid status, return it
-    if os.path.isfile(status_path):
-        try:
-            data = json.load(open(status_path, encoding="utf-8"))
-            if data.get("status") in ["success", "failure", "none"]:
-                return data
-        except Exception:
-            pass
-
-    # missing one of the outputs -> none
+    # missing outputs or unparsable -> error
     if not (os.path.isfile(prev_path) and os.path.isfile(after_path)):
-        data = {"status": "none", "tokens": 0}
-        with open(status_path, 'w', encoding='utf-8') as f:
-            json.dump(data, f, indent=2)
-        return data
+        return "error"
 
-    prev  = open(prev_path,  encoding="utf-8", errors="ignore").read()
-    after = open(after_path, encoding="utf-8", errors="ignore").read()
+    prev_content  = open(prev_path,  encoding="utf-8", errors="ignore").read()
+    after_content = open(after_path, encoding="utf-8", errors="ignore").read()
+    prev_exit  = extract_exit_code(prev_content)
+    after_exit = extract_exit_code(after_content)
 
-    prev_exit  = extract_exit_code(prev)
-    after_exit = extract_exit_code(after)
-    # use exit codes only
-    if prev_exit is not None and after_exit is not None:
-        result = (prev_exit == 1 and after_exit == 0)
-        tokens = 0
+    if prev_exit is None or after_exit is None:
+        return "error"
+
+    prev_fail = (prev_exit != 0)
+    after_pass = (after_exit == 0)
+
+    if prev_fail and after_pass:
+        return "fail2pass"
+    elif prev_fail and not after_pass:
+        return "fail2fail"
+    elif not prev_fail and after_pass:
+        return "pass2pass"
+    elif not prev_fail and not after_pass:
+        return "pass2fail"
     else:
-        # fallback if needed:
-        result, tokens = False, 0
+        return "error"
 
-    status = "success" if result else "failure"
-    status_data = {"status": status, "tokens": tokens}
-    with open(status_path, 'w', encoding='utf-8') as f:
-        json.dump(status_data, f, indent=2)
-    return status_data
 
-def classify_and_batch_subdirectories(src_subdirs, dest_root, batch_size=10):
-    """
-    src_subdirs: list of full paths to each original subdir
-    dest_root:   root directory under which to create categories and batches
-    """
-    cats = {"fail2pass": [], "fail2fail": [], "pass2pass": [], "pass2fail": [], "none": []}
+def classify_and_write_json(src_folder: str, output_json: str, processes: int):
+    # Collect subdirectories
+    subs = [os.path.join(src_folder, d)
+            for d in os.listdir(src_folder)
+            if os.path.isdir(os.path.join(src_folder, d))]
 
-    # classify
-    for subdir in src_subdirs:
-        prev = ""
-        after = ""
-        p = os.path.join(subdir, PREV_FILE_NAME)
-        a = os.path.join(subdir, AFTER_FILE_NAME)
-        if os.path.exists(p):  prev  = open(p, 'r', encoding='utf-8', errors='ignore').read()
-        if os.path.exists(a):  after = open(a, 'r', encoding='utf-8', errors='ignore').read()
-        pre_exit  = extract_exit_code(prev)
-        aft_exit  = extract_exit_code(after)
+    # Parallel processing
+    with multiprocessing.Pool(processes) as pool:
+        statuses = list(tqdm(
+            pool.imap(process_subdirectory, subs),
+            total=len(subs), desc="Classifying"
+        ))
 
-        if pre_exit is None or aft_exit is None:
-            cat = "none"
-        elif pre_exit == 1 and aft_exit == 0:
-            cat = "fail2pass"
-        elif pre_exit == 1 and aft_exit == 1:
-            cat = "fail2fail"
-        elif pre_exit == 0 and aft_exit == 0:
-            cat = "pass2pass"
-        elif pre_exit == 0 and aft_exit == 1:
-            cat = "pass2fail"
-        else:
-            cat = "none"
+    # Build category mapping
+    cats = {"fail2pass": [], "fail2fail": [], "pass2pass": [], "pass2fail": [], "error": []}
+    for subdir, status in zip(subs, statuses):
+        inst_id = os.path.basename(subdir)
+        cats.setdefault(status, []).append(inst_id)
 
-        cats[cat].append(subdir)
+    # Print summary
+    print("Classification summary:")
+    for cat, ids in cats.items():
+        print(f"  {cat}: {len(ids)}")
 
-    # copy & batch
-    for cat, dirs in cats.items():
-        cat_dir = os.path.join(dest_root, cat)
-        os.makedirs(cat_dir, exist_ok=True)
-        num_batches = (len(dirs) + batch_size - 1) // batch_size
-        for i in range(num_batches):
-            batch_dir = os.path.join(cat_dir, f"batch_{i}")
-            os.makedirs(batch_dir, exist_ok=True)
-            chunk = dirs[i*batch_size:(i+1)*batch_size]
-            for src in chunk:
-                dst = os.path.join(batch_dir, os.path.basename(src))
-                if not os.path.exists(dst):
-                    shutil.copytree(src, dst)
-    print(f"Sorted & batched under '{dest_root}'.")
+    # Write structured JSON
+    summary = {"total": len(subs), "categories": cats}
+    with open(output_json, 'w', encoding="utf-8") as f:
+        json.dump(summary, f, indent=2)
+    print(f"Summary JSON written to '{output_json}'")
+
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Detect fail2pass and then classify & batch into a new directory."
-    )
-    parser.add_argument("target_folder",
-        help="Top-level folder containing subdirs to scan.")
-    parser.add_argument("sorted_folder",
-        help="Path to create the sorted & batched copies.")
-    parser.add_argument("--processes", type=int, default=20,
-        help="Number of worker processes.")
-    parser.add_argument("--batch-size", type=int, default=10,
-        help="How many subdirs per batch.")
+        description="Classify subdirectories by test exit codes and output summary JSON.")
+    parser.add_argument("target_folder", help="Folder containing subdirs to classify.")
+    parser.add_argument("output_json", help="Path for summary JSON output.")
+    parser.add_argument("--processes", type=int, default=20, help="Number of worker processes.")
     args = parser.parse_args()
 
-    if args.processes < 1:
-        parser.error("--processes must be >= 1")
     if not os.path.isdir(args.target_folder):
         parser.error(f"Folder not found: {args.target_folder}")
+    if args.processes < 1:
+        parser.error("--processes must be >= 1")
 
-    api_key = os.getenv("OPENAI_KEY") or parser.error("Environment var OPENAI_KEY required.")
-    base_url = os.getenv("OPENAI_API_BASE_URL")
-
-    subs = [ os.path.join(args.target_folder, d)
-             for d in os.listdir(args.target_folder)
-             if os.path.isdir(os.path.join(args.target_folder, d)) ]
-
-    # run detection
-    with multiprocessing.Pool(args.processes) as pool:
-        list(tqdm(
-            pool.imap(process_subdirectory,
-                      [(s, None, api_key, base_url) for s in subs]),
-            total=len(subs), desc="Processing"
-        ))
-
-    # now classify and batch into new directory
-    classify_and_batch_subdirectories(subs, args.sorted_folder, batch_size=args.batch_size)
+    classify_and_write_json(args.target_folder, args.output_json, args.processes)
 
 if __name__ == "__main__":
     multiprocessing.freeze_support()
