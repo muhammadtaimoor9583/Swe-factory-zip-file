@@ -113,8 +113,9 @@ If SWE-Factory helps your research or projects, star ⭐ our repo or cite us:
 @article{guo2025swefactory,
   title={SWE-Factory: Your Automated Factory for Issue Resolution Training Data and Evaluation Benchmarks},
   author={Lianghong Guo and Yanlin Wang and Caihua Li and Pengyu Yang and Jiachi Chen and Wei Tao and Yingtian Zou and Duyu Tang and Zibin Zheng},
-  journal={arXiv preprint arXiv:2506.xxxxx},
-  year={2025}
+  journal={arXiv preprint arXiv:2506.10954},
+  year={2025},
+  url={https://arxiv.org/abs/2506.10954},
 }
 ```
 
