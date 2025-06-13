@@ -67,7 +67,7 @@ We employ SWE-Builder, an LLM-based multi-agent system consisting of:
 
 ![Overview](figure/overview.png)
 
-### 📊 SWE-Builder Evaluation Results
+#### 📊 SWE-Builder Evaluation Results
 
 We evaluated SWE-Builder using three base models:
 
@@ -85,7 +85,7 @@ export OPENAI_KEY=<your_key>
 bash run/run.sh
 ```
 
-## ✅ Stage III: Fail2Pass Validation
+### ✅ Stage III: Fail2Pass Validation
 
 After generating evaluation environments, perform Fail2Pass validation:
 
