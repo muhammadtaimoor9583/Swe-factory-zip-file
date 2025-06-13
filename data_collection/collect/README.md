@@ -5,14 +5,14 @@ This directory provides code to collect raw issue data using GitHub APIs and pre
 
 1. **Fetch Popular Repositories**
 
-    - Use the `fetch_top_repos.py` script to find and save a list of the most popular (by stars) repositories for a given language.
+    - Use the `get_top_repos.py` script to find and save a list of the most popular (by stars) repositories for a given language.
 
     - **Note**: This script requires a GitHub Personal Access Token to be set as an environment variable.
 
         Example:
         ```bash
         export GITHUB_TOKEN=<your_token> # Set your token first
-        python fetch_top_repos.py --language Python --output_path data/popular_repos --top_n 100
+        python get_top_repos.py --language Python --output_path data/popular_repos --top_n 100
         ```
         Where:
         - `--language:` The programming language to search for (e.g., 'Python', 'Java'). (Required)
