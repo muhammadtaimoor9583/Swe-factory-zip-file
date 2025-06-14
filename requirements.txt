@@ -31,6 +31,7 @@ executing==2.1.0
 filelock==3.13.1
 frozenlist==1.4.1
 fsspec==2024.6.1
+ghapi==1.0.5
 h11==0.14.0
 h2==4.1.0
 hpack==4.0.0
