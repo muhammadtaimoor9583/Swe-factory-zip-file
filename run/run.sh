@@ -9,10 +9,10 @@ BASE_TASK_DIR="data_collection/collect/${REPO_NAME}"
 TASKS_MAP="${BASE_TASK_DIR}/merged_instances_versions.jsonl"
 SETUP_DIR="testbed"
 ROUND=5
-NUM_PROCS=20
+NUM_PROCS=5
 TEMP=0.2
-BATCH_COUNT=7
-
+BATCH_COUNT=1
+# we split SweSetupBench-lite into 17 batches, each batch contains 40 raw issue instances.
 for f in  "$TASKS_MAP"; do
   if [ ! -f "$f" ]; then
     echo "❌ Missing file: $f"
@@ -26,7 +26,7 @@ cleanup() {
   rm -rf "$SETUP_DIR"
 }
 
-for idx in $(seq 7 $BATCH_COUNT); do
+for idx in $(seq 17 $BATCH_COUNT); do
   TASK_LIST_FILE="${BASE_TASK_DIR}/batch_${idx}.txt"
   if [ ! -f "$TASK_LIST_FILE" ]; then
     echo "⚠️  Skipping missing ${TASK_LIST_FILE}"
