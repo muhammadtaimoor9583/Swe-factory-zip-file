@@ -29,7 +29,7 @@ pip install -r requirements.txt
 
 We use GitHub APIs and predefined patterns to collect raw issue data (e.g., `python-mypy-instances.jsonl`). Check the detailed tutorial in the [data_collection/collect](./data_collection/collect) directory.
 
-### 🛠 Stage II: Automated Evaluation via SWE-Builder
+### 🛠 Stage II: Automated Evaluation Environemnt Setup via SWE-Builder
 
 After collecting raw issue data, set up the evaluation environment by running:
 
