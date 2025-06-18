@@ -128,7 +128,7 @@ class ContextRetrievalAgent(Agent):
         task_output = None 
         summary = None
         success = None
-        self.init_msg_thread()
+        
         self.reset_tool_sequence()
         while True:
             context_retrieval_round += 1
@@ -264,6 +264,7 @@ class ContextRetrievalAgent(Agent):
                 success = False
                 break
         self.dump_tool_sequence(self.get_latest_context_retrieval_output_dir())
+        self.init_msg_thread()
         return task_output, summary, success
 
     def _read_file(self, path: str) -> str:
