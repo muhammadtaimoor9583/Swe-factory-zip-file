@@ -1,0 +1,29 @@
+#!/bin/bash
+set -uxo pipefail
+
+# Navigate to the project root directory
+cd /testbed
+
+# Ensure the target test file is at the specified commit SHA before applying any patch
+git checkout 7e022c430053f71c3db80bf0eb3432392932f7e3 "tests/test_registry.cpp"
+
+# Apply test patch (if any exists)
+# The content of the patch will be programmatically inserted here.
+git apply -v - <<'EOF_114329324912'
+[CONTENT OF TEST PATCH]
+EOF_114329324912
+
+# Navigate to the build directory where the test executable is located.
+# As per the collected information, all tests in tests/test_registry.cpp are tagged with '[registry]'.
+# The previous attempt failed because the tag '[test_registry]' was incorrect.
+# Correcting the Catch2 filter to '[registry]' to match the actual tags.
+cd build
+./tests/spdlog-utests "[registry]"
+rc=$? # Required: Save the exit code immediately after running tests
+
+echo "OMNIGRIL_EXIT_CODE=$rc" # Required: Echo the test status
+
+# Return to /testbed for git checkout cleanup
+cd /testbed
+# Clean up: Revert changes to the test file to the original state
+git checkout 7e022c430053f71c3db80bf0eb3432392932f7e3 "tests/test_registry.cpp"

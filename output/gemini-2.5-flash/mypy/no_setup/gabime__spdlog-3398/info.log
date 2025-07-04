@@ -1,0 +1,161 @@
+2025-07-01 10:47:00.891 | INFO     | Removed project repository at testbed/gabime__spdlog-3398_2025-07-01_10-45-48
+2025-07-01 10:47:00.896 | ERROR    | RetryError[<Future at 0x7f169445fb90 state=finished raised BadRequestError>]
+Traceback (most recent call last):
+
+  File "/home/taimoor/Skylabs/swe-factory-local/swe-factory/lib64/python3.11/site-packages/tenacity/__init__.py", line 382, in __call__
+    result = fn(*args, **kwargs)
+             │   │       └ {}
+             │   └ (<app.model.gemini.Gemini_2_5_flash_preview object at 0x7f16948c5ad0>, [{'role': 'system', 'content': "You are a repository m...
+             └ <function GeminiModel.call at 0x7f16947891c0>
+
+  File "/home/taimoor/Skylabs/swe-factory-local/app/model/gemini.py", line 119, in call
+    raise e
+
+  File "/home/taimoor/Skylabs/swe-factory-local/app/model/gemini.py", line 86, in call
+    response = litellm.completion(
+               │       └ <function completion at 0x7f1694724d60>
+               └ <module 'litellm' from '/home/taimoor/Skylabs/swe-factory-local/swe-factory/lib64/python3.11/site-packages/litellm/__init__.py'>
+
+  File "/home/taimoor/Skylabs/swe-factory-local/swe-factory/lib64/python3.11/site-packages/litellm/utils.py", line 1082, in wrapper
+    raise e
+  File "/home/taimoor/Skylabs/swe-factory-local/swe-factory/lib64/python3.11/site-packages/litellm/utils.py", line 970, in wrapper
+    result = original_function(*args, **kwargs)
+             │                  │       └ {'model': 'google/gemini-2.5-flash-preview', 'messages': [{'role': 'system', 'content': "You are a repository maintainer resp...
+             │                  └ ()
+             └ <function completion at 0x7f1694724b80>
+  File "/home/taimoor/Skylabs/swe-factory-local/swe-factory/lib64/python3.11/site-packages/litellm/main.py", line 2778, in completion
+    raise exception_type(
+          └ <function exception_type at 0x7f16955d00e0>
+  File "/home/taimoor/Skylabs/swe-factory-local/swe-factory/lib64/python3.11/site-packages/litellm/main.py", line 807, in completion
+    model, custom_llm_provider, dynamic_api_key, api_base = get_llm_provider(
+    │      │                                                └ <function get_llm_provider at 0x7f16957c6de0>
+    │      └ None
+    └ 'google/gemini-2.5-flash-preview'
+  File "/home/taimoor/Skylabs/swe-factory-local/swe-factory/lib64/python3.11/site-packages/litellm/utils.py", line 4956, in get_llm_provider
+    raise e
+  File "/home/taimoor/Skylabs/swe-factory-local/swe-factory/lib64/python3.11/site-packages/litellm/utils.py", line 4933, in get_llm_provider
+    raise litellm.exceptions.BadRequestError(  # type: ignore
+          │       │          └ <class 'litellm.exceptions.BadRequestError'>
+          │       └ <module 'litellm.exceptions' from '/home/taimoor/Skylabs/swe-factory-local/swe-factory/lib64/python3.11/site-packages/litellm...
+          └ <module 'litellm' from '/home/taimoor/Skylabs/swe-factory-local/swe-factory/lib64/python3.11/site-packages/litellm/__init__.py'>
+
+litellm.exceptions.BadRequestError: litellm.BadRequestError: LLM Provider NOT provided. Pass in the LLM provider you are trying to call. You passed model=google/gemini-2.5-flash-preview
+ Pass model as E.g. For 'Huggingface' inference endpoints pass in `completion(model='huggingface/starcoder',..)` Learn more: https://docs.litellm.ai/docs/providers
+
+
+The above exception was the direct cause of the following exception:
+
+
+Traceback (most recent call last):
+
+  File "/home/taimoor/Skylabs/swe-factory-local/app/main.py", line 745, in <module>
+    main(args)
+    │    └ Namespace(command='swe-bench', output_dir='output/gemini-2.5-flash/mypy', no_print=False, model='google/gemini-2.5-flash-prev...
+    └ <function main at 0x7f16947aca40>
+
+  File "/home/taimoor/Skylabs/swe-factory-local/app/main.py", line 123, in main
+    run_task_groups(groups, num_processes, organize_output=True)
+    │               │       └ 1
+    │               └ {0: [<app.raw_tasks.RawSweTask object at 0x7f1694348710>], 1: [<app.raw_tasks.RawSweTask object at 0x7f1698c44650>]}
+    └ <function run_task_groups at 0x7f1694823f60>
+
+  File "/home/taimoor/Skylabs/swe-factory-local/app/main.py", line 497, in run_task_groups
+    run_tasks_serial(all_tasks)
+    │                └ [<app.raw_tasks.RawSweTask object at 0x7f1694348710>, <app.raw_tasks.RawSweTask object at 0x7f1698c44650>]
+    └ <function run_tasks_serial at 0x7f169482c040>
+
+  File "/home/taimoor/Skylabs/swe-factory-local/app/main.py", line 517, in run_tasks_serial
+    run_task_in_subprocess(task)
+    │                      └ <app.raw_tasks.RawSweTask object at 0x7f1698c44650>
+    └ <function run_task_in_subprocess at 0x7f169482c2c0>
+
+  File "/home/taimoor/Skylabs/swe-factory-local/app/main.py", line 616, in run_task_in_subprocess
+    p.start()
+    │ └ <function BaseProcess.start at 0x7f169a96cf40>
+    └ <Process name='Process-2' parent=6897 started>
+
+  File "/usr/lib64/python3.11/multiprocessing/process.py", line 121, in start
+    self._popen = self._Popen(self)
+    │    │        │    │      └ <Process name='Process-2' parent=6897 started>
+    │    │        │    └ <staticmethod(<function Process._Popen at 0x7f169a7c1bc0>)>
+    │    │        └ <Process name='Process-2' parent=6897 started>
+    │    └ None
+    └ <Process name='Process-2' parent=6897 started>
+  File "/usr/lib64/python3.11/multiprocessing/context.py", line 224, in _Popen
+    return _default_context.get_context().Process._Popen(process_obj)
+           │                │                            └ <Process name='Process-2' parent=6897 started>
+           │                └ <function DefaultContext.get_context at 0x7f169a7c1da0>
+           └ <multiprocessing.context.DefaultContext object at 0x7f169a7b9b90>
+  File "/usr/lib64/python3.11/multiprocessing/context.py", line 281, in _Popen
+    return Popen(process_obj)
+           │     └ <Process name='Process-2' parent=6897 started>
+           └ <class 'multiprocessing.popen_fork.Popen'>
+  File "/usr/lib64/python3.11/multiprocessing/popen_fork.py", line 19, in __init__
+    self._launch(process_obj)
+    │    │       └ <Process name='Process-2' parent=6897 started>
+    │    └ <function Popen._launch at 0x7f169482e020>
+    └ <multiprocessing.popen_fork.Popen object at 0x7f169483b550>
+  File "/usr/lib64/python3.11/multiprocessing/popen_fork.py", line 71, in _launch
+    code = process_obj._bootstrap(parent_sentinel=child_r)
+           │           │                          └ 7
+           │           └ <function BaseProcess._bootstrap at 0x7f169a96d940>
+           └ <Process name='Process-2' parent=6897 started>
+  File "/usr/lib64/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+    │    └ <function BaseProcess.run at 0x7f169a96cea0>
+    └ <Process name='Process-2' parent=6897 started>
+  File "/usr/lib64/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Process name='Process-2' parent=6897 started>
+    │    │        │    └ (<app.raw_tasks.RawSweTask object at 0x7f1698c44650>,)
+    │    │        └ <Process name='Process-2' parent=6897 started>
+    │    └ <function run_raw_task at 0x7f169482c360>
+    └ <Process name='Process-2' parent=6897 started>
+
+> File "/home/taimoor/Skylabs/swe-factory-local/app/main.py", line 661, in run_raw_task
+    run_ok = do_inference(task.to_task(), task_output_dir, print_callback)
+             │            │    │          │                └ None
+             │            │    │          └ '/home/taimoor/Skylabs/swe-factory-local/output/gemini-2.5-flash/mypy/gabime__spdlog-3398'
+             │            │    └ <function RawSweTask.to_task at 0x7f1694823060>
+             │            └ <app.raw_tasks.RawSweTask object at 0x7f1698c44650>
+             └ <function do_inference at 0x7f169482c400>
+
+  File "/home/taimoor/Skylabs/swe-factory-local/app/main.py", line 709, in do_inference
+    agents_manager.run_workflow()
+    │              └ <function AgentsManager.run_workflow at 0x7f1694822b60>
+    └ <app.agents.agents_manager.AgentsManager object at 0x7f1698cfd710>
+
+  File "/home/taimoor/Skylabs/swe-factory-local/app/agents/agents_manager.py", line 178, in run_workflow
+    collected_information, summary, success =  self.agents_dict['context_retrieval_agent'].run_task()
+                                               │    └ {'write_docker_agent': <app.agents.write_dockerfile_agent.write_dockerfile_agent.WriteDockerfileAgent object at 0x7f1698cfe11...
+                                               └ <app.agents.agents_manager.AgentsManager object at 0x7f1698cfd710>
+
+  File "/home/taimoor/Skylabs/swe-factory-local/app/agents/context_retrieval_agent/context_retrieval_agent.py", line 153, in run_task
+    res_text, *_ = common.SELECTED_MODEL.call(self.msg_thread.to_msg())
+                   │      │              │    │    │          └ <function MessageThread.to_msg at 0x7f169475ed40>
+                   │      │              │    │    └ <app.data_structures.MessageThread object at 0x7f169487a850>
+                   │      │              │    └ <app.agents.context_retrieval_agent.context_retrieval_agent.ContextRetrievalAgent object at 0x7f1698b14310>
+                   │      │              └ <function GeminiModel.call at 0x7f1694789300>
+                   │      └ <app.model.gemini.Gemini_2_5_flash_preview object at 0x7f16948c5ad0>
+                   └ <module 'app.model.common' from '/home/taimoor/Skylabs/swe-factory-local/app/model/common.py'>
+
+  File "/home/taimoor/Skylabs/swe-factory-local/swe-factory/lib64/python3.11/site-packages/tenacity/__init__.py", line 289, in wrapped_f
+    return self(f, *args, **kw)
+           │    │   │       └ {}
+           │    │   └ (<app.model.gemini.Gemini_2_5_flash_preview object at 0x7f16948c5ad0>, [{'role': 'system', 'content': "You are a repository m...
+           │    └ <function GeminiModel.call at 0x7f16947891c0>
+           └ <Retrying object at 0x7f1694781a10 (stop=<tenacity.stop.stop_after_attempt object at 0x7f1694781850>, wait=<tenacity.wait.wai...
+  File "/home/taimoor/Skylabs/swe-factory-local/swe-factory/lib64/python3.11/site-packages/tenacity/__init__.py", line 379, in __call__
+    do = self.iter(retry_state=retry_state)
+         │    │                └ <RetryCallState 139735027791888: attempt #3; slept for 33.71; last result: failed (BadRequestError litellm.BadRequestError: L...
+         │    └ <function BaseRetrying.iter at 0x7f16949367a0>
+         └ <Retrying object at 0x7f1694781a10 (stop=<tenacity.stop.stop_after_attempt object at 0x7f1694781850>, wait=<tenacity.wait.wai...
+  File "/home/taimoor/Skylabs/swe-factory-local/swe-factory/lib64/python3.11/site-packages/tenacity/__init__.py", line 326, in iter
+    raise retry_exc from fut.exception()
+          │              │   └ <function Future.exception at 0x7f169a963ba0>
+          │              └ <Future at 0x7f169445fb90 state=finished raised BadRequestError>
+          └ RetryError(<Future at 0x7f169445fb90 state=finished raised BadRequestError>)
+
+tenacity.RetryError: RetryError[<Future at 0x7f169445fb90 state=finished raised BadRequestError>]
+2025-07-01 10:47:00.947 | INFO     | Task gabime__spdlog-3398 failed with exception: RetryError[<Future at 0x7f169445fb90 state=finished raised BadRequestError>].

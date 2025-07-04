@@ -1,0 +1,245 @@
+2025-06-30 12:20:58.235 | INFO     | Removed project repository at testbed/gabime__spdlog-2588_2025-06-30_12-10-16
+2025-06-30 12:20:58.236 | ERROR    | RetryError[<Future at 0x7fe386eb98d0 state=finished raised NotFoundError>]
+Traceback (most recent call last):
+
+  File "/home/taimoor/Skylabs/swe-factory-local/swe-factory/lib64/python3.11/site-packages/tenacity/__init__.py", line 382, in __call__
+    result = fn(*args, **kwargs)
+             │   │       └ {}
+             │   └ (<app.model.gpt.Gpt4_1_mini object at 0x7fe3872c1ed0>, [{'role': 'system', 'content': "You are a repository maintainer respon...
+             └ <function OpenaiModel.call at 0x7fe38717a020>
+
+  File "/home/taimoor/Skylabs/swe-factory-local/app/model/gpt.py", line 202, in call
+    response: ChatCompletion = self.client.chat.completions.create(
+                               │    │      │    │           └ <function Completions.create at 0x7fe38b747420>
+                               │    │      │    └ <openai.resources.chat.completions.Completions object at 0x7fe386d55f50>
+                               │    │      └ <openai.resources.chat.chat.Chat object at 0x7fe387feca50>
+                               │    └ <openai.OpenAI object at 0x7fe38701d190>
+                               └ <app.model.gpt.Gpt4_1_mini object at 0x7fe3872c1ed0>
+
+  File "/home/taimoor/Skylabs/swe-factory-local/swe-factory/lib64/python3.11/site-packages/openai/_utils/_utils.py", line 274, in wrapper
+    return func(*args, **kwargs)
+           │     │       └ {'model': 'gpt-4.1-mini', 'messages': [{'role': 'system', 'content': "You are a repository maintainer responsible for ensurin...
+           │     └ (<openai.resources.chat.completions.Completions object at 0x7fe386d55f50>,)
+           └ <function Completions.create at 0x7fe38b7472e0>
+  File "/home/taimoor/Skylabs/swe-factory-local/swe-factory/lib64/python3.11/site-packages/openai/resources/chat/completions.py", line 704, in create
+    return self._post(
+           │    └ <bound method SyncAPIClient.post of <openai.OpenAI object at 0x7fe38701d190>>
+           └ <openai.resources.chat.completions.Completions object at 0x7fe386d55f50>
+  File "/home/taimoor/Skylabs/swe-factory-local/swe-factory/lib64/python3.11/site-packages/openai/_base_client.py", line 1270, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+           │    │          │    │       │        │            │                  └ openai.Stream[openai.types.chat.chat_completion_chunk.ChatCompletionChunk]
+           │    │          │    │       │        │            └ False
+           │    │          │    │       │        └ FinalRequestOptions(method='post', url='/chat/completions', files=None, json_data={'messages': [{'role': 'system', 'content':...
+           │    │          │    │       └ <class 'openai.types.chat.chat_completion.ChatCompletion'>
+           │    │          │    └ <function SyncAPIClient.request at 0x7fe38ba16f20>
+           │    │          └ <openai.OpenAI object at 0x7fe38701d190>
+           │    └ ~ResponseT
+           └ <function cast at 0x7fe38e2258a0>
+  File "/home/taimoor/Skylabs/swe-factory-local/swe-factory/lib64/python3.11/site-packages/openai/_base_client.py", line 947, in request
+    return self._request(
+           │    └ <function SyncAPIClient._request at 0x7fe38ba16fc0>
+           └ <openai.OpenAI object at 0x7fe38701d190>
+  File "/home/taimoor/Skylabs/swe-factory-local/swe-factory/lib64/python3.11/site-packages/openai/_base_client.py", line 1051, in _request
+    raise self._make_status_error_from_response(err.response) from None
+          │    └ <function BaseClient._make_status_error_from_response at 0x7fe38ba156c0>
+          └ <openai.OpenAI object at 0x7fe38701d190>
+
+openai.NotFoundError: Error code: 404 - [{'error': {'code': 404, 'message': 'models/gpt-4.1-mini is not found for API version v1main, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}]
+
+
+The above exception was the direct cause of the following exception:
+
+
+Traceback (most recent call last):
+
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+
+  File "/home/taimoor/Skylabs/swe-factory-local/app/main.py", line 745, in <module>
+    main(args)
+    │    └ Namespace(command='swe-bench', output_dir='output/git-4.1-mini/mypy', no_print=False, model='gpt-4.1-mini', model_temperature...
+    └ <function main at 0x7fe38ca394e0>
+
+  File "/home/taimoor/Skylabs/swe-factory-local/app/main.py", line 123, in main
+    run_task_groups(groups, num_processes, organize_output=True)
+    │               │       └ 2
+    │               └ {0: [<app.raw_tasks.RawSweTask object at 0x7fe3872e4b50>], 1: [<app.raw_tasks.RawSweTask object at 0x7fe38727cd90>], 2: [<app...
+    └ <function run_task_groups at 0x7fe387220400>
+
+  File "/home/taimoor/Skylabs/swe-factory-local/app/main.py", line 501, in run_task_groups
+    run_task_groups_parallel(task_groups, num_processes)
+    │                        │            └ 2
+    │                        └ {0: [<app.raw_tasks.RawSweTask object at 0x7fe3872e4b50>], 1: [<app.raw_tasks.RawSweTask object at 0x7fe38727cd90>], 2: [<app...
+    └ <function run_task_groups_parallel at 0x7fe387220540>
+
+  File "/home/taimoor/Skylabs/swe-factory-local/app/main.py", line 545, in run_task_groups_parallel
+    future_to_gid = {
+
+  File "/home/taimoor/Skylabs/swe-factory-local/app/main.py", line 546, in <dictcomp>
+    executor.submit(_safe_run_group, gid, tasks): gid
+    │        │      │                │    │       └ 0
+    │        │      │                │    └ [<app.raw_tasks.RawSweTask object at 0x7fe3872e4b50>]
+    │        │      │                └ 0
+    │        │      └ <function _safe_run_group at 0x7fe3872205e0>
+    │        └ <function ProcessPoolExecutor.submit at 0x7fe38d12d800>
+    └ <concurrent.futures.process.ProcessPoolExecutor object at 0x7fe38718fd90>
+
+  File "/usr/lib64/python3.11/concurrent/futures/process.py", line 809, in submit
+    self._start_executor_manager_thread()
+    │    └ <function ProcessPoolExecutor._start_executor_manager_thread at 0x7fe38d12d580>
+    └ <concurrent.futures.process.ProcessPoolExecutor object at 0x7fe38718fd90>
+  File "/usr/lib64/python3.11/concurrent/futures/process.py", line 748, in _start_executor_manager_thread
+    self._launch_processes()
+    │    └ <function ProcessPoolExecutor._launch_processes at 0x7fe38d12d6c0>
+    └ <concurrent.futures.process.ProcessPoolExecutor object at 0x7fe38718fd90>
+  File "/usr/lib64/python3.11/concurrent/futures/process.py", line 775, in _launch_processes
+    self._spawn_process()
+    │    └ <function ProcessPoolExecutor._spawn_process at 0x7fe38d12d760>
+    └ <concurrent.futures.process.ProcessPoolExecutor object at 0x7fe38718fd90>
+  File "/usr/lib64/python3.11/concurrent/futures/process.py", line 785, in _spawn_process
+    p.start()
+    │ └ <function BaseProcess.start at 0x7fe38d2a96c0>
+    └ <ForkProcess name='ForkProcess-1' parent=6718 unknown>
+  File "/usr/lib64/python3.11/multiprocessing/process.py", line 121, in start
+    self._popen = self._Popen(self)
+    │    │        │    │      └ <ForkProcess name='ForkProcess-1' parent=6718 unknown>
+    │    │        │    └ <staticmethod(<function ForkProcess._Popen at 0x7fe38d0f6840>)>
+    │    │        └ <ForkProcess name='ForkProcess-1' parent=6718 unknown>
+    │    └ None
+    └ <ForkProcess name='ForkProcess-1' parent=6718 unknown>
+  File "/usr/lib64/python3.11/multiprocessing/context.py", line 281, in _Popen
+    return Popen(process_obj)
+           │     └ <ForkProcess name='ForkProcess-1' parent=6718 unknown>
+           └ <class 'multiprocessing.popen_fork.Popen'>
+  File "/usr/lib64/python3.11/multiprocessing/popen_fork.py", line 19, in __init__
+    self._launch(process_obj)
+    │    │       └ <ForkProcess name='ForkProcess-1' parent=6718 unknown>
+    │    └ <function Popen._launch at 0x7fe386e64360>
+    └ <multiprocessing.popen_fork.Popen object at 0x7fe38b633490>
+  File "/usr/lib64/python3.11/multiprocessing/popen_fork.py", line 71, in _launch
+    code = process_obj._bootstrap(parent_sentinel=child_r)
+           │           │                          └ 13
+           │           └ <function BaseProcess._bootstrap at 0x7fe38d2aa0c0>
+           └ <ForkProcess name='ForkProcess-1' parent=6718 unknown>
+  File "/usr/lib64/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+    │    └ <function BaseProcess.run at 0x7fe38d2a9620>
+    └ <ForkProcess name='ForkProcess-1' parent=6718 unknown>
+  File "/usr/lib64/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <ForkProcess name='ForkProcess-1' parent=6718 unknown>
+    │    │        │    └ (<concurrent.futures.process._SafeQueue object at 0x7fe3872e6390>, <multiprocessing.queues.SimpleQueue object at 0x7fe38724f8...
+    │    │        └ <ForkProcess name='ForkProcess-1' parent=6718 unknown>
+    │    └ <function _process_worker at 0x7fe38d12cae0>
+    └ <ForkProcess name='ForkProcess-1' parent=6718 unknown>
+  File "/usr/lib64/python3.11/concurrent/futures/process.py", line 261, in _process_worker
+    r = call_item.fn(*call_item.args, **call_item.kwargs)
+        │         │   │         │       │         └ {}
+        │         │   │         │       └ <concurrent.futures.process._CallItem object at 0x7fe38b64cfd0>
+        │         │   │         └ (2, [<app.raw_tasks.RawSweTask object at 0x7fe3872c23d0>])
+        │         │   └ <concurrent.futures.process._CallItem object at 0x7fe38b64cfd0>
+        │         └ <function _safe_run_group at 0x7fe3872205e0>
+        └ <concurrent.futures.process._CallItem object at 0x7fe38b64cfd0>
+
+  File "/home/taimoor/Skylabs/swe-factory-local/app/main.py", line 567, in _safe_run_group
+    run_task_group(gid, tasks)
+    │              │    └ [<app.raw_tasks.RawSweTask object at 0x7fe3872c23d0>]
+    │              └ 2
+    └ <function run_task_group at 0x7fe387220680>
+
+  File "/home/taimoor/Skylabs/swe-factory-local/app/main.py", line 581, in run_task_group
+    run_task_in_subprocess(task)
+    │                      └ <app.raw_tasks.RawSweTask object at 0x7fe3872c23d0>
+    └ <function run_task_in_subprocess at 0x7fe387220720>
+
+  File "/home/taimoor/Skylabs/swe-factory-local/app/main.py", line 616, in run_task_in_subprocess
+    p.start()
+    │ └ <function BaseProcess.start at 0x7fe38d2a96c0>
+    └ <Process name='Process-1:2' parent=6733 started>
+
+  File "/usr/lib64/python3.11/multiprocessing/process.py", line 121, in start
+    self._popen = self._Popen(self)
+    │    │        │    │      └ <Process name='Process-1:2' parent=6733 started>
+    │    │        │    └ <staticmethod(<function Process._Popen at 0x7fe38d0f6340>)>
+    │    │        └ <Process name='Process-1:2' parent=6733 started>
+    │    └ None
+    └ <Process name='Process-1:2' parent=6733 started>
+  File "/usr/lib64/python3.11/multiprocessing/context.py", line 224, in _Popen
+    return _default_context.get_context().Process._Popen(process_obj)
+           │                │                            └ <Process name='Process-1:2' parent=6733 started>
+           │                └ <function DefaultContext.get_context at 0x7fe38d0f6520>
+           └ <multiprocessing.context.DefaultContext object at 0x7fe38d0f35d0>
+  File "/usr/lib64/python3.11/multiprocessing/context.py", line 281, in _Popen
+    return Popen(process_obj)
+           │     └ <Process name='Process-1:2' parent=6733 started>
+           └ <class 'multiprocessing.popen_fork.Popen'>
+  File "/usr/lib64/python3.11/multiprocessing/popen_fork.py", line 19, in __init__
+    self._launch(process_obj)
+    │    │       └ <Process name='Process-1:2' parent=6733 started>
+    │    └ <function Popen._launch at 0x7fe386e64360>
+    └ <multiprocessing.popen_fork.Popen object at 0x7fe38723cb10>
+  File "/usr/lib64/python3.11/multiprocessing/popen_fork.py", line 71, in _launch
+    code = process_obj._bootstrap(parent_sentinel=child_r)
+           │           │                          └ 16
+           │           └ <function BaseProcess._bootstrap at 0x7fe38d2aa0c0>
+           └ <Process name='Process-1:2' parent=6733 started>
+  File "/usr/lib64/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+    │    └ <function BaseProcess.run at 0x7fe38d2a9620>
+    └ <Process name='Process-1:2' parent=6733 started>
+  File "/usr/lib64/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Process name='Process-1:2' parent=6733 started>
+    │    │        │    └ (<app.raw_tasks.RawSweTask object at 0x7fe3872c23d0>,)
+    │    │        └ <Process name='Process-1:2' parent=6733 started>
+    │    └ <function run_raw_task at 0x7fe3872207c0>
+    └ <Process name='Process-1:2' parent=6733 started>
+
+> File "/home/taimoor/Skylabs/swe-factory-local/app/main.py", line 661, in run_raw_task
+    run_ok = do_inference(task.to_task(), task_output_dir, print_callback)
+             │            │    │          │                └ None
+             │            │    │          └ '/home/taimoor/Skylabs/swe-factory-local/output/git-4.1-mini/mypy/gabime__spdlog-2588'
+             │            │    └ <function RawSweTask.to_task at 0x7fe38721b4c0>
+             │            └ <app.raw_tasks.RawSweTask object at 0x7fe3872c23d0>
+             └ <function do_inference at 0x7fe387220860>
+
+  File "/home/taimoor/Skylabs/swe-factory-local/app/main.py", line 709, in do_inference
+    agents_manager.run_workflow()
+    │              └ <function AgentsManager.run_workflow at 0x7fe38721afc0>
+    └ <app.agents.agents_manager.AgentsManager object at 0x7fe387fc3d90>
+
+  File "/home/taimoor/Skylabs/swe-factory-local/app/agents/agents_manager.py", line 178, in run_workflow
+    collected_information, summary, success =  self.agents_dict['context_retrieval_agent'].run_task()
+                                               │    └ {'write_docker_agent': <app.agents.write_dockerfile_agent.write_dockerfile_agent.WriteDockerfileAgent object at 0x7fe38b0cc15...
+                                               └ <app.agents.agents_manager.AgentsManager object at 0x7fe387fc3d90>
+
+  File "/home/taimoor/Skylabs/swe-factory-local/app/agents/context_retrieval_agent/context_retrieval_agent.py", line 153, in run_task
+    res_text, *_ = common.SELECTED_MODEL.call(self.msg_thread.to_msg())
+                   │      │              │    │    │          └ <function MessageThread.to_msg at 0x7fe387353240>
+                   │      │              │    │    └ <app.data_structures.MessageThread object at 0x7fe387fef850>
+                   │      │              │    └ <app.agents.context_retrieval_agent.context_retrieval_agent.ContextRetrievalAgent object at 0x7fe38b580b50>
+                   │      │              └ <function OpenaiModel.call at 0x7fe38717a160>
+                   │      └ <app.model.gpt.Gpt4_1_mini object at 0x7fe3872c1ed0>
+                   └ <module 'app.model.common' from '/home/taimoor/Skylabs/swe-factory-local/app/model/common.py'>
+
+  File "/home/taimoor/Skylabs/swe-factory-local/swe-factory/lib64/python3.11/site-packages/tenacity/__init__.py", line 289, in wrapped_f
+    return self(f, *args, **kw)
+           │    │   │       └ {}
+           │    │   └ (<app.model.gpt.Gpt4_1_mini object at 0x7fe3872c1ed0>, [{'role': 'system', 'content': "You are a repository maintainer respon...
+           │    └ <function OpenaiModel.call at 0x7fe38717a020>
+           └ <Retrying object at 0x7fe38716ff90 (stop=<tenacity.stop.stop_after_attempt object at 0x7fe38716fbd0>, wait=<tenacity.wait.wai...
+  File "/home/taimoor/Skylabs/swe-factory-local/swe-factory/lib64/python3.11/site-packages/tenacity/__init__.py", line 379, in __call__
+    do = self.iter(retry_state=retry_state)
+         │    │                └ <RetryCallState 140615272837136: attempt #10; slept for 239.03; last result: failed (NotFoundError Error code: 404 - [{'error...
+         │    └ <function BaseRetrying.iter at 0x7fe38731eca0>
+         └ <Retrying object at 0x7fe38716ff90 (stop=<tenacity.stop.stop_after_attempt object at 0x7fe38716fbd0>, wait=<tenacity.wait.wai...
+  File "/home/taimoor/Skylabs/swe-factory-local/swe-factory/lib64/python3.11/site-packages/tenacity/__init__.py", line 326, in iter
+    raise retry_exc from fut.exception()
+          │              │   └ <function Future.exception at 0x7fe38d2a8360>
+          │              └ <Future at 0x7fe386eb98d0 state=finished raised NotFoundError>
+          └ RetryError(<Future at 0x7fe386eb98d0 state=finished raised NotFoundError>)
+
+tenacity.RetryError: RetryError[<Future at 0x7fe386eb98d0 state=finished raised NotFoundError>]
+2025-06-30 12:20:58.254 | INFO     | Task gabime__spdlog-2588 failed with exception: RetryError[<Future at 0x7fe386eb98d0 state=finished raised NotFoundError>].

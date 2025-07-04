@@ -1,0 +1,13 @@
+1.14.1 unresolvable R_X86_64_TPOFF32 relocation 
+Updating spdlog to 1.14.1, I get the following linker error:
+```
+/usr/bin/c++ -Wno-maybe-uninitialized  -ggdb -O3 -DNDEBUG -pie -Wl,-z,nodlopen -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -Wl,--no-copy-dt-needed-entries test/CMakeFiles/EtcdTests.dir/EtcdTests.cpp.o -o /opt/ichor/src/bin/EtcdTests  /opt/ichor/src/bin/libichor.a  /opt/ichor/src/bin/libCatch2Main.a  -lsystemd  /usr/lib/libboost_coroutine.a  /usr/lib/libboost_fiber.a  /usr/lib/libboost_context.a  /usr/lib/libboost_filesystem.a  /usr/lib/libssl.a  /usr/lib/libcrypto.a  -ldl  -lhiredis  -ldl  -lrt  /opt/ichor/src/bin/libCatch2.a && :
+/usr/bin/ld: /opt/ichor/src/bin/libichor.a(async.cpp.o)(.text+0x266e): unresolvable R_X86_64_TPOFF32 relocation against symbol `_ZSt15__once_callable@@GLIBCXX_3.4.11'
+```
+
+This doesn't happen with 1.13.0, or when `ftls-model=local-exec` is removed from the compiler flags.
+
+Compiler: gcc 12.3.0
+Linux: Ubuntu Jammy
+cxxflags: `-O2 -std=c++20 -fpie -fstack-protector-strong -fcf-protection -fstack-clash-protection -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -D_GLIBCXX_ASSERTIONS -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_FAST -ftls-model=local-exec`
+linkflags: `-ggdb -O3 -DNDEBUG -pie -Wl,-z,nodlopen -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -Wl,--no-copy-dt-needed-entries`

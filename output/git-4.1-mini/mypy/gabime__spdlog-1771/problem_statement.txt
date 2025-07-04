@@ -1,0 +1,2 @@
+wincolor_sink pulls in windows.h even with SPDLOG_COMPILED_LIB defined
+I don't think it would be too hard to split the dependencies into the inline file. I could make a pr for it if you're okay with that.

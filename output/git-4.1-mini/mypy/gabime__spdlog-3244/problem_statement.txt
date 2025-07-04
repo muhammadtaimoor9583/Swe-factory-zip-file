@@ -1,0 +1,25 @@
+msvc_sink throws on invalid utf-8
+This is what `msvc_sink` is doing:
+```cpp
+    #if defined(SPDLOG_WCHAR_TO_UTF8_SUPPORT)
+        wmemory_buf_t wformatted;
+        details::os::utf8_to_wstrbuf(string_view_t(formatted.data(), formatted.size()), wformatted);
+        OutputDebugStringW(wformatted.data());
+    #else
+        OutputDebugStringA(formatted.data());
+    #endif
+```
+
+Then in `utf8_to_wstrbuf` we have:
+```cpp
+    int result_size =
+        ::MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, str.data(), str_size, NULL, 0);
+```
+
+`MB_ERR_INVALID_CHARS` causes the function to fail on invalid characters, and then `utf8_to_wstrbuf` throws.
+
+We've run into this when trying to output game data that wasn't utf-8 encoded, had to roll out our own implementation of `msvc_sink` (https://github.com/OpenEnroth/OpenEnroth/pull/1825).
+
+My feel here is that logging should work at best effort basis and should not throw unless absolutely necessary (as exception can lead to `std::terminate`). Log calls can be buried somewhere deep in error handling code, and the usual expectation there is that logging calls don't throw.
+
+In this particular case writing out text that's a bit garbled is perfectly OK.

@@ -1,0 +1,1068 @@
+2025-07-01 11:01:19,592 - INFO - Checking if image gabime__spdlog-3366-dockerfile2:latest exists locally...
+2025-07-01 11:01:19,644 - INFO - Image gabime__spdlog-3366-dockerfile2:latest found locally.
+2025-07-01 11:01:19,644 - INFO - Creating container for gabime__spdlog-3366...
+2025-07-01 11:01:20,470 - INFO - Container for gabime__spdlog-3366 started: 91575c78bfc48dabfcfd467da245efcc9b2d989df3a9b0524e0b7d3193569de9
+2025-07-01 11:01:20,471 - INFO - Intermediate patch for gabime__spdlog-3366 written to /home/taimoor/Skylabs/swe-factory-local/output/catch2/gabime__spdlog-3366/test_analysis_agent_2/patch.diff, now applying to container...
+2025-07-01 11:01:20,974 - INFO - Failed to apply patch to container, trying again...
+2025-07-01 11:01:21,184 - INFO - Apply patch success:
+patching file include/spdlog/details/os-inl.h
+
+2025-07-01 11:01:21,469 - INFO - Git diff before:
+diff --git a/.clang-format b/.clang-format
+old mode 100644
+new mode 100755
+diff --git a/.clang-tidy b/.clang-tidy
+old mode 100644
+new mode 100755
+diff --git a/.git-blame-ignore-revs b/.git-blame-ignore-revs
+old mode 100644
+new mode 100755
+diff --git a/.gitattributes b/.gitattributes
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/linux.yml b/.github/workflows/linux.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/macos.yml b/.github/workflows/macos.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/windows.yml b/.github/workflows/windows.yml
+old mode 100644
+new mode 100755
+diff --git a/.gitignore b/.gitignore
+old mode 100644
+new mode 100755
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/INSTALL b/INSTALL
+old mode 100644
+new mode 100755
+diff --git a/LICENSE b/LICENSE
+old mode 100644
+new mode 100755
+diff --git a/README.md b/README.md
+old mode 100644
+new mode 100755
+diff --git a/appveyor.yml b/appveyor.yml
+old mode 100644
+new mode 100755
+diff --git a/bench/CMakeLists.txt b/bench/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/bench/async_bench.cpp b/bench/async_bench.cpp
+old mode 100644
+new mode 100755
+diff --git a/bench/bench.cpp b/bench/bench.cpp
+old mode 100644
+new mode 100755
+diff --git a/bench/formatter-bench.cpp b/bench/formatter-bench.cpp
+old mode 100644
+new mode 100755
+diff --git a/bench/latency.cpp b/bench/latency.cpp
+old mode 100644
+new mode 100755
+diff --git a/bench/utils.h b/bench/utils.h
+old mode 100644
+new mode 100755
+diff --git a/cmake/ide.cmake b/cmake/ide.cmake
+old mode 100644
+new mode 100755
+diff --git a/cmake/pch.h.in b/cmake/pch.h.in
+old mode 100644
+new mode 100755
+diff --git a/cmake/spdlog.pc.in b/cmake/spdlog.pc.in
+old mode 100644
+new mode 100755
+diff --git a/cmake/spdlogCPack.cmake b/cmake/spdlogCPack.cmake
+old mode 100644
+new mode 100755
+diff --git a/cmake/spdlogConfig.cmake.in b/cmake/spdlogConfig.cmake.in
+old mode 100644
+new mode 100755
+diff --git a/cmake/utils.cmake b/cmake/utils.cmake
+old mode 100644
+new mode 100755
+diff --git a/cmake/version.rc.in b/cmake/version.rc.in
+old mode 100644
+new mode 100755
+diff --git a/example/CMakeLists.txt b/example/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/example/example.cpp b/example/example.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/async.h b/include/spdlog/async.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/async_logger-inl.h b/include/spdlog/async_logger-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/async_logger.h b/include/spdlog/async_logger.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/cfg/argv.h b/include/spdlog/cfg/argv.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/cfg/env.h b/include/spdlog/cfg/env.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/cfg/helpers-inl.h b/include/spdlog/cfg/helpers-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/cfg/helpers.h b/include/spdlog/cfg/helpers.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/common-inl.h b/include/spdlog/common-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/common.h b/include/spdlog/common.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/backtracer-inl.h b/include/spdlog/details/backtracer-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/backtracer.h b/include/spdlog/details/backtracer.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/circular_q.h b/include/spdlog/details/circular_q.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/console_globals.h b/include/spdlog/details/console_globals.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/file_helper-inl.h b/include/spdlog/details/file_helper-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/file_helper.h b/include/spdlog/details/file_helper.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/fmt_helper.h b/include/spdlog/details/fmt_helper.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/log_msg-inl.h b/include/spdlog/details/log_msg-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/log_msg.h b/include/spdlog/details/log_msg.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/log_msg_buffer-inl.h b/include/spdlog/details/log_msg_buffer-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/log_msg_buffer.h b/include/spdlog/details/log_msg_buffer.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/mpmc_blocking_q.h b/include/spdlog/details/mpmc_blocking_q.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/null_mutex.h b/include/spdlog/details/null_mutex.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/os-inl.h b/include/spdlog/details/os-inl.h
+old mode 100644
+new mode 100755
+index 8ee42304..a9f77d42
+--- a/include/spdlog/details/os-inl.h
++++ b/include/spdlog/details/os-inl.h
+@@ -267,7 +267,8 @@ SPDLOG_INLINE int utc_minutes_offset(const std::tm &tm) {
+ 
+     #if defined(sun) || defined(__sun) || defined(_AIX) || \
+         (defined(__NEWLIB__) && !defined(__TM_GMTOFF)) ||  \
+-        (!defined(_BSD_SOURCE) && !defined(_GNU_SOURCE))
++        (!defined(__APPLE__) && !defined(_BSD_SOURCE) && !defined(_GNU_SOURCE) && \
++            (!defined(_POSIX_VERSION) || (_POSIX_VERSION < 202405L)))
+     // 'tm_gmtoff' field is BSD extension and it's missing on SunOS/Solaris
+     struct helper {
+         static long int calculate_gmt_offset(const std::tm &localtm = details::os::localtime(),
+diff --git a/include/spdlog/details/os.h b/include/spdlog/details/os.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/periodic_worker-inl.h b/include/spdlog/details/periodic_worker-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/periodic_worker.h b/include/spdlog/details/periodic_worker.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/registry-inl.h b/include/spdlog/details/registry-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/registry.h b/include/spdlog/details/registry.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/synchronous_factory.h b/include/spdlog/details/synchronous_factory.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/tcp_client-windows.h b/include/spdlog/details/tcp_client-windows.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/tcp_client.h b/include/spdlog/details/tcp_client.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/thread_pool-inl.h b/include/spdlog/details/thread_pool-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/thread_pool.h b/include/spdlog/details/thread_pool.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/udp_client-windows.h b/include/spdlog/details/udp_client-windows.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/udp_client.h b/include/spdlog/details/udp_client.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/windows_include.h b/include/spdlog/details/windows_include.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/bin_to_hex.h b/include/spdlog/fmt/bin_to_hex.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/bundled/args.h b/include/spdlog/fmt/bundled/args.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/bundled/base.h b/include/spdlog/fmt/bundled/base.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/bundled/chrono.h b/include/spdlog/fmt/bundled/chrono.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/bundled/color.h b/include/spdlog/fmt/bundled/color.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/bundled/compile.h b/include/spdlog/fmt/bundled/compile.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/bundled/core.h b/include/spdlog/fmt/bundled/core.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/bundled/fmt.license.rst b/include/spdlog/fmt/bundled/fmt.license.rst
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/bundled/format-inl.h b/include/spdlog/fmt/bundled/format-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/bundled/format.h b/include/spdlog/fmt/bundled/format.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/bundled/os.h b/include/spdlog/fmt/bundled/os.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/bundled/ostream.h b/include/spdlog/fmt/bundled/ostream.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/bundled/printf.h b/include/spdlog/fmt/bundled/printf.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/bundled/ranges.h b/include/spdlog/fmt/bundled/ranges.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/bundled/std.h b/include/spdlog/fmt/bundled/std.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/bundled/xchar.h b/include/spdlog/fmt/bundled/xchar.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/chrono.h b/include/spdlog/fmt/chrono.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/compile.h b/include/spdlog/fmt/compile.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/fmt.h b/include/spdlog/fmt/fmt.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/ostr.h b/include/spdlog/fmt/ostr.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/ranges.h b/include/spdlog/fmt/ranges.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/std.h b/include/spdlog/fmt/std.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/xchar.h b/include/spdlog/fmt/xchar.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/formatter.h b/include/spdlog/formatter.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fwd.h b/include/spdlog/fwd.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/logger-inl.h b/include/spdlog/logger-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/logger.h b/include/spdlog/logger.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/mdc.h b/include/spdlog/mdc.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/pattern_formatter-inl.h b/include/spdlog/pattern_formatter-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/pattern_formatter.h b/include/spdlog/pattern_formatter.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/android_sink.h b/include/spdlog/sinks/android_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/ansicolor_sink-inl.h b/include/spdlog/sinks/ansicolor_sink-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/ansicolor_sink.h b/include/spdlog/sinks/ansicolor_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/base_sink-inl.h b/include/spdlog/sinks/base_sink-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/base_sink.h b/include/spdlog/sinks/base_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/basic_file_sink-inl.h b/include/spdlog/sinks/basic_file_sink-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/basic_file_sink.h b/include/spdlog/sinks/basic_file_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/callback_sink.h b/include/spdlog/sinks/callback_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/daily_file_sink.h b/include/spdlog/sinks/daily_file_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/dist_sink.h b/include/spdlog/sinks/dist_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/dup_filter_sink.h b/include/spdlog/sinks/dup_filter_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/hourly_file_sink.h b/include/spdlog/sinks/hourly_file_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/kafka_sink.h b/include/spdlog/sinks/kafka_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/mongo_sink.h b/include/spdlog/sinks/mongo_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/msvc_sink.h b/include/spdlog/sinks/msvc_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/null_sink.h b/include/spdlog/sinks/null_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/ostream_sink.h b/include/spdlog/sinks/ostream_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/qt_sinks.h b/include/spdlog/sinks/qt_sinks.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/ringbuffer_sink.h b/include/spdlog/sinks/ringbuffer_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/rotating_file_sink-inl.h b/include/spdlog/sinks/rotating_file_sink-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/rotating_file_sink.h b/include/spdlog/sinks/rotating_file_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/sink-inl.h b/include/spdlog/sinks/sink-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/sink.h b/include/spdlog/sinks/sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/stdout_color_sinks-inl.h b/include/spdlog/sinks/stdout_color_sinks-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/stdout_color_sinks.h b/include/spdlog/sinks/stdout_color_sinks.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/stdout_sinks-inl.h b/include/spdlog/sinks/stdout_sinks-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/stdout_sinks.h b/include/spdlog/sinks/stdout_sinks.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/syslog_sink.h b/include/spdlog/sinks/syslog_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/systemd_sink.h b/include/spdlog/sinks/systemd_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/tcp_sink.h b/include/spdlog/sinks/tcp_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/udp_sink.h b/include/spdlog/sinks/udp_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/win_eventlog_sink.h b/include/spdlog/sinks/win_eventlog_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/wincolor_sink-inl.h b/include/spdlog/sinks/wincolor_sink-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/wincolor_sink.h b/include/spdlog/sinks/wincolor_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/spdlog-inl.h b/include/spdlog/spdlog-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/spdlog.h b/include/spdlog/spdlog.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/stopwatch.h b/include/spdlog/stopwatch.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/tweakme.h b/include/spdlog/tweakme.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/version.h b/include/spdlog/version.h
+old mode 100644
+new mode 100755
+diff --git a/logos/jetbrains-variant-4.svg b/logos/jetbrains-variant-4.svg
+old mode 100644
+new mode 100755
+diff --git a/logos/spdlog.png b/logos/spdlog.png
+old mode 100644
+new mode 100755
+diff --git a/src/async.cpp b/src/async.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/bundled_fmtlib_format.cpp b/src/bundled_fmtlib_format.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/cfg.cpp b/src/cfg.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/color_sinks.cpp b/src/color_sinks.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/file_sinks.cpp b/src/file_sinks.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/spdlog.cpp b/src/spdlog.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/stdout_sinks.cpp b/src/stdout_sinks.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/CMakeLists.txt b/tests/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/tests/includes.h b/tests/includes.h
+old mode 100644
+new mode 100755
+diff --git a/tests/main.cpp b/tests/main.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_async.cpp b/tests/test_async.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_backtrace.cpp b/tests/test_backtrace.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_bin_to_hex.cpp b/tests/test_bin_to_hex.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_cfg.cpp b/tests/test_cfg.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_circular_q.cpp b/tests/test_circular_q.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_create_dir.cpp b/tests/test_create_dir.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_custom_callbacks.cpp b/tests/test_custom_callbacks.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_daily_logger.cpp b/tests/test_daily_logger.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_dup_filter.cpp b/tests/test_dup_filter.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_errors.cpp b/tests/test_errors.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_eventlog.cpp b/tests/test_eventlog.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_file_helper.cpp b/tests/test_file_helper.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_file_logging.cpp b/tests/test_file_logging.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_fmt_helper.cpp b/tests/test_fmt_helper.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_macros.cpp b/tests/test_macros.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_misc.cpp b/tests/test_misc.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_mpmc_q.cpp b/tests/test_mpmc_q.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_pattern_formatter.cpp b/tests/test_pattern_formatter.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_registry.cpp b/tests/test_registry.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_sink.h b/tests/test_sink.h
+old mode 100644
+new mode 100755
+diff --git a/tests/test_stdout_api.cpp b/tests/test_stdout_api.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_stopwatch.cpp b/tests/test_stopwatch.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_systemd.cpp b/tests/test_systemd.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_time_point.cpp b/tests/test_time_point.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/utils.cpp b/tests/utils.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/utils.h b/tests/utils.h
+old mode 100644
+new mode 100755
+2025-07-01 11:01:21,469 - INFO - Eval script for gabime__spdlog-3366 written to /home/taimoor/Skylabs/swe-factory-local/output/catch2/gabime__spdlog-3366/test_analysis_agent_2/patch.diff, now applying to container...
+2025-07-01 11:04:51,471 - INFO - Test output for gabime__spdlog-3366 written to /home/taimoor/Skylabs/swe-factory-local/output/catch2/gabime__spdlog-3366/test_analysis_agent_2/test_output.txt
+2025-07-01 11:04:51,585 - INFO - Git diff after:
+diff --git a/.clang-format b/.clang-format
+old mode 100644
+new mode 100755
+diff --git a/.clang-tidy b/.clang-tidy
+old mode 100644
+new mode 100755
+diff --git a/.git-blame-ignore-revs b/.git-blame-ignore-revs
+old mode 100644
+new mode 100755
+diff --git a/.gitattributes b/.gitattributes
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/linux.yml b/.github/workflows/linux.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/macos.yml b/.github/workflows/macos.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/windows.yml b/.github/workflows/windows.yml
+old mode 100644
+new mode 100755
+diff --git a/.gitignore b/.gitignore
+old mode 100644
+new mode 100755
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/INSTALL b/INSTALL
+old mode 100644
+new mode 100755
+diff --git a/LICENSE b/LICENSE
+old mode 100644
+new mode 100755
+diff --git a/README.md b/README.md
+old mode 100644
+new mode 100755
+diff --git a/appveyor.yml b/appveyor.yml
+old mode 100644
+new mode 100755
+diff --git a/bench/CMakeLists.txt b/bench/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/bench/async_bench.cpp b/bench/async_bench.cpp
+old mode 100644
+new mode 100755
+diff --git a/bench/bench.cpp b/bench/bench.cpp
+old mode 100644
+new mode 100755
+diff --git a/bench/formatter-bench.cpp b/bench/formatter-bench.cpp
+old mode 100644
+new mode 100755
+diff --git a/bench/latency.cpp b/bench/latency.cpp
+old mode 100644
+new mode 100755
+diff --git a/bench/utils.h b/bench/utils.h
+old mode 100644
+new mode 100755
+diff --git a/cmake/ide.cmake b/cmake/ide.cmake
+old mode 100644
+new mode 100755
+diff --git a/cmake/pch.h.in b/cmake/pch.h.in
+old mode 100644
+new mode 100755
+diff --git a/cmake/spdlog.pc.in b/cmake/spdlog.pc.in
+old mode 100644
+new mode 100755
+diff --git a/cmake/spdlogCPack.cmake b/cmake/spdlogCPack.cmake
+old mode 100644
+new mode 100755
+diff --git a/cmake/spdlogConfig.cmake.in b/cmake/spdlogConfig.cmake.in
+old mode 100644
+new mode 100755
+diff --git a/cmake/utils.cmake b/cmake/utils.cmake
+old mode 100644
+new mode 100755
+diff --git a/cmake/version.rc.in b/cmake/version.rc.in
+old mode 100644
+new mode 100755
+diff --git a/example/CMakeLists.txt b/example/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/example/example.cpp b/example/example.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/async.h b/include/spdlog/async.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/async_logger-inl.h b/include/spdlog/async_logger-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/async_logger.h b/include/spdlog/async_logger.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/cfg/argv.h b/include/spdlog/cfg/argv.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/cfg/env.h b/include/spdlog/cfg/env.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/cfg/helpers-inl.h b/include/spdlog/cfg/helpers-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/cfg/helpers.h b/include/spdlog/cfg/helpers.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/common-inl.h b/include/spdlog/common-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/common.h b/include/spdlog/common.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/backtracer-inl.h b/include/spdlog/details/backtracer-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/backtracer.h b/include/spdlog/details/backtracer.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/circular_q.h b/include/spdlog/details/circular_q.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/console_globals.h b/include/spdlog/details/console_globals.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/file_helper-inl.h b/include/spdlog/details/file_helper-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/file_helper.h b/include/spdlog/details/file_helper.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/fmt_helper.h b/include/spdlog/details/fmt_helper.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/log_msg-inl.h b/include/spdlog/details/log_msg-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/log_msg.h b/include/spdlog/details/log_msg.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/log_msg_buffer-inl.h b/include/spdlog/details/log_msg_buffer-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/log_msg_buffer.h b/include/spdlog/details/log_msg_buffer.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/mpmc_blocking_q.h b/include/spdlog/details/mpmc_blocking_q.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/null_mutex.h b/include/spdlog/details/null_mutex.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/os-inl.h b/include/spdlog/details/os-inl.h
+old mode 100644
+new mode 100755
+index 8ee42304..a9f77d42
+--- a/include/spdlog/details/os-inl.h
++++ b/include/spdlog/details/os-inl.h
+@@ -267,7 +267,8 @@ SPDLOG_INLINE int utc_minutes_offset(const std::tm &tm) {
+ 
+     #if defined(sun) || defined(__sun) || defined(_AIX) || \
+         (defined(__NEWLIB__) && !defined(__TM_GMTOFF)) ||  \
+-        (!defined(_BSD_SOURCE) && !defined(_GNU_SOURCE))
++        (!defined(__APPLE__) && !defined(_BSD_SOURCE) && !defined(_GNU_SOURCE) && \
++            (!defined(_POSIX_VERSION) || (_POSIX_VERSION < 202405L)))
+     // 'tm_gmtoff' field is BSD extension and it's missing on SunOS/Solaris
+     struct helper {
+         static long int calculate_gmt_offset(const std::tm &localtm = details::os::localtime(),
+diff --git a/include/spdlog/details/os.h b/include/spdlog/details/os.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/periodic_worker-inl.h b/include/spdlog/details/periodic_worker-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/periodic_worker.h b/include/spdlog/details/periodic_worker.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/registry-inl.h b/include/spdlog/details/registry-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/registry.h b/include/spdlog/details/registry.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/synchronous_factory.h b/include/spdlog/details/synchronous_factory.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/tcp_client-windows.h b/include/spdlog/details/tcp_client-windows.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/tcp_client.h b/include/spdlog/details/tcp_client.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/thread_pool-inl.h b/include/spdlog/details/thread_pool-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/thread_pool.h b/include/spdlog/details/thread_pool.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/udp_client-windows.h b/include/spdlog/details/udp_client-windows.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/udp_client.h b/include/spdlog/details/udp_client.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/details/windows_include.h b/include/spdlog/details/windows_include.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/bin_to_hex.h b/include/spdlog/fmt/bin_to_hex.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/bundled/args.h b/include/spdlog/fmt/bundled/args.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/bundled/base.h b/include/spdlog/fmt/bundled/base.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/bundled/chrono.h b/include/spdlog/fmt/bundled/chrono.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/bundled/color.h b/include/spdlog/fmt/bundled/color.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/bundled/compile.h b/include/spdlog/fmt/bundled/compile.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/bundled/core.h b/include/spdlog/fmt/bundled/core.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/bundled/fmt.license.rst b/include/spdlog/fmt/bundled/fmt.license.rst
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/bundled/format-inl.h b/include/spdlog/fmt/bundled/format-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/bundled/format.h b/include/spdlog/fmt/bundled/format.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/bundled/os.h b/include/spdlog/fmt/bundled/os.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/bundled/ostream.h b/include/spdlog/fmt/bundled/ostream.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/bundled/printf.h b/include/spdlog/fmt/bundled/printf.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/bundled/ranges.h b/include/spdlog/fmt/bundled/ranges.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/bundled/std.h b/include/spdlog/fmt/bundled/std.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/bundled/xchar.h b/include/spdlog/fmt/bundled/xchar.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/chrono.h b/include/spdlog/fmt/chrono.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/compile.h b/include/spdlog/fmt/compile.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/fmt.h b/include/spdlog/fmt/fmt.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/ostr.h b/include/spdlog/fmt/ostr.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/ranges.h b/include/spdlog/fmt/ranges.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/std.h b/include/spdlog/fmt/std.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fmt/xchar.h b/include/spdlog/fmt/xchar.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/formatter.h b/include/spdlog/formatter.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/fwd.h b/include/spdlog/fwd.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/logger-inl.h b/include/spdlog/logger-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/logger.h b/include/spdlog/logger.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/mdc.h b/include/spdlog/mdc.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/pattern_formatter-inl.h b/include/spdlog/pattern_formatter-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/pattern_formatter.h b/include/spdlog/pattern_formatter.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/android_sink.h b/include/spdlog/sinks/android_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/ansicolor_sink-inl.h b/include/spdlog/sinks/ansicolor_sink-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/ansicolor_sink.h b/include/spdlog/sinks/ansicolor_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/base_sink-inl.h b/include/spdlog/sinks/base_sink-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/base_sink.h b/include/spdlog/sinks/base_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/basic_file_sink-inl.h b/include/spdlog/sinks/basic_file_sink-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/basic_file_sink.h b/include/spdlog/sinks/basic_file_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/callback_sink.h b/include/spdlog/sinks/callback_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/daily_file_sink.h b/include/spdlog/sinks/daily_file_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/dist_sink.h b/include/spdlog/sinks/dist_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/dup_filter_sink.h b/include/spdlog/sinks/dup_filter_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/hourly_file_sink.h b/include/spdlog/sinks/hourly_file_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/kafka_sink.h b/include/spdlog/sinks/kafka_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/mongo_sink.h b/include/spdlog/sinks/mongo_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/msvc_sink.h b/include/spdlog/sinks/msvc_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/null_sink.h b/include/spdlog/sinks/null_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/ostream_sink.h b/include/spdlog/sinks/ostream_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/qt_sinks.h b/include/spdlog/sinks/qt_sinks.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/ringbuffer_sink.h b/include/spdlog/sinks/ringbuffer_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/rotating_file_sink-inl.h b/include/spdlog/sinks/rotating_file_sink-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/rotating_file_sink.h b/include/spdlog/sinks/rotating_file_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/sink-inl.h b/include/spdlog/sinks/sink-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/sink.h b/include/spdlog/sinks/sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/stdout_color_sinks-inl.h b/include/spdlog/sinks/stdout_color_sinks-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/stdout_color_sinks.h b/include/spdlog/sinks/stdout_color_sinks.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/stdout_sinks-inl.h b/include/spdlog/sinks/stdout_sinks-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/stdout_sinks.h b/include/spdlog/sinks/stdout_sinks.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/syslog_sink.h b/include/spdlog/sinks/syslog_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/systemd_sink.h b/include/spdlog/sinks/systemd_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/tcp_sink.h b/include/spdlog/sinks/tcp_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/udp_sink.h b/include/spdlog/sinks/udp_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/win_eventlog_sink.h b/include/spdlog/sinks/win_eventlog_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/wincolor_sink-inl.h b/include/spdlog/sinks/wincolor_sink-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/sinks/wincolor_sink.h b/include/spdlog/sinks/wincolor_sink.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/spdlog-inl.h b/include/spdlog/spdlog-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/spdlog.h b/include/spdlog/spdlog.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/stopwatch.h b/include/spdlog/stopwatch.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/tweakme.h b/include/spdlog/tweakme.h
+old mode 100644
+new mode 100755
+diff --git a/include/spdlog/version.h b/include/spdlog/version.h
+old mode 100644
+new mode 100755
+diff --git a/logos/jetbrains-variant-4.svg b/logos/jetbrains-variant-4.svg
+old mode 100644
+new mode 100755
+diff --git a/logos/spdlog.png b/logos/spdlog.png
+old mode 100644
+new mode 100755
+diff --git a/src/async.cpp b/src/async.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/bundled_fmtlib_format.cpp b/src/bundled_fmtlib_format.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/cfg.cpp b/src/cfg.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/color_sinks.cpp b/src/color_sinks.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/file_sinks.cpp b/src/file_sinks.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/spdlog.cpp b/src/spdlog.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/stdout_sinks.cpp b/src/stdout_sinks.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/CMakeLists.txt b/tests/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/tests/includes.h b/tests/includes.h
+old mode 100644
+new mode 100755
+diff --git a/tests/main.cpp b/tests/main.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_async.cpp b/tests/test_async.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_backtrace.cpp b/tests/test_backtrace.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_bin_to_hex.cpp b/tests/test_bin_to_hex.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_cfg.cpp b/tests/test_cfg.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_circular_q.cpp b/tests/test_circular_q.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_create_dir.cpp b/tests/test_create_dir.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_custom_callbacks.cpp b/tests/test_custom_callbacks.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_daily_logger.cpp b/tests/test_daily_logger.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_dup_filter.cpp b/tests/test_dup_filter.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_errors.cpp b/tests/test_errors.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_eventlog.cpp b/tests/test_eventlog.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_file_helper.cpp b/tests/test_file_helper.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_file_logging.cpp b/tests/test_file_logging.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_fmt_helper.cpp b/tests/test_fmt_helper.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_macros.cpp b/tests/test_macros.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_misc.cpp b/tests/test_misc.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_mpmc_q.cpp b/tests/test_mpmc_q.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_registry.cpp b/tests/test_registry.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_sink.h b/tests/test_sink.h
+old mode 100644
+new mode 100755
+diff --git a/tests/test_stdout_api.cpp b/tests/test_stdout_api.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_stopwatch.cpp b/tests/test_stopwatch.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_systemd.cpp b/tests/test_systemd.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_time_point.cpp b/tests/test_time_point.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/utils.cpp b/tests/utils.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/utils.h b/tests/utils.h
+old mode 100644
+new mode 100755
+2025-07-01 11:04:51,585 - INFO - Git diff changed after running eval script
+2025-07-01 11:04:51,586 - INFO - Attempting to stop container gabime__spdlog-3366-test2...
+2025-07-01 11:05:06,942 - INFO - Attempting to remove container gabime__spdlog-3366-test2...
+2025-07-01 11:05:07,206 - INFO - Container gabime__spdlog-3366-test2 removed.
+2025-07-01 11:05:07,207 - INFO - Attempting to remove image gabime__spdlog-3366-dockerfile2:latest...
+2025-07-01 11:05:07,863 - INFO - Image gabime__spdlog-3366-dockerfile2:latest removed.

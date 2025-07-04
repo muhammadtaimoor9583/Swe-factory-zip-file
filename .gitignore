@@ -159,7 +159,7 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 evaluation/reports/
-output/
+
 # *data_collection/collect/*.sh
 *data_collection/collect/temp
 *evaluation/temp

@@ -1,0 +1,28 @@
+#!/bin/bash
+set -uxo pipefail
+
+# Navigate to the project root directory
+cd /testbed
+
+# Ensure the target test file is at the specified commit SHA before applying any patch
+git checkout 7e022c430053f71c3db80bf0eb3432392932f7e3 "tests/test_registry.cpp"
+
+# Apply test patch to update target tests (if any exists)
+# The content of the patch will be programmatically inserted here.
+git apply -v - <<'EOF_114329324912'
+[CONTENT OF TEST PATCH]
+EOF_114329324912
+
+# Navigate to the build directory and run the specific test executable with filtering
+# The test executable `spdlog-utests` is located in `build/tests/`.
+# For `test_registry.cpp`, Catch2 tests are typically tagged with `[test_registry]`.
+cd build
+./tests/spdlog-utests "[test_registry]"
+rc=$? # Required: Save the exit code immediately after running tests
+
+echo "OMNIGRIL_EXIT_CODE=$rc" # Required: Echo the test status
+
+# Return to /testbed for git checkout cleanup
+cd /testbed
+# Clean up: Revert changes to the test file to the original state
+git checkout 7e022c430053f71c3db80bf0eb3432392932f7e3 "tests/test_registry.cpp"

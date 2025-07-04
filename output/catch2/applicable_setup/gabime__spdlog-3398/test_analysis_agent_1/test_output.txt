@@ -1,0 +1,20 @@
++ cd /testbed
++ git checkout 7e022c430053f71c3db80bf0eb3432392932f7e3 tests/test_registry.cpp
+Updated 1 path from 00c9b8c1
++ git apply -v -
+Checking patch tests/test_registry.cpp...
+Applied patch tests/test_registry.cpp cleanly.
++ cd build
++ ./tests/spdlog-utests '[test_registry]'
+Filters: [test_registry]
+Randomness seeded to: 4145211637
+No test cases matched '[test_registry]'
+===============================================================================
+No tests ran
+
++ rc=2
++ echo OMNIGRIL_EXIT_CODE=2
++ cd /testbed
++ git checkout 7e022c430053f71c3db80bf0eb3432392932f7e3 tests/test_registry.cpp
+OMNIGRIL_EXIT_CODE=2
+Updated 1 path from 00c9b8c1
