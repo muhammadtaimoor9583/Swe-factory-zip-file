@@ -1,0 +1,63 @@
+Request: post installation runnable tests
+Hello,
+
+I'm updating the spdlog package for Debian and I'm no longer easily able to run the tests against the installed headers due to the removal of the standalone `tests/Makefile`.
+
+Here is the current setup
+```
+# this is after copying the contents of the tests directory from the libspdlog-dev package to the # temporary working directory
+cmake -DSPDLOG_BUILD_TESTS=ON -DSPDLOG_BUILD_TESTS_HO=ON .
+make CFLAGS=-DSPDLOG_FMT_EXTERNAL
+make test
+```
+
+And the current result
+
+```
+-- The CXX compiler identification is GNU 9.2.1
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found PkgConfig: /usr/bin/pkg-config (found version "0.29") 
+-- Checking for module 'libsystemd'
+--   Found libsystemd, version 242
+CMake Warning (dev) in CMakeLists.txt:
+  No cmake_minimum_required command is present.  A line of code such as
+
+    cmake_minimum_required(VERSION 3.13)
+
+  should be added at the top of the file.  The version specified may be lower
+  if you wish to support older CMake versions for this project.  For more
+  information run "cmake --help-policy CMP0000".
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+-- Configuring done
+CMake Warning (dev) at CMakeLists.txt:58 (add_executable):
+  Policy CMP0028 is not set: Double colon in target name means ALIAS or
+  IMPORTED target.  Run "cmake --help-policy CMP0028" for policy details.
+  Use the cmake_policy command to set the policy and suppress this warning.
+
+  Target "spdlog-utests-ho" links to target "spdlog::spdlog_header_only" but
+  the target was not found.  Perhaps a find_package() call is missing for an
+  IMPORTED target, or an ALIAS target is missing?
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+-- Generating done
+-- Build files have been written to: /tmp/autopkgtest.u6TQBq/autopkgtest_tmp/tests
+Scanning dependencies of target spdlog-utests
+[  2%] Building CXX object CMakeFiles/spdlog-utests.dir/test_file_helper.o
+In file included from /usr/include/spdlog/common.h:38,
+                 from /usr/include/spdlog/spdlog.h:12,
+                 from /tmp/autopkgtest.u6TQBq/autopkgtest_tmp/tests/includes.h:17,
+                 from /tmp/autopkgtest.u6TQBq/autopkgtest_tmp/tests/test_file_helper.cpp:4:
+/usr/include/spdlog/fmt/fmt.h:22:10: fatal error: bundled/core.h: No such file or directory
+   22 | #include "bundled/core.h"
+      |          ^~~~~~~~~~~~~~~~
+compilation terminated.
+```
+
+```
+

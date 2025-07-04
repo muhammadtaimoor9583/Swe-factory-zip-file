@@ -48,7 +48,7 @@ class GeminiModel(Model):
         self.check_api_key()
 
     def check_api_key(self) -> str:
-        key_name = "GEMINI_API_KEY"
+        key_name = "GEMINI_KEY"
         credential_name = "GOOGLE_APPLICATION_CREDENTIALS"
 
         gemini_key = os.getenv(key_name)

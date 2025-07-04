@@ -1,0 +1,12 @@
+Create logger without automatic registration
+It is treacherous that if one wants to create loggers on the spot or have loggers with the same name, they have to do manually everything that `create` does (choose async or not, set level, flush policy, etc). Same things for many other functions whose documentation starts with "Create and register"...
+
+Personally I do not foresee a case when I will need to register my loggers, so automatic registration is just an impediment. 
+
+Some proposition for backward compatible changes:
+- a global flag (`set_automatic_registration`) to disable registration in convenience functions
+- an optional argument added to `create` (and maybe every other function automatically registering)
+- extra functions which would not register, naming is tricky, `create_local` ? `create_noregister`?
+- have the constructor of `logger`lookup the different global variables like `create` does (most intuitive, but casting for `async_logger` would be an issue)
+... ?
+

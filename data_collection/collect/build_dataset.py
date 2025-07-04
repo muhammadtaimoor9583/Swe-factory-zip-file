@@ -152,14 +152,28 @@ def main(pr_file: str, output: str, token: Optional[str] = None,mode: Optional[s
         with open(all_output) as f:
             for line in f:
                 pr = json.loads(line)
-                if "instance_id" not in pr:
-                    pr["instance_id"] = (
-                        pr["repo"] + "-" + str(pr["pull_number"])
-                    ).replace("/", "__")
+                # Safely get full_name for instance_id
+                repo_full_name = ""
+                if "repo" in pr and isinstance(pr["repo"], dict):
+                    repo_full_name = pr["repo"].get("full_name", "")
+                pr["instance_id"] = (
+                    repo_full_name + "-" + str(pr.get("pull_number", ""))
+                ).replace("/", "__")
                 instance_id = pr["instance_id"]
                 seen_prs.add(instance_id)
-                if datetime.strptime(pr["created_at"], "%Y-%m-%dT%H:%M:%SZ") >= cutoff_date:
-                    logger.info(f"Instance {instance_id} created_at {pr['created_at']} exceeds cutoff_date {cutoff_date}")
+                created_at = pr.get('created_at')
+                if not created_at or not isinstance(created_at, str):
+                    continue
+                try:
+                    created_at_dt = datetime.strptime(created_at, "%Y-%m-%dT%H:%M:%SZ")
+                except Exception:
+                    continue
+                if not isinstance(cutoff_date, datetime):
+                    cutoff_date_dt = datetime.strptime(str(cutoff_date), "%Y-%m-%dT%H:%M:%SZ")
+                else:
+                    cutoff_date_dt = cutoff_date
+                if created_at_dt >= cutoff_date_dt:
+                    logger.info(f"Instance {instance_id} created_at {created_at} exceeds cutoff_date {cutoff_date_dt}")
                     continue
                 if is_valid_instance(pr):
                     completed += 1
@@ -169,20 +183,23 @@ def main(pr_file: str, output: str, token: Optional[str] = None,mode: Optional[s
     original_output_path = output
     # Write to .all file for all PRs
     write_mode_all = "w" if not os.path.exists(all_output) else "a"
-    with open(all_output, write_mode_all) as all_output:
+    with open(all_output, write_mode_all) as all_output_f:
         # Write to output file for PRs with test suites
         write_mode = "w" if not os.path.exists(output) else "a"
-        with open(output, write_mode) as output:
+        with open(output, write_mode) as output_f:
             for ix, line in enumerate(open(pr_file)):
                 total_instances += 1
                 pull = json.loads(line)
+                # Safely get full_name for logging and instance_id
+                repo_full_name = ""
+                if "repo" in pull["base"] and isinstance(pull["base"]["repo"], dict):
+                    repo_full_name = pull["base"]["repo"].get("full_name", "")
                 if ix % 100 == 0:
                     logger.info(
-                        f"[{pull['base']['repo']['full_name']}] ( Up to {ix} checked ) {completed} valid, {with_tests} with tests."
+                        f"[{repo_full_name}] ( Up to {ix} checked ) {completed} valid, {with_tests} with tests."
                     )
-                # Construct instance fields
                 instance_id = (
-                    pull["base"]["repo"]["full_name"] + "-" + str(pull["number"])
+                    repo_full_name + "-" + str(pull.get("number", ""))
                 )
                 instance_id = instance_id.replace("/", "__")
                 
@@ -201,16 +218,18 @@ def main(pr_file: str, output: str, token: Optional[str] = None,mode: Optional[s
                 if repo_name not in repos:
                     repos[repo_name] = load_repo(repo_name,language)
                 repo = repos[repo_name]
-                instance = create_instance(repo, pull,original_output_path,mode)
+                # Ensure mode is a string
+                mode_str = str(mode) if mode is not None else 'swebench'
+                instance = create_instance(repo, pull,original_output_path,mode_str)
                 if is_valid_instance(instance):
                     # If valid, write to .all output file
                     print(
-                        json.dumps(instance), end="\n", flush=True, file=all_output
+                        json.dumps(instance), end="\n", flush=True, file=all_output_f
                     )  # write all instances to a separate file
                     completed += 1
                     if has_test_patch(instance):
                         # If has test suite, write to output file
-                        print(json.dumps(instance), end="\n", flush=True, file=output)
+                        print(json.dumps(instance), end="\n", flush=True, file=output_f)
                         with_tests += 1
     logger.info(
         f"Total instances: {total_instances}, completed: {completed}, with tests: {with_tests}"
@@ -226,8 +245,11 @@ if __name__ == "__main__":
     parser.add_argument("--token", type=str, help="GitHub token")
     parser.add_argument("--mode", type=str, default='omnigirl',help="collecting mode")
     parser.add_argument("--cutoff_date", type=str, default="2025-03-31T23:59:59Z", help="Cutoff date for filtering PRs in YYYY-MM-DDTHH:MM:SSZ format")
-    parser.add_argument("--language", type=str, help="language")
+    parser.add_argument("--language", type=str, help="language (python, java, js, cpp, c++)")
     
     args = parser.parse_args()
     print(">>> reached main()")
+    # Normalize C++ language argument
+    if args.language is not None and args.language.lower() in ["c++", "cpp"]:
+        args.language = "cpp"
     main(**vars(args))

@@ -102,7 +102,7 @@ class TestAnalysisAgent(Agent):
         full_formatted = [f"{i + 1:>{width}}   {line}" for i, line in enumerate(lines)]
         
         if len(full_formatted) <= MAX_LINE_NUM:
-            return f'Test log:\n{"\n".join(full_formatted)}\n\n'
+            return 'Test log:\n' + '\n'.join(full_formatted) + '\n\n'
         
         head_size = MAX_LINE_NUM // 2
         tail_size = MAX_LINE_NUM - head_size

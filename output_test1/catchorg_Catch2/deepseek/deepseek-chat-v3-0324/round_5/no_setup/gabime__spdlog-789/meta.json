@@ -1,0 +1,22 @@
+{
+    "task_id": "gabime__spdlog-789",
+    "setup_info": {
+        "repo_path": "testbed/gabime__spdlog-789_2025-06-30_11-19-49",
+        "repo_cache_path": "testbed/gabime/spdlog_cache"
+    },
+    "task_info": {
+        "repo": "gabime/spdlog",
+        "pull_number": 789,
+        "instance_id": "gabime__spdlog-789",
+        "issue_numbers": [
+            "783"
+        ],
+        "base_commit": "f8f2d7b9505a68e15dd1a4bc0c3b8b6f5d36380c",
+        "patch": "diff --git a/CMakeLists.txt b/CMakeLists.txt\n--- a/CMakeLists.txt\n+++ b/CMakeLists.txt\n@@ -14,15 +14,19 @@ include(GNUInstallDirs)\n #---------------------------------------------------------------------------------------\n set(CMAKE_CXX_STANDARD 11)\n set(CMAKE_CXX_STANDARD_REQUIRED ON)\n+set(CMAKE_CXX_EXTENSIONS OFF)\n \n if(\"${CMAKE_CXX_COMPILER_ID}\" STREQUAL \"GNU\" OR \"${CMAKE_CXX_COMPILER_ID}\" MATCHES \"Clang\")\n     set(CMAKE_CXX_FLAGS \"-Wall -O3 ${CMAKE_CXX_FLAGS}\")\n endif()\n \n+include(cmake/sanitizers.cmake)\n+\n #---------------------------------------------------------------------------------------\n # spdlog target\n #---------------------------------------------------------------------------------------\n add_library(spdlog INTERFACE)\n+add_library(spdlog::spdlog ALIAS spdlog)\n \n option(SPDLOG_BUILD_EXAMPLES \"Build examples\" OFF)\n cmake_dependent_option(SPDLOG_BUILD_TESTING\ndiff --git a/example/CMakeLists.txt b/example/CMakeLists.txt\n--- a/example/CMakeLists.txt\n+++ b/example/CMakeLists.txt\n@@ -24,10 +24,7 @@\n cmake_minimum_required(VERSION 3.1)\n project(SpdlogExamples CXX)\n \n-if(TARGET spdlog)\n-  # Part of the main project\n-  add_library(spdlog::spdlog ALIAS spdlog)\n-else()\n+if(NOT TARGET spdlog)\n   # Stand-alone build\n   find_package(spdlog CONFIG REQUIRED)\n endif()\n@@ -37,13 +34,10 @@ find_package(Threads REQUIRED)\n add_executable(example example.cpp)\n target_link_libraries(example spdlog::spdlog Threads::Threads)\n \n-add_executable(benchmark bench.cpp)\n-target_link_libraries(benchmark spdlog::spdlog Threads::Threads)\n-\n add_executable(multisink multisink.cpp)\n target_link_libraries(multisink spdlog::spdlog Threads::Threads)\n \n enable_testing()\n file(MAKE_DIRECTORY \"${CMAKE_CURRENT_BINARY_DIR}/logs\")\n-add_test(NAME RunExample COMMAND example)\n-add_test(NAME RunBenchmark COMMAND benchmark)\n+add_test(NAME example COMMAND example)\n+add_test(NAME multisink COMMAND multisink)\ndiff --git a/example/multisink.cpp b/example/multisink.cpp\n--- a/example/multisink.cpp\n+++ b/example/multisink.cpp\n@@ -1,4 +1,4 @@\n-#include \"spdlog/sinks/file_sinks.h\"\n+#include \"spdlog/sinks/basic_file_sink.h\"\n #include \"spdlog/sinks/stdout_sinks.h\"\n #include \"spdlog/spdlog.h\"\n #include <iostream>\n",
+        "test_patch": "diff --git a/tests/CMakeLists.txt b/tests/CMakeLists.txt\n--- a/tests/CMakeLists.txt\n+++ b/tests/CMakeLists.txt\n@@ -18,7 +18,7 @@ set(SPDLOG_UTESTS_SOURCES\n \n add_executable(${PROJECT_NAME} ${SPDLOG_UTESTS_SOURCES})\n target_link_libraries(${PROJECT_NAME} PRIVATE Threads::Threads)\n-target_link_libraries(${PROJECT_NAME} PRIVATE spdlog)\n+target_link_libraries(${PROJECT_NAME} PRIVATE spdlog::spdlog)\n \n add_test(NAME ${PROJECT_NAME} COMMAND ${PROJECT_NAME})\n file(MAKE_DIRECTORY \"${CMAKE_CURRENT_BINARY_DIR}/logs\")\n",
+        "problem_statement": "Cannot find source file: bench.cpp\nin examples CMakeLists.txt was mentioned bench.cpp , but it is not in the folder.\n",
+        "hints_text": "",
+        "created_at": "2018-08-11T00:30:41Z",
+        "version": "1.0"
+    }
+}

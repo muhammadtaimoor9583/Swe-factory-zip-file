@@ -365,57 +365,50 @@ def generate_pytest_command(test_file_path: str) -> str:
     raise ValueError(f"No matching test suite for the test file: {test_file_path}")
 
 
+# Add C++/cpp test command generation
+
+def generate_cpp_test_command(test_file_path: str) -> str:
+    """
+    Generate a plausible C++ test command for a given test file path.
+    For Catch2/GoogleTest, typically the test binary is built and run directly, or ctest is used.
+    """
+    # Assume test binaries are built in build/tests or build/
+    # For Catch2, often ctest is used after cmake build
+    # For GoogleTest, test binaries are run directly
+    # This is a heuristic; you may want to customize per repo
+    import os
+    test_file = os.path.basename(test_file_path)
+    test_name = os.path.splitext(test_file)[0]
+    # Common convention: test binary named after test file, or all tests run via ctest
+    return f"ctest --output-on-failure"  # Default to ctest for C++
 
 
-# def get_test_directives(instance: SWEbenchInstance) -> list:
-#     """
-#     Get test directives from the test_patch of a task instance
-
-#     Args:
-#         instance (dict): task instance
-#     Returns:
-#         directives (list): List of test directives
-#     """
-#     # For seq2seq code repos, testing command is fixed
-#     if instance["repo"] == "swe-bench/humaneval":
-#         return ["test.py"]
-
-#     # Get test directives from test patch and remove non-test files
-#     diff_pat = r"diff --git a/.* b/(.*)"
-#     test_patch = instance["test_patch"]
-#     directives = re.findall(diff_pat, test_patch)
-#     directives = [
-#         d for d in directives if not any(d.endswith(ext) for ext in NON_TEST_EXTS)
-#     ]
-#     # print(directives)
-#     # input()
-#     if instance["repo"] == "python/mypy":
-#         directives_new = []
-#         # print(instance['pull_number'])
-#         for d in directives:
-#             if d.endswith('.test'):
-#                 # print(d)
-#                 # input()
-#                 directives_new.append(generate_pytest_command(d))
-#             if d.endswith(".py"): 
-#                 directives_new.append(d)
-#             directives = directives_new
- 
-#     # For Django tests, remove extension + "tests/" prefix and convert slashes to dots (module referencing)
-#     if instance["repo"] == "django/django":
-#         directives_transformed = []
-#         for d in directives:
-#             d = d[: -len(".py")] if d.endswith(".py") else d
-#             d = d[len("tests/") :] if d.startswith("tests/") else d
-#             d = d.replace("/", ".")
-#             directives_transformed.append(d)
-#         directives = directives_transformed
-#     # print(instance["test_patch"])
-#     # print(directives)
-#     # input()
-#     if 'typescript' in instance['repo'].lower():
-#         directives = [d  for d in directives if d.endswith('.ts')]
-#     return directives
+def get_test_directives(instance):
+    """
+    Get test directives from the test_patch of a task instance.
+    For C++/cpp repos, extract .cpp test files and return plausible test commands.
+    """
+    import re
+    repo = instance.get('repo', '').lower()
+    test_patch = instance.get('test_patch', '')
+    diff_pat = r"diff --git a/.* b/(.*)"
+    directives = re.findall(diff_pat, test_patch)
+    # Remove non-test files for C++
+    if 'catchorg/catch2' in repo or 'cpp' in repo or 'c++' in repo:
+        # Heuristic: test files are in tests/ or end with _test.cpp, Test*.cpp, etc.
+        cpp_test_files = [d for d in directives if (
+            d.endswith('.cpp') and (
+                '/test' in d or '/tests' in d or d.lower().startswith('test') or d.lower().endswith('_test.cpp') or d.lower().endswith('test.cpp')
+            )
+        )]
+        # For Catch2, recommend ctest (after cmake build)
+        if 'catchorg/catch2' in repo:
+            return ['ctest --output-on-failure']
+        # Otherwise, return plausible test binary run commands
+        return [f'./build/tests/{os.path.splitext(os.path.basename(f))[0]}' for f in cpp_test_files] if cpp_test_files else ['ctest --output-on-failure']
+    # Fallback to default (Python/JS/Java)
+    # ... existing code for other languages ...
+    return directives
 
 
 def str2bool(v):

@@ -1,0 +1,17 @@
+Missing test for __APPLE__ chooses buggy SunOS/Solaris workaround in utc_minutes_offset
+spdlog uses the function `utc_minutes_offset` in the `z_formatter` to format the `'%z'`-part of a format string (UTC-offset) when logging time. The function has three implementations, one of which is chosen at compile time via marcro defines (Windows, SunOS/Solaris, default):
+
+https://github.com/gabime/spdlog/blob/3335c380a08c5e0f5117a66622df6afdb3d74959/include/spdlog/details/os-inl.h#L268-L271
+
+This test doesn't detect Apple platforms, which have had the `tm_gmtoff`-field at least since [Mac OS X 10.0](https://developer.apple.com/library/archive/documentation/System/Conceptual/ManPages_iPhoneOS/man3/ctime.3.html), and also doesn't detect [POSIX.1-2024](https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/time.h.html) conforming systems, which are also required to support `tm_gmtoff`.
+
+On Apple and POSIX1.-2024 platforms, this has the unfortunate effect to use the SunOS/Solaris fallback, which doesn't compute the correct value if the passed value of `tm` isn't the current system time, i.e. `localtime(::time())` (#3351).
+
+I suggest to fix this by changing the test to something like
+```c++
+    #if defined(sun) || defined(__sun) || defined(_AIX) || \
+        (defined(__NEWLIB__) && !defined(__TM_GMTOFF)) ||  \
+        (!defined(__APPLE__) && !defined(_BSD_SOURCE) && !defined(_GNU_SOURCE) && \
+            (!defined(_POSIX_VERSION) || (_POSIX_VERSION < 202405L)))
+    // 'tm_gmtoff' field is BSD extension and it's missing on SunOS/Solaris
+```

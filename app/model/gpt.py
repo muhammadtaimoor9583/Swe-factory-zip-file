@@ -299,6 +299,10 @@ class Gpt_o1mini(OpenaiModel):
             messages, top_p, tools, response_format, temperature, **kwargs
         )
 
+class testgpt(OpenaiModel):
+    def __init__(self):
+        super().__init__("gemini-2.5-flash", 16384, 0.0000025, 0.000010, parallel_tool_call=True)
+        self.note = "Multimodal model. Up to Apr 2023."
 
 class Gpt4o_20240806(OpenaiModel):
     def __init__(self):

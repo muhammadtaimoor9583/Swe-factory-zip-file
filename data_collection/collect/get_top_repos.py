@@ -4,70 +4,52 @@ import argparse
 import os
 import sys
 
-def fetch_top_repos(language: str, output_path: str, top_n: int, token: str):
+def fetch_single_repo(repo_full_name: str, output_path: str, token: str):
     headers = {
         "Accept": "application/vnd.github+json",
         "Authorization": f"token {token}"
     }
 
-    url = "https://api.github.com/search/repositories"
-    params = {
-        "q": f"language:{language}",
-        "sort": "stars",
-        "order": "desc",
-        "per_page": 100,
-        "page": 1
+    url = f"https://api.github.com/repos/{repo_full_name}"
+
+    print(f"📡 Fetching repository: {repo_full_name}")
+    response = requests.get(url, headers=headers)
+    if response.status_code != 200:
+        print(f"❌ Error: {response.status_code} - {response.json().get('message')}")
+        sys.exit(1)
+
+    repo = response.json()
+    result = {
+        "name": repo["full_name"],
+        "stars": repo["stargazers_count"],
+        "url": repo["html_url"],
+        "description": repo["description"],
+        "owner": repo["owner"]["login"],
+        "language": repo["language"]
     }
 
-    print(f"📡 Fetching top {top_n} repositories for language: {language}")
-    repos = []
-
-    while len(repos) < top_n:
-        response = requests.get(url, headers=headers, params=params)
-        if response.status_code != 200:
-            print(f"❌ Error: {response.status_code} - {response.json().get('message')}")
-            break
-
-        data = response.json().get("items", [])
-        if not data:
-            break
-
-        for repo in data:
-            repos.append({
-                "name": repo["full_name"],
-                "stars": repo["stargazers_count"],
-                "url": repo["html_url"],
-                "description": repo["description"],
-                "owner": repo["owner"]["login"],
-                "language": repo["language"]
-            })
-
-        params["page"] += 1
-
     os.makedirs(output_path, exist_ok=True)
-    output_file = os.path.join(output_path, f"{language.lower()}_top_{top_n}_repos.json")
-    print(f"💾 Saving {min(top_n, len(repos))} repos to {output_file}")
+    output_file = os.path.join(output_path, f"{repo_full_name.replace('/', '_')}.json")
+    print(f"💾 Saving repo info to {output_file}")
     with open(output_file, mode='w', encoding='utf-8') as f:
-        json.dump(repos[:top_n], f, indent=2, ensure_ascii=False)
+        json.dump(result, f, indent=2, ensure_ascii=False)
 
     print("✅ Done!")
 
 def main():
-    parser = argparse.ArgumentParser(description="Fetch top GitHub repos by language")
-    parser.add_argument("--language", type=str, required=True, help="Programming language (e.g., Python)")
+    parser = argparse.ArgumentParser(description="Fetch a specific GitHub repo by owner/name")
+    parser.add_argument("--repo", type=str, required=True, help="Full repo name (e.g., gabime/spdlog)")
     parser.add_argument("--output_path", type=str, required=True, help="Directory to save the result JSON")
-    parser.add_argument("--top_n", type=int, default=500, help="Number of top repositories to fetch")
     args = parser.parse_args()
 
     token = os.environ.get("GITHUB_TOKEN")
     if not token:
-        print("❌ GitHub token not found. Please set the environment variable `github_token`.")
+        print("❌ GitHub token not found. Please set the environment variable `GITHUB_TOKEN`.")
         sys.exit(1)
 
-    fetch_top_repos(
-        language=args.language,
+    fetch_single_repo(
+        repo_full_name=args.repo,
         output_path=args.output_path,
-        top_n=args.top_n,
         token=token
     )
 

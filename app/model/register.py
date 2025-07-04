@@ -8,6 +8,7 @@ from app.model import (
     gptlitellm,
     groq,
     ollama,
+    huggingface,
 )
 
 
@@ -17,6 +18,7 @@ def register_all_models() -> None:
     """
     common.register_model(gpt.Gpt4o_20241120())
     common.register_model(gpt.Gpt4o_20240806())
+    common.register_model(gpt.testgpt())
     common.register_model(gpt.Gpt4o_20240513())
     common.register_model(gpt.Gpt4o_mini_20240718())
     common.register_model(gpt.Gpt4_Turbo20240409())
@@ -75,6 +77,11 @@ def register_all_models() -> None:
 
     common.register_model(gemini.GeminiPro())
     common.register_model(gemini.Gemini15Pro())
+
+    common.register_model(huggingface.Llama3_8B_HF())
+    common.register_model(huggingface.Gemma2B_HF())
+    common.register_model(huggingface.Mistral7BInstruct_HF())
+    common.register_model(huggingface.Zephyr7B_HF())
 
     # register default model as selected
     common.SELECTED_MODEL = gpt.Gpt35_Turbo0125()

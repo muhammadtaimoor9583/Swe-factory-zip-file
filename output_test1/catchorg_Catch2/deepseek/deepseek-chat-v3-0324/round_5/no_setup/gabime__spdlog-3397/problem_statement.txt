@@ -1,0 +1,12 @@
+(Probably minor) feature request: It should be possible to change the max_size for rotating_file_sink, after it has been constructed.
+Pretty much what the title says.
+
+I imagine such a function would need to trigger a manual rotation first to keep things sane, of course. Why did I think of this? My app has a "profiling mode" where it spits time spent doing different things to the log.
+
+I initiallly implemented a logger with rotation a 2 MB, but the other day I turned this mode on and realized that a very short run basically obliterated all previous logs, which is very much not ideal. For now, I think maybe I'll direct these messsages to a separate file, but it would be nice if in the future, I could just change the max_size whenever this gets turned on.
+(Probably minor) feature request: It should be possible to change the max_size for rotating_file_sink, after it has been constructed.
+Pretty much what the title says.
+
+I imagine such a function would need to trigger a manual rotation first to keep things sane, of course. Why did I think of this? My app has a "profiling mode" where it spits time spent doing different things to the log.
+
+I initiallly implemented a logger with rotation a 2 MB, but the other day I turned this mode on and realized that a very short run basically obliterated all previous logs, which is very much not ideal. For now, I think maybe I'll direct these messsages to a separate file, but it would be nice if in the future, I could just change the max_size whenever this gets turned on.

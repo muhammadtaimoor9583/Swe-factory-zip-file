@@ -492,9 +492,10 @@ def make_test_spec(instance: SWEbenchInstance,predictions: dict,language = 'pyth
     hints_text = instance["hints_text"]  # Unused
     test_patch = instance["test_patch"]
     patch = predictions['model_patch']
-    eval_script = instance['eval_script']
-    dockerfile = instance['dockerfile']
-
+    # eval_script = instance['eval_script']
+    # dockerfile = instance['dockerfile']
+    eval_script = instance.get('eval_script', predictions.get('eval_script'))
+    dockerfile = instance.get('dockerfile', predictions.get('dockerfile'))
 
 
     def _from_json_or_obj(key: str) -> Any:

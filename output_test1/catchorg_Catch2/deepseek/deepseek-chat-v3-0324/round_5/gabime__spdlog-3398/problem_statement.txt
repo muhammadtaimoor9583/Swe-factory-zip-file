@@ -1,0 +1,20 @@
+How can I safely replace a registered logger?
+This issue is related to #820 and #3014.
+
+I have an already initialized and registered logger that may already be in use in several threads. The logger is retrieved by calling `spdlog::get("mylibraryname")`. I wish to overwrite the sink list with a different set of sinks. As noted in https://github.com/gabime/spdlog/issues/820#issuecomment-418174191, this operation is not thread safe, so my library would have to implement a global spdlog mutex on top of spdlog's own mutexes, which is highly impractical.
+
+A safer option is to create a new logger, fill it with the desired sinks, unregister the old one and register the new logger under the same name. Any functions (possibly running in different threads while the logger exchange is taking place) which still have a `std::shared_ptr<spdlog::logger>` reference to the old logger will still use it after the new logger is registered. I believe that this is unavoidable and safe behavior.
+
+The old logger will eventually be destructed once the functions in different threads which hold a reference to it return (unless they store the shared pointer somewhere; spdlog's documentation recommends storing such references as private members of classes; this can be highly problematic in this scenario, but it is easier to fix than to mutex everything spdlog related manually).
+
+The problem is that spdlog (to my knowledge) provides no "overwrite register" function. Functions can only be registered and unregistered, not assigned into. This can lead to the following problem:
+
+```cpp
+std::shared_ptr<spdlog::logger> new_logger = ...;
+spdlog::drop("mylibraryname");
+// Here a second thread calls spdlog::get("mylibraryname"), which fails
+spdlog::register_logger(std::move(new_logger));
+```
+
+**Desired solution:**
+Add a function to the `spdlog` namespace implementing this functionality and document the issues with replacing sinks/loggers somewhere.

@@ -7,7 +7,7 @@ import sys
 from typing import Literal
 
 import litellm
-from litellm.utils import Choices, Message, ModelResponse
+from litellm.utils import Choices, Message, ModelResponse, Usage
 from openai import BadRequestError
 from tenacity import retry, stop_after_attempt, wait_random_exponential
 
@@ -15,7 +15,8 @@ from app.log import log_and_print
 from app.model import common
 from app.model.common import Model
 
-# litellm.set_verbose = True
+# Enable verbose mode for debugging
+litellm.set_verbose = True
 
 
 class GroqModel(Model):
@@ -122,6 +123,11 @@ class GroqModel(Model):
         except BadRequestError as e:
             if e.code == "context_length_exceeded":
                 log_and_print("Context length exceeded")
+            log_and_print(f"BadRequestError: {e}")
+            log_and_print(f"Error code: {e.code}")
+            log_and_print(f"Error message: {e.message}")
+            if hasattr(e, 'response'):
+                log_and_print(f"Response: {e.response}")
             raise e
 
 

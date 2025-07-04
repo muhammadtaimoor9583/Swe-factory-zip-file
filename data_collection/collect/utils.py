@@ -635,7 +635,6 @@ def extract_patches(pull: dict, repo: Repo) -> tuple[str, str, bool]:
                 is_js = (language=='javascript' or language == 'typescript')
                 if  ('webpack' in repo.name or 'jest' in repo.name)  and line.strip().endswith(".json"):
                     is_js = True
-
                 if flag != "test" and not is_js:
                     flag = None
             elif repo.language == 'java':
@@ -644,16 +643,34 @@ def extract_patches(pull: dict, repo: Repo) -> tuple[str, str, bool]:
                     file_name.replace(".java", "")
                     if(file_name.startswith("Test") or file_name.startswith("Tests") or file_name.endswith("Test") or file_name.endswith("Tests")):
                         flag = "test"
-
                 language = get_language_with_pygments(line.strip())
                 is_java = (language=='java')
                 if  ( 'netty' in repo.name)  and (line.strip().endswith(".c") or line.strip().endswith("pom.xml")):
                     is_java = True
-
                 if flag != "test" and not is_java:
                     flag = None
-
-                
+            elif repo.language == 'cpp' or repo.language == 'c++':
+                # C++: recognize .cpp, .cc, .cxx, .h, .hpp, .hxx, CMakeLists.txt, Makefile
+                file_name = line.split("/")[-1]
+                is_cpp_source = file_name.endswith((".cpp", ".cc", ".cxx"))
+                is_cpp_header = file_name.endswith((".h", ".hpp", ".hxx"))
+                is_cmake = file_name == "CMakeLists.txt"
+                is_makefile = file_name.lower() == "makefile"
+                # Test file heuristics
+                is_test_file = (
+                    "test" in file_name.lower() or
+                    file_name.lower().startswith("test") or
+                    file_name.lower().endswith("_test.cpp") or
+                    file_name.lower().endswith("_tests.cpp") or
+                    file_name.lower().endswith("test.cpp") or
+                    file_name.lower().endswith("tests.cpp")
+                )
+                # If it's a test file or in a test folder, mark as test
+                if flag != "test" and (is_test_file or "test" in words or "tests" in words):
+                    flag = "test"
+                # Otherwise, only mark as diff if it's a C++/CMake/Makefile
+                elif not (is_cpp_source or is_cpp_header or is_cmake or is_makefile):
+                    flag = None
         # Append line to separate patch depending on flag status
         if flag == "test":
             patch_test.append(line)

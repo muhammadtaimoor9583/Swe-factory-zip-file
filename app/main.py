@@ -429,7 +429,7 @@ def make_swe_tasks(
         setup_info = {}
         task_info = tasks_map[task_id]
         task_start_time_s = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        repo_cache_name = f'{task_info['repo']}_cache'
+        repo_cache_name = f"{task_info['repo']}_cache"
         repo_cache_dir =  pjoin(setup_dir,repo_cache_name)
         if not os.path.isdir(repo_cache_dir):
             github_link = f"https://github.com/{task_info['repo']}.git"

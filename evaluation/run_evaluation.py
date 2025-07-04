@@ -734,6 +734,10 @@ def make_run_report(
     # get remaining images and containers
     images = list_images(client)
     test_specs = [make_test_spec(instance, predictions[instance['instance_id']]) for instance in full_dataset]
+    # test_specs = [
+    # make_test_spec(instance, predictions[instance['instance_id']])
+    # for instance in full_dataset
+    # if instance['instance_id'] in predictions]
     # test_specs = list(map(make_test_spec, full_dataset))
     # test_specs = [test_spec for test_spec in test_specs if test_spec != None]
     for spec in test_specs:

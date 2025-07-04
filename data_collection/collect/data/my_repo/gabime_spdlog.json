@@ -1,0 +1,8 @@
+{
+  "name": "gabime/spdlog",
+  "stars": 26586,
+  "url": "https://github.com/gabime/spdlog",
+  "description": "Fast C++ logging library.",
+  "owner": "gabime",
+  "language": "C++"
+}

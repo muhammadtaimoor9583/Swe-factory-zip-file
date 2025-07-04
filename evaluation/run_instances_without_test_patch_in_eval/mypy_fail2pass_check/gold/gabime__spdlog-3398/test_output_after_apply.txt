@@ -1,0 +1,31 @@
++ cd /testbed
++ git checkout 7e022c430053f71c3db80bf0eb3432392932f7e3 tests/test_registry.cpp
+Updated 1 path from 00c9b8c1
++ cd build
++ ./tests/spdlog-utests
+[*** LOG ERROR #0001 ***] [2025-07-04 04:33:47] [as] async log: thread pool doesn't exist anymore
+[2025-07-04 04:33:47.948] [test] [info] Test stderr_st
+[2025-07-04 04:33:47.948] [test] [info] Test stderr_mt
+[2025-07-04 04:33:47.948] [test] [warning] Test stderr_mt
+[2025-07-04 04:33:47.948] [test] [error] Test stderr_mt
+[2025-07-04 04:33:47.948] [test] [critical] Test stderr_mt
+Randomness seeded to: 2549172851
+[2025-07-04 04:33:47.948] [test] [trace] Test stdout_st
+[2025-07-04 04:33:47.948] [test] [debug] Test stdout_mt
+[2025-07-04 04:33:47.949] [test] [info] Test stdout_color_st
+[2025-07-04 04:33:47.949] [test] [trace] Test stdout_color_mt
+[2025-07-04 04:33:47.949] [test] [debug] Test stderr_color_st
+[2025-07-04 04:33:47.949] [test] [info] Test stderr_color_mt
+[2025-07-04 04:33:47.949] [test] [warning] Test stderr_color_mt
+[2025-07-04 04:33:47.949] [test] [error] Test stderr_color_mt
+[2025-07-04 04:33:47.949] [test] [critical] Test stderr_color_mt
+[*** LOG ERROR #0002 ***] [2025-07-04 04:33:48] [test-error] argument not found
+===============================================================================
+All tests passed (568 assertions in 167 test cases)
+
++ rc=0
++ echo OMNIGRIL_EXIT_CODE=0
++ cd /testbed
++ git checkout 7e022c430053f71c3db80bf0eb3432392932f7e3 tests/test_registry.cpp
+OMNIGRIL_EXIT_CODE=0
+Updated 0 paths from 00c9b8c1

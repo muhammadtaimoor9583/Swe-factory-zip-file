@@ -1,0 +1,4 @@
+Unexpected appending of "txt" at the end of a log filename
+I was confused by the usage of the filename parameter for `rotating_logger_mt`. It's called `filename`, so I interpreted that as being the absolute path to the file. Instead, it seems like `.txt` is appended onto the end of whatever is provided, so I ended up getting something like `mylog.txt.txt`. Is there a reason that the extension is hardcoded to `.txt`? Why not allow the entire filename to be specified by the caller?
+
+As a result of this behaviour, I have to implement two functions in my code: one to output the desired log filename *without* an extension (to provide to `spdlog`), and one to output the log filename *with* an extension (when I want to operate on the log file myself).
